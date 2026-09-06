@@ -1,0 +1,1 @@
+"""CareerLens FastAPI application."""
