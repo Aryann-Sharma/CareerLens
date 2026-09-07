@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Compare your skills with a job description using CareerLens."
+    />
+    <title>CareerLens — See your fit clearly</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <script src="/static/script.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="CareerLens home">
+        <span class="brand-mark" aria-hidden="true">C</span>
+        <span>CareerLens</span>
+      </a>
+      <span class="milestone">MVP · Skill analysis</span>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="eyebrow">Make your next application sharper</p>
+        <h1>See how your skills line up.</h1>
+        <p class="hero-copy">
+          Paste a job description and get an instant, honest view of what you
+          match and what to learn next.
+        </p>
+      </section>
+
+      <section class="workspace" aria-label="Job analysis workspace">
+        <form id="analysis-form" class="input-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="step">01 · Add the role</p>
+              <h2>Job description</h2>
+            </div>
+            <button class="text-button" type="button" id="use-example">
+              Use example
+            </button>
+          </div>
+
+          <label class="sr-only" for="job-description">Job description</label>
+          <textarea
+            id="job-description"
+            name="job_description"
+            rows="11"
+            maxlength="50000"
+            placeholder="Paste the responsibilities and requirements here…"
+            aria-describedby="description-hint character-count"
+            required
+          ></textarea>
+          <div class="field-meta">
+            <span id="description-hint">
+              Include the full requirements section for a better result.
+            </span>
+            <span id="character-count">0 characters</span>
+          </div>
+
+          <div class="skills-field">
+            <p class="step">02 · Add your profile</p>
+            <label for="user-skills">Your skills</label>
+            <input
+              id="user-skills"
+              name="user_skills"
+              type="text"
+              placeholder="Python, SQL, Git, Java…"
+              aria-describedby="skills-hint"
+              autocomplete="off"
+            />
+            <p class="field-hint" id="skills-hint">Separate skills with commas.</p>
+          </div>
+
+          <button class="primary-button" type="submit" id="analyze-button">
+            <span>Analyze my fit</span><span aria-hidden="true">→</span>
+          </button>
+          <p
+            id="form-error"
+            class="error-message"
+            role="alert"
+            tabindex="-1"
+            hidden
+          ></p>
+        </form>
+
+        <aside class="results-panel" id="results-panel" aria-live="polite">
+          <div id="empty-state" class="empty-state">
+            <div class="radar" aria-hidden="true"><span></span><span></span><span></span><i></i></div>
+            <h2>Your analysis will appear here</h2>
+            <p>We’ll extract the role’s skills and compare them with your profile.</p>
+          </div>
+
+          <div id="loading-state" class="loading-state" hidden>
+            <div class="loader" aria-hidden="true"></div>
+            <p>Reading the role…</p>
+          </div>
+
+          <div id="results-content" tabindex="-1" hidden>
+            <p class="step">Your fit</p>
+            <div class="score-row">
+              <div>
+                <strong id="match-score">0%</strong><span>skill match</span>
+              </div>
+              <div class="score-ring" id="score-ring" aria-hidden="true">
+                <span></span>
+              </div>
+            </div>
+            <p class="score-summary" id="score-summary"></p>
+
+            <div class="result-group">
+              <div class="result-heading">
+                <h3>Matched</h3>
+                <span class="count match-count" id="matched-count">0</span>
+              </div>
+              <div class="chips" id="matched-skills"></div>
+            </div>
+
+            <div class="result-group">
+              <div class="result-heading">
+                <h3>Skills to build</h3>
+                <span class="count missing-count" id="missing-count">0</span>
+              </div>
+              <div class="chips" id="missing-skills"></div>
+            </div>
+
+            <details class="extracted-details">
+              <summary>All extracted skills</summary>
+              <div class="chips neutral" id="extracted-skills"></div>
+            </details>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <footer>
+      <p>CareerLens · Built to make career decisions clearer.</p>
+      <a href="/docs">API docs</a>
+    </footer>
+  </body>
+</html>
