@@ -132,7 +132,51 @@
           </div>
         </aside>
       </section>
+
+      <section class="history-section" aria-labelledby="history-title">
+        <div class="history-heading">
+          <div>
+            <p class="eyebrow">Your progress</p>
+            <h2 id="history-title">Recent analyses</h2>
+          </div>
+          <p>Review previous matches and keep track of the roles you explore.</p>
+        </div>
+
+        <p id="history-status" class="history-status" role="status">
+          Loading recent analyses…
+        </p>
+        <div id="history-list" class="history-list"></div>
+
+        <nav
+          id="history-pagination"
+          class="history-pagination"
+          aria-label="Analysis history pages"
+          hidden
+        >
+          <button type="button" id="history-previous">← Previous</button>
+          <span id="history-page-status"></span>
+          <button type="button" id="history-next">Next →</button>
+        </nav>
+      </section>
     </main>
+
+    <dialog id="history-dialog" class="history-dialog">
+      <div class="dialog-heading">
+        <div>
+          <p class="step">Saved analysis</p>
+          <h2>Analysis details</h2>
+        </div>
+        <button
+          type="button"
+          class="dialog-close"
+          id="close-history-dialog"
+          aria-label="Close analysis details"
+        >
+          ×
+        </button>
+      </div>
+      <div id="history-detail" class="history-detail"></div>
+    </dialog>
 
     <footer>
       <p>CareerLens · Built to make career decisions clearer.</p>

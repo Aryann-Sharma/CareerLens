@@ -7,6 +7,8 @@ def test_home_page_is_served(client: TestClient) -> None:
     assert response.headers["content-type"].startswith("text/html")
     assert "CareerLens" in response.text
     assert 'id="analysis-form"' in response.text
+    assert 'id="history-list"' in response.text
+    assert 'id="history-dialog"' in response.text
 
 
 def test_stylesheet_is_served(client: TestClient) -> None:
@@ -21,6 +23,8 @@ def test_javascript_is_served(client: TestClient) -> None:
 
     assert response.status_code == 200
     assert "fetch(\"/api/analyze\"" in response.text
+    assert "`/api/analyses?page=${page}" in response.text
+    assert "`/api/analyses/${analysisId}`" in response.text
 
 
 def test_missing_static_file_returns_not_found(client: TestClient) -> None:

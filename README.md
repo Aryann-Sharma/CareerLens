@@ -13,7 +13,7 @@ The current MVP has a working browser interface connected to a FastAPI backend. 
 5. The scorer compares the extracted skills with the user's skills.
 6. SQLAlchemy saves the request and result in the database.
 7. The API returns the extracted, matched, and missing skills with a percentage score.
-8. The frontend displays the result without reloading the page.
+8. The frontend displays the result and refreshes the recent-analysis history without reloading the page.
 
 The score is calculated as:
 
@@ -34,7 +34,7 @@ All supported skills currently have equal weight. If no supported skills are fou
 - Database persistence through SQLAlchemy
 - Versioned database migrations with Alembic
 - PostgreSQL configuration with JSONB skill fields
-- Paginated analysis history with full record lookup
+- Paginated analysis-history dashboard with full record lookup
 - Unit and API tests with pytest
 
 ## Supported skills
@@ -172,9 +172,10 @@ The current test suite contains 72 tests covering skill extraction, aliases, edg
 
 - Skill extraction is rule-based and only recognizes the supported vocabulary above.
 - The match score measures skill coverage; it does not consider experience level, years of experience, education, or skill importance.
-- Analyses are available through the history API, but there is not yet a screen for viewing them.
+- Analysis history is shared locally because user accounts have not been added yet.
+- History does not yet support searching, filtering, or deleting records.
 - The project does not currently use authentication, file uploads, or OCR.
 
 ## Planned next milestone
 
-Build an analysis-history dashboard using the existing paginated API. Authentication, file uploads, OCR, React, Docker, CI/CD, and deployment are intentionally deferred until the core workflow is stable.
+Add authentication and user-specific profiles so each person has private analysis history. File uploads, OCR, React, Docker, CI/CD, and deployment are intentionally deferred until they have a clear role in the project.

@@ -246,6 +246,105 @@ textarea:focus, input:focus { border-color: var(--green); box-shadow: 0 0 0 3px 
 .extracted-details { margin-top: 30px; padding-top: 22px; border-top: 1px solid var(--line); }
 .extracted-details summary { color: var(--muted); cursor: pointer; font-size: 0.82rem; font-weight: 600; }
 
+.history-section { padding: 88px 0 40px; }
+.history-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 28px;
+}
+
+.history-heading > p {
+  max-width: 440px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.history-status {
+  padding: 28px;
+  border: 1px dashed var(--line);
+  border-radius: 14px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.history-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.history-card {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--card);
+}
+
+.history-card-top, .history-card-footer, .history-pagination, .detail-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.history-card-top strong { color: var(--green); font-size: 1.45rem; }
+.history-card time, .detail-summary time { color: var(--muted); font-size: 0.76rem; }
+.history-card > p { min-height: 48px; margin: 18px 0; color: var(--muted); line-height: 1.5; }
+.history-card-footer { padding-top: 16px; border-top: 1px solid var(--line); }
+.history-card-footer span { color: var(--muted); font-size: 0.78rem; }
+.history-card-footer button, .history-pagination button {
+  border: 0;
+  color: var(--green);
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.history-pagination { max-width: 360px; margin: 28px auto 0; }
+.history-pagination span { color: var(--muted); font-size: 0.8rem; }
+.history-pagination button:disabled { color: #a9b1ac; cursor: default; }
+
+.history-dialog {
+  width: min(680px, calc(100% - 32px));
+  max-height: min(760px, calc(100vh - 48px));
+  padding: 30px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  color: var(--ink);
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+.history-dialog::backdrop { background: rgba(23, 35, 30, 0.55); }
+.dialog-heading { display: flex; align-items: start; justify-content: space-between; gap: 20px; }
+.dialog-close {
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--muted);
+  background: white;
+  cursor: pointer;
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.history-detail { margin-top: 28px; }
+.detail-summary { padding: 18px; border-radius: 12px; background: var(--green-soft); }
+.detail-summary strong { color: var(--green-dark); font-size: 1.25rem; }
+.history-detail h3 { margin: 26px 0 10px; font-size: 0.9rem; }
+.saved-description {
+  max-height: 220px;
+  overflow: auto;
+  margin: 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--muted);
+  background: #f7f7f2;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
 footer { display: flex; justify-content: space-between; padding: 34px 0 42px; color: var(--muted); font-size: 0.8rem; }
 footer a { color: var(--green); font-weight: 700; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
@@ -256,6 +355,8 @@ footer a { color: var(--green); font-weight: 700; }
   .workspace { grid-template-columns: 1fr; }
   .results-panel { min-height: 500px; border-top: 1px solid var(--line); border-left: 0; }
   .empty-state, .loading-state { min-height: 400px; }
+  .history-heading { align-items: start; flex-direction: column; gap: 12px; }
+  .history-list { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 540px) {
@@ -265,6 +366,9 @@ footer a { color: var(--green); font-weight: 700; }
   h1 { font-size: 2.8rem; }
   .workspace { border-radius: 18px; }
   .input-panel, .results-panel { padding: 24px 20px; }
+  .history-section { padding-top: 64px; }
+  .history-dialog { padding: 24px 20px; }
+  .history-card-footer { align-items: start; flex-direction: column; }
   .field-meta span:first-child { display: none; }
   .field-meta { justify-content: flex-end; }
   footer { flex-direction: column; gap: 4px; }
