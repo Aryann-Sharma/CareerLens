@@ -2,13 +2,10 @@ import pytest
 from fastapi.testclient import TestClient
 from pydantic import ValidationError
 
-from backend.app.main import app
 from backend.app.schemas.analysis import AnalysisRequest
 
-client = TestClient(app)
 
-
-def test_analyze_endpoint_returns_expected_breakdown() -> None:
+def test_analyze_endpoint_returns_expected_breakdown(client: TestClient) -> None:
     response = client.post(
         "/api/analyze",
         json={
@@ -26,7 +23,7 @@ def test_analyze_endpoint_returns_expected_breakdown() -> None:
     }
 
 
-def test_analyze_endpoint_rejects_blank_description() -> None:
+def test_analyze_endpoint_rejects_blank_description(client: TestClient) -> None:
     response = client.post(
         "/api/analyze", json={"job_description": "   ", "user_skills": []}
     )
@@ -34,7 +31,7 @@ def test_analyze_endpoint_rejects_blank_description() -> None:
     assert response.status_code == 422
 
 
-def test_analyze_endpoint_accepts_an_empty_skill_list() -> None:
+def test_analyze_endpoint_accepts_an_empty_skill_list(client: TestClient) -> None:
     response = client.post(
         "/api/analyze",
         json={
@@ -52,7 +49,7 @@ def test_analyze_endpoint_accepts_an_empty_skill_list() -> None:
     }
 
 
-def test_analyze_endpoint_handles_no_recognised_skills() -> None:
+def test_analyze_endpoint_handles_no_recognised_skills(client: TestClient) -> None:
     response = client.post(
         "/api/analyze",
         json={
@@ -80,14 +77,14 @@ def test_analyze_endpoint_handles_no_recognised_skills() -> None:
     ],
 )
 def test_analyze_endpoint_rejects_missing_or_incorrect_fields(
-    payload: dict[str, object],
+    client: TestClient, payload: dict[str, object]
 ) -> None:
     response = client.post("/api/analyze", json=payload)
 
     assert response.status_code == 422
 
 
-def test_analyze_endpoint_rejects_unknown_fields() -> None:
+def test_analyze_endpoint_rejects_unknown_fields(client: TestClient) -> None:
     response = client.post(
         "/api/analyze",
         json={
@@ -100,7 +97,9 @@ def test_analyze_endpoint_rejects_unknown_fields() -> None:
     assert response.status_code == 422
 
 
-def test_analyze_endpoint_accepts_maximum_description_length() -> None:
+def test_analyze_endpoint_accepts_maximum_description_length(
+    client: TestClient,
+) -> None:
     description = "Python " + "a" * 49_993
 
     response = client.post(
@@ -112,7 +111,7 @@ def test_analyze_endpoint_accepts_maximum_description_length() -> None:
     assert response.json()["match_score"] == 100
 
 
-def test_analyze_endpoint_rejects_description_over_limit() -> None:
+def test_analyze_endpoint_rejects_description_over_limit(client: TestClient) -> None:
     description = "a" * 50_001
 
     response = client.post(
@@ -123,7 +122,9 @@ def test_analyze_endpoint_rejects_description_over_limit() -> None:
     assert response.status_code == 422
 
 
-def test_analyze_endpoint_rejects_more_than_200_user_skills() -> None:
+def test_analyze_endpoint_rejects_more_than_200_user_skills(
+    client: TestClient,
+) -> None:
     response = client.post(
         "/api/analyze",
         json={
@@ -153,20 +154,20 @@ def test_request_schema_rejects_an_overly_long_skill() -> None:
         )
 
 
-def test_health_endpoint_still_works() -> None:
+def test_health_endpoint_still_works(client: TestClient) -> None:
     response = client.get("/health")
 
     assert response.status_code == 200
     assert response.json() == {"status": "healthy"}
 
 
-def test_analyze_endpoint_only_accepts_post_requests() -> None:
+def test_analyze_endpoint_only_accepts_post_requests(client: TestClient) -> None:
     response = client.get("/api/analyze")
 
     assert response.status_code == 405
 
 
-def test_analyze_endpoint_is_in_openapi_schema() -> None:
+def test_analyze_endpoint_is_in_openapi_schema(client: TestClient) -> None:
     response = client.get("/openapi.json")
 
     assert response.status_code == 200
