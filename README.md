@@ -141,8 +141,8 @@ The current test suite contains 61 tests covering skill extraction, aliases, edg
 - Skill extraction is rule-based and only recognizes the supported vocabulary above.
 - The match score measures skill coverage; it does not consider experience level, years of experience, education, or skill importance.
 - Analyses are not stored yet, so refreshing the page clears the result.
-- The project does not currently use authentication, file uploads, OCR, or an external AI service.
+- The project does not currently use authentication, file uploads, or OCR.
 
 ## Planned next milestone
 
-Add PostgreSQL persistence and an analysis-history dashboard. Authentication, file uploads, OCR, external AI services, React, Docker, CI/CD, and deployment are intentionally deferred until the core workflow is stable.
+Add PostgreSQL persistence and an analysis-history dashboard. Authentication, file uploads, OCR, React, Docker, CI/CD, and deployment are intentionally deferred until the core workflow is stable.
