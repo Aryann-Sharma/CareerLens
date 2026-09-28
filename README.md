@@ -34,6 +34,7 @@ All supported skills currently have equal weight. If no supported skills are fou
 - Database persistence through SQLAlchemy
 - Versioned database migrations with Alembic
 - PostgreSQL configuration with JSONB skill fields
+- Paginated analysis history with full record lookup
 - Unit and API tests with pytest
 
 ## Supported skills
@@ -66,11 +67,15 @@ CareerLens/
 ├── .env.example
 ├── backend/
 │   ├── app/
-│   │   ├── api/routes/analysis.py
+│   │   ├── api/routes/
+│   │   │   ├── analysis.py
+│   │   │   └── history.py
 │   │   ├── core/config.py
 │   │   ├── db/
 │   │   ├── models/analysis.py
-│   │   ├── schemas/analysis.py
+│   │   ├── schemas/
+│   │   │   ├── analysis.py
+│   │   │   └── history.py
 │   │   ├── services/analysis_store.py
 │   │   ├── services/skill_extractor.py
 │   │   ├── services/scorer.py
@@ -151,21 +156,25 @@ Response:
 }
 ```
 
+`GET /api/analyses?page=1&page_size=10` returns saved analyses in newest-first order. Page size is limited to 50 records.
+
+`GET /api/analyses/{analysis_id}` returns the complete saved analysis or a `404` response when it does not exist.
+
 ## Tests
 
 ```text
 python -m pytest backend/tests
 ```
 
-The current test suite contains 66 tests covering skill extraction, aliases, edge cases, match scoring, request validation, API responses, persistence, migrations, and frontend serving.
+The current test suite contains 72 tests covering skill extraction, aliases, edge cases, match scoring, request validation, API responses, persistence, migrations, history pagination, and frontend serving.
 
 ## Current limitations
 
 - Skill extraction is rule-based and only recognizes the supported vocabulary above.
 - The match score measures skill coverage; it does not consider experience level, years of experience, education, or skill importance.
-- Analyses are stored, but there is not yet a screen for viewing previous results.
+- Analyses are available through the history API, but there is not yet a screen for viewing them.
 - The project does not currently use authentication, file uploads, or OCR.
 
 ## Planned next milestone
 
-Add a paginated history API and an analysis-history dashboard. Authentication, file uploads, OCR, React, Docker, CI/CD, and deployment are intentionally deferred until the core workflow is stable.
+Build an analysis-history dashboard using the existing paginated API. Authentication, file uploads, OCR, React, Docker, CI/CD, and deployment are intentionally deferred until the core workflow is stable.

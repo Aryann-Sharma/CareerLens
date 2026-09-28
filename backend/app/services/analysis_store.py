@@ -1,3 +1,4 @@
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from backend.app.models.analysis import AnalysisRecord
@@ -30,3 +31,24 @@ def save_analysis(
 
     session.refresh(record)
     return record
+
+
+def list_analyses(
+    session: Session,
+    *,
+    page: int,
+    page_size: int,
+) -> tuple[list[AnalysisRecord], int]:
+    total = session.scalar(select(func.count()).select_from(AnalysisRecord)) or 0
+    statement = (
+        select(AnalysisRecord)
+        .order_by(AnalysisRecord.created_at.desc(), AnalysisRecord.id.desc())
+        .offset((page - 1) * page_size)
+        .limit(page_size)
+    )
+    records = list(session.scalars(statement).all())
+    return records, total
+
+
+def get_analysis(session: Session, analysis_id: int) -> AnalysisRecord | None:
+    return session.get(AnalysisRecord, analysis_id)
