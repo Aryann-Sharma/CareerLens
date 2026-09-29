@@ -1,5 +1,7 @@
 # CareerLens
 
+![CI](https://github.com/Aryann-Sharma/CareerLens/actions/workflows/ci.yml/badge.svg)
+
 CareerLens is a full-stack job-description analysis app for students and job seekers. Paste a job description, enter your current skills, and receive a clear breakdown of required, matched, and missing skills with a match score.
 
 The current MVP has a working browser interface connected to a FastAPI backend. It can extract supported skills from a job description, compare them with a user's skills, calculate a match score, save the analysis, and show the result in the browser.
@@ -35,6 +37,7 @@ All supported skills currently have equal weight. If no supported skills are fou
 - Versioned database migrations with Alembic
 - PostgreSQL configuration with JSONB skill fields
 - Paginated analysis-history dashboard with full record lookup
+- Automated quality checks with GitHub Actions and PostgreSQL
 - Unit and API tests with pytest
 
 ## Supported skills
@@ -63,6 +66,7 @@ The first version uses a deliberately small vocabulary so the matching behavior 
 
 ```text
 CareerLens/
+├── .github/workflows/ci.yml
 ├── alembic.ini
 ├── .env.example
 ├── backend/
@@ -166,7 +170,20 @@ Response:
 python -m pytest backend/tests
 ```
 
-The current test suite contains 72 tests covering skill extraction, aliases, edge cases, match scoring, request validation, API responses, persistence, migrations, history pagination, and frontend serving.
+The local test suite contains 72 tests covering skill extraction, aliases, edge cases, match scoring, request validation, API responses, persistence, migrations, history pagination, and frontend serving. CI also runs a PostgreSQL-specific integration test against a temporary database service.
+
+## Continuous integration
+
+GitHub Actions runs the following checks for every pull request and every push to `main`:
+
+- Dependency installation and validation
+- Alembic migration upgrade and consistency check
+- Complete pytest suite
+- PostgreSQL integration test
+- Python compilation
+- Frontend JavaScript syntax
+
+The workflow uses temporary test credentials and a temporary PostgreSQL service. It does not connect to a development or production database.
 
 ## Current limitations
 
