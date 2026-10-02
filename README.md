@@ -37,6 +37,8 @@ All supported skills currently have equal weight. If no supported skills are fou
 - Versioned database migrations with Alembic
 - PostgreSQL configuration with JSONB skill fields
 - Paginated analysis-history dashboard with full record lookup
+- User account data model with unique email addresses
+- Argon2 password hashing and verification foundation
 - Automated quality checks with GitHub Actions and PostgreSQL
 - Unit and API tests with pytest
 
@@ -57,7 +59,7 @@ The first version uses a deliberately small vocabulary so the matching behavior 
 
 ## Technology
 
-- **Backend:** Python, FastAPI, Pydantic, SQLAlchemy, Uvicorn
+- **Backend:** Python, FastAPI, Pydantic, SQLAlchemy, pwdlib, Uvicorn
 - **Database:** PostgreSQL, Alembic migrations, SQLite for local fallback and tests
 - **Frontend:** HTML, CSS, vanilla JavaScript
 - **Testing:** pytest and FastAPI TestClient
@@ -76,11 +78,14 @@ CareerLens/
 │   │   │   └── history.py
 │   │   ├── core/config.py
 │   │   ├── db/
-│   │   ├── models/analysis.py
+│   │   ├── models/
+│   │   │   ├── analysis.py
+│   │   │   └── user.py
 │   │   ├── schemas/
 │   │   │   ├── analysis.py
 │   │   │   └── history.py
 │   │   ├── services/analysis_store.py
+│   │   ├── services/passwords.py
 │   │   ├── services/skill_extractor.py
 │   │   ├── services/scorer.py
 │   │   └── main.py
@@ -170,7 +175,7 @@ Response:
 python -m pytest backend/tests
 ```
 
-The local test suite contains 72 tests covering skill extraction, aliases, edge cases, match scoring, request validation, API responses, persistence, migrations, history pagination, and frontend serving. CI also runs a PostgreSQL-specific integration test against a temporary database service.
+The local test suite contains 77 tests covering skill extraction, aliases, edge cases, match scoring, request validation, API responses, persistence, migrations, user storage, password hashing, history pagination, and frontend serving. CI also runs a PostgreSQL-specific integration test against a temporary database service.
 
 ## Continuous integration
 
@@ -189,10 +194,11 @@ The workflow uses temporary test credentials and a temporary PostgreSQL service.
 
 - Skill extraction is rule-based and only recognizes the supported vocabulary above.
 - The match score measures skill coverage; it does not consider experience level, years of experience, education, or skill importance.
-- Analysis history is shared locally because user accounts have not been added yet.
+- Registration and login endpoints have not been added yet, so analysis history is still shared locally.
 - History does not yet support searching, filtering, or deleting records.
-- The project does not currently use authentication, file uploads, or OCR.
+- The user model and password hashing are in place, but authentication is not connected to the API or frontend yet.
+- The project does not currently use file uploads or OCR.
 
 ## Planned next milestone
 
-Add authentication and user-specific profiles so each person has private analysis history. File uploads, OCR, React, Docker, continuous deployment, and production hosting are intentionally deferred until they have a clear role in the project.
+Add registration, login, logout, and current-user endpoints. After those are tested, connect saved analyses to their owners so each person has private history. File uploads, OCR, React, Docker, continuous deployment, and production hosting are intentionally deferred until they have a clear role in the project.

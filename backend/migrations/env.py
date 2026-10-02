@@ -4,7 +4,8 @@ from alembic import context
 from sqlalchemy import engine_from_config, pool
 
 from backend.app.core.config import get_settings
-from backend.app.models.analysis import AnalysisRecord
+from backend.app.db.base import Base
+from backend.app.models import AnalysisRecord, User
 
 config = context.config
 
@@ -13,7 +14,7 @@ if config.config_file_name is not None:
 
 database_url = get_settings().database_url.replace("%", "%%")
 config.set_main_option("sqlalchemy.url", database_url)
-target_metadata = AnalysisRecord.metadata
+target_metadata = Base.metadata
 
 
 def run_migrations_offline() -> None:
