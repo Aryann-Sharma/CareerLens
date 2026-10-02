@@ -195,4 +195,4 @@ The workflow uses temporary test credentials and a temporary PostgreSQL service.
 
 ## Planned next milestone
 
-Add authentication and user-specific profiles so each person has private analysis history. File uploads, OCR, React, Docker, CI/CD, and deployment are intentionally deferred until they have a clear role in the project.
+Add authentication and user-specific profiles so each person has private analysis history. File uploads, OCR, React, Docker, continuous deployment, and production hosting are intentionally deferred until they have a clear role in the project.
