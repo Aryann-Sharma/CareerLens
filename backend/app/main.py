@@ -5,6 +5,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 from backend.app.api.routes.analysis import router as analysis_router
+from backend.app.api.routes.auth import router as auth_router
 from backend.app.api.routes.history import router as history_router
 from backend.app.core.config import get_settings
 
@@ -17,6 +18,7 @@ app = FastAPI(
 )
 
 app.include_router(analysis_router)
+app.include_router(auth_router)
 app.include_router(history_router)
 
 

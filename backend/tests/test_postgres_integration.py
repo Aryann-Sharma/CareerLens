@@ -10,7 +10,6 @@ from backend.app.db.session import SessionLocal, engine
 from backend.app.main import app
 from backend.app.models.analysis import AnalysisRecord
 from backend.app.models.user import User
-from backend.app.services.passwords import hash_password, verify_password
 
 
 @pytest.mark.skipif(
@@ -23,20 +22,19 @@ def test_application_flow_uses_postgresql() -> None:
     client = TestClient(app)
 
     try:
-        with SessionLocal() as session:
-            user = User(
-                email=email,
-                password_hash=hash_password("Integration-password-27"),
-            )
-            session.add(user)
-            session.commit()
-            session.refresh(user)
+        registration = client.post(
+            "/api/auth/register",
+            json={
+                "email": email,
+                "password": "Integration-password-27",
+            },
+        )
+        assert registration.status_code == 201
+        assert registration.json()["email"] == email
 
-            assert user.id is not None
-            assert verify_password(
-                "Integration-password-27",
-                user.password_hash,
-            )
+        current_user = client.get("/api/auth/me")
+        assert current_user.status_code == 200
+        assert current_user.json()["id"] == registration.json()["id"]
 
         response = client.post(
             "/api/analyze",

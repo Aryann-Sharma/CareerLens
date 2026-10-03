@@ -39,6 +39,8 @@ All supported skills currently have equal weight. If no supported skills are fou
 - Paginated analysis-history dashboard with full record lookup
 - User account data model with unique email addresses
 - Argon2 password hashing and verification foundation
+- Registration, login, logout, and current-user API endpoints
+- Signed sessions stored in HTTP-only, same-site cookies
 - Automated quality checks with GitHub Actions and PostgreSQL
 - Unit and API tests with pytest
 
@@ -59,7 +61,7 @@ The first version uses a deliberately small vocabulary so the matching behavior 
 
 ## Technology
 
-- **Backend:** Python, FastAPI, Pydantic, SQLAlchemy, pwdlib, Uvicorn
+- **Backend:** Python, FastAPI, Pydantic, SQLAlchemy, pwdlib, PyJWT, Uvicorn
 - **Database:** PostgreSQL, Alembic migrations, SQLite for local fallback and tests
 - **Frontend:** HTML, CSS, vanilla JavaScript
 - **Testing:** pytest and FastAPI TestClient
@@ -73,9 +75,12 @@ CareerLens/
 ├── .env.example
 ├── backend/
 │   ├── app/
-│   │   ├── api/routes/
-│   │   │   ├── analysis.py
-│   │   │   └── history.py
+│   │   ├── api/
+│   │   │   ├── dependencies.py
+│   │   │   └── routes/
+│   │   │       ├── analysis.py
+│   │   │       ├── auth.py
+│   │   │       └── history.py
 │   │   ├── core/config.py
 │   │   ├── db/
 │   │   ├── models/
@@ -83,11 +88,14 @@ CareerLens/
 │   │   │   └── user.py
 │   │   ├── schemas/
 │   │   │   ├── analysis.py
+│   │   │   ├── auth.py
 │   │   │   └── history.py
 │   │   ├── services/analysis_store.py
 │   │   ├── services/passwords.py
+│   │   ├── services/sessions.py
 │   │   ├── services/skill_extractor.py
 │   │   ├── services/scorer.py
+│   │   ├── services/user_store.py
 │   │   └── main.py
 │   ├── migrations/
 │   ├── tests/
@@ -143,6 +151,8 @@ python -m alembic upgrade head
 
 Alembic keeps schema changes versioned and supports both upgrades and downgrades. PostgreSQL stores each skill collection as `JSONB` and indexes analyses by creation time for the history view.
 
+The development environment includes a local-only authentication secret so the app runs without extra setup. Set `AUTH_SECRET_KEY` to a random value of at least 32 characters before using a production environment. The application refuses to start in production with the development secret.
+
 ## API
 
 `POST /api/analyze`
@@ -169,13 +179,22 @@ Response:
 
 `GET /api/analyses/{analysis_id}` returns the complete saved analysis or a `404` response when it does not exist.
 
+Authentication endpoints:
+
+- `POST /api/auth/register` creates an account and starts a session.
+- `POST /api/auth/login` verifies the email and password and starts a session.
+- `POST /api/auth/logout` clears the browser session.
+- `GET /api/auth/me` returns the signed-in user or a `401` response.
+
+Registration and login accept JSON containing `email` and `password`. Session tokens are signed, expire after one hour by default, and are stored in an HTTP-only cookie rather than returned in the response body. Cookies are also marked `Secure` when `ENVIRONMENT=production`.
+
 ## Tests
 
 ```text
 python -m pytest backend/tests
 ```
 
-The local test suite contains 77 tests covering skill extraction, aliases, edge cases, match scoring, request validation, API responses, persistence, migrations, user storage, password hashing, history pagination, and frontend serving. CI also runs a PostgreSQL-specific integration test against a temporary database service.
+The local test suite contains 95 tests covering skill extraction, aliases, edge cases, match scoring, request validation, API responses, persistence, migrations, authentication, session security, user storage, password hashing, history pagination, and frontend serving. CI also runs a PostgreSQL-specific integration test against a temporary database service.
 
 ## Continuous integration
 
@@ -194,11 +213,11 @@ The workflow uses temporary test credentials and a temporary PostgreSQL service.
 
 - Skill extraction is rule-based and only recognizes the supported vocabulary above.
 - The match score measures skill coverage; it does not consider experience level, years of experience, education, or skill importance.
-- Registration and login endpoints have not been added yet, so analysis history is still shared locally.
+- Analysis endpoints are not connected to user accounts yet, so history is still shared locally.
 - History does not yet support searching, filtering, or deleting records.
-- The user model and password hashing are in place, but authentication is not connected to the API or frontend yet.
+- The browser interface does not have registration or login forms yet.
 - The project does not currently use file uploads or OCR.
 
 ## Planned next milestone
 
-Add registration, login, logout, and current-user endpoints. After those are tested, connect saved analyses to their owners so each person has private history. File uploads, OCR, React, Docker, continuous deployment, and production hosting are intentionally deferred until they have a clear role in the project.
+Connect saved analyses to their owners, require authentication for analysis and history requests, and verify that one user cannot access another user's records. After the authorization boundary is tested, add registration and login forms to the browser interface. File uploads, OCR, React, Docker, continuous deployment, and production hosting are intentionally deferred until they have a clear role in the project.
