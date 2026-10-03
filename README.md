@@ -47,6 +47,7 @@ All supported skills currently have equal weight. If no supported skills are fou
 - Owner-scoped analysis creation, history, and detail access
 - Automated quality checks with GitHub Actions and PostgreSQL
 - Unit and API tests with pytest
+- Browser-level user journey tests with Playwright
 
 ## Supported skills
 
@@ -68,7 +69,7 @@ The first version uses a deliberately small vocabulary so the matching behavior 
 - **Backend:** Python, FastAPI, Pydantic, SQLAlchemy, pwdlib, PyJWT, Uvicorn
 - **Database:** PostgreSQL, Alembic migrations, SQLite for local fallback and tests
 - **Frontend:** HTML, CSS, vanilla JavaScript
-- **Testing:** pytest and FastAPI TestClient
+- **Testing:** pytest, FastAPI TestClient, Playwright
 
 ## Project structure
 
@@ -103,7 +104,11 @@ CareerLens/
 │   │   └── main.py
 │   ├── migrations/
 │   ├── tests/
-│   └── requirements.txt
+│   ├── requirements.txt
+│   └── requirements-dev.txt
+├── e2e/
+│   ├── conftest.py
+│   └── test_user_journey.py
 ├── frontend/
 │   ├── index.html
 │   ├── style.css
@@ -196,11 +201,28 @@ Registration and login accept JSON containing `email` and `password`. Session to
 
 ## Tests
 
+Install the development dependencies and Chromium once:
+
+```text
+python -m pip install -r backend/requirements-dev.txt
+python -m playwright install chromium
+```
+
+Run the unit and API tests:
+
 ```text
 python -m pytest backend/tests
 ```
 
-The local test run has 101 passing tests covering skill extraction, aliases, edge cases, match scoring, request validation, API responses, persistence, migrations, authentication, authorization, cross-user isolation, session security, user storage, password hashing, history pagination, and frontend serving. One PostgreSQL-specific integration test is skipped locally and runs in CI against a temporary database service.
+Run the browser tests:
+
+```text
+python -m pytest e2e --browser chromium
+```
+
+The unit and API suite has 101 passing tests covering skill extraction, aliases, edge cases, match scoring, request validation, API responses, persistence, migrations, authentication, authorization, cross-user isolation, session security, user storage, password hashing, history pagination, and frontend serving. One PostgreSQL-specific integration test is skipped locally and runs in CI against a temporary database service.
+
+The two browser tests start the real application with a fresh temporary database. They cover registration, login, invalid credentials, analysis creation, private history, session restoration, logout, and expired-session recovery without changing local development data.
 
 ## Continuous integration
 
@@ -210,6 +232,7 @@ GitHub Actions runs the following checks for every pull request and every push t
 - Alembic migration upgrade and consistency check
 - Complete pytest suite
 - PostgreSQL integration test
+- Chromium end-to-end tests with failure traces
 - Python compilation
 - Frontend JavaScript syntax
 
@@ -224,4 +247,4 @@ The workflow uses temporary test credentials and a temporary PostgreSQL service.
 
 ## Planned next milestone
 
-Add automated browser tests for the main account and analysis journey, including registration, login, analysis creation, private history, session restoration, and logout. After that, prepare the application for production deployment with container configuration, environment-specific settings, health checks, and a managed PostgreSQL database. File uploads, OCR, and React remain deferred until they have a clear role in the project.
+Prepare the application for production deployment with container configuration, environment-specific settings, health checks, and a managed PostgreSQL database. File uploads, OCR, and React remain deferred until they have a clear role in the project.

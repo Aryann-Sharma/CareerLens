@@ -16,7 +16,7 @@ concurrency:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     services:
       postgres:
@@ -45,7 +45,9 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
-          cache-dependency-path: backend/requirements.txt
+          cache-dependency-path: |
+            backend/requirements.txt
+            backend/requirements-dev.txt
 
       - name: Set up Node.js
         uses: actions/setup-node@v7
@@ -54,7 +56,10 @@ jobs:
           package-manager-cache: false
 
       - name: Install dependencies
-        run: python -m pip install -r backend/requirements.txt
+        run: python -m pip install -r backend/requirements-dev.txt
+
+      - name: Install Chromium
+        run: python -m playwright install --with-deps chromium
 
       - name: Check installed dependencies
         run: python -m pip check
@@ -73,8 +78,20 @@ jobs:
           RUN_POSTGRES_TESTS: "1"
         run: python -m pytest backend/tests/test_postgres_integration.py -q
 
+      - name: Run browser tests
+        run: python -m pytest e2e --browser chromium --tracing=retain-on-failure -q
+
+      - name: Upload browser traces
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v5
+        with:
+          name: browser-traces
+          path: test-results/
+          if-no-files-found: ignore
+          retention-days: 7
+
       - name: Check Python compilation
-        run: python -m compileall -q backend
+        run: python -m compileall -q backend e2e
 
       - name: Check frontend JavaScript
         run: node --check frontend/script.js
