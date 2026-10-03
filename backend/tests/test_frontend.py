@@ -11,6 +11,18 @@ def test_home_page_is_served(client: TestClient) -> None:
     assert 'id="history-dialog"' in response.text
 
 
+def test_home_page_includes_account_controls(client: TestClient) -> None:
+    response = client.get("/")
+
+    assert response.status_code == 200
+    assert 'id="auth-gate"' in response.text
+    assert 'id="authenticated-app"' in response.text
+    assert 'id="auth-dialog"' in response.text
+    assert 'id="auth-form"' in response.text
+    assert 'id="logout-button"' in response.text
+    assert 'autocomplete="current-password"' in response.text
+
+
 def test_stylesheet_is_served(client: TestClient) -> None:
     response = client.get("/static/style.css")
 
@@ -22,9 +34,13 @@ def test_javascript_is_served(client: TestClient) -> None:
     response = client.get("/static/script.js")
 
     assert response.status_code == 200
-    assert "fetch(\"/api/analyze\"" in response.text
+    assert 'apiFetch("/api/analyze"' in response.text
+    assert 'apiFetch("/api/auth/me"' in response.text
+    assert 'apiFetch("/api/auth/logout"' in response.text
+    assert "`/api/auth/${authMode}`" in response.text
     assert "`/api/analyses?page=${page}" in response.text
     assert "`/api/analyses/${analysisId}`" in response.text
+    assert "handleExpiredSession()" in response.text
 
 
 def test_missing_static_file_returns_not_found(client: TestClient) -> None:
