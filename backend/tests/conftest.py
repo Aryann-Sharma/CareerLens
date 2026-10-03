@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.pool import StaticPool
 
 from backend.app.db.base import Base
-from backend.app.db.session import get_db
+from backend.app.db.session import enable_sqlite_foreign_keys, get_db
 from backend.app.main import app
 
 test_engine = create_engine(
@@ -15,6 +15,7 @@ test_engine = create_engine(
     connect_args={"check_same_thread": False},
     poolclass=StaticPool,
 )
+enable_sqlite_foreign_keys(test_engine)
 TestingSession = sessionmaker(
     bind=test_engine,
     autoflush=False,
@@ -39,3 +40,16 @@ def client(db_session: Session) -> Generator[TestClient, None, None]:
     with TestClient(app) as test_client:
         yield test_client
     app.dependency_overrides.clear()
+
+
+@pytest.fixture
+def authenticated_client(client: TestClient) -> TestClient:
+    response = client.post(
+        "/api/auth/register",
+        json={
+            "email": "test-user@example.com",
+            "password": "Test-password-27",
+        },
+    )
+    assert response.status_code == 201
+    return client

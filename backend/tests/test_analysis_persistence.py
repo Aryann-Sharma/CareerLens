@@ -5,7 +5,10 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from backend.app.models.analysis import AnalysisRecord
+from backend.app.models.user import User
 from backend.app.services.analysis_store import save_analysis
+
+pytestmark = pytest.mark.usefixtures("authenticated_client")
 
 
 def test_successful_analysis_is_saved(
@@ -24,6 +27,7 @@ def test_successful_analysis_is_saved(
 
     record = db_session.scalar(select(AnalysisRecord))
     assert record is not None
+    assert record.user_id is not None
     assert record.job_description == "We need Python, SQL and React."
     assert record.user_skills == ["Python", "SQL"]
     assert record.extracted_skills == ["Python", "SQL", "React"]
@@ -67,9 +71,13 @@ def test_each_analysis_creates_a_separate_record(
 
 
 def test_failed_write_rolls_back_the_transaction(db_session: Session) -> None:
+    user_id = db_session.scalar(select(User.id))
+    assert user_id is not None
+
     with pytest.raises(IntegrityError):
         save_analysis(
             db_session,
+            user_id=user_id,
             job_description="Python is required.",
             user_skills=["Python"],
             extracted_skills=["Python"],
@@ -84,3 +92,21 @@ def test_failed_write_rolls_back_the_transaction(db_session: Session) -> None:
         select(func.count()).select_from(AnalysisRecord)
     )
     assert saved_count == 0
+
+
+def test_unknown_owner_is_rejected(db_session: Session) -> None:
+    record = AnalysisRecord(
+        user_id=999,
+        job_description="Python is required.",
+        user_skills=["Python"],
+        extracted_skills=["Python"],
+        matched_skills=["Python"],
+        missing_skills=[],
+        match_score=100,
+    )
+    db_session.add(record)
+
+    with pytest.raises(IntegrityError):
+        db_session.commit()
+
+    db_session.rollback()
