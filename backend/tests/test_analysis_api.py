@@ -4,6 +4,8 @@ from pydantic import ValidationError
 
 from backend.app.schemas.analysis import AnalysisRequest
 
+pytestmark = pytest.mark.usefixtures("authenticated_client")
+
 
 def test_analyze_endpoint_returns_expected_breakdown(client: TestClient) -> None:
     response = client.post(

@@ -1,4 +1,7 @@
+import pytest
 from fastapi.testclient import TestClient
+
+pytestmark = pytest.mark.usefixtures("authenticated_client")
 
 
 def create_analysis(client: TestClient, description: str) -> dict[str, object]:

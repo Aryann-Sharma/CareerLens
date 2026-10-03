@@ -3,7 +3,7 @@ from uuid import uuid4
 
 import pytest
 from fastapi.testclient import TestClient
-from sqlalchemy import delete, inspect
+from sqlalchemy import delete, inspect, select
 from sqlalchemy.dialects.postgresql import JSONB
 
 from backend.app.db.session import SessionLocal, engine
@@ -19,6 +19,7 @@ from backend.app.models.user import User
 def test_application_flow_uses_postgresql() -> None:
     description = "PostgreSQL integration check using Python and SQL."
     email = f"integration-{uuid4().hex}@example.com"
+    second_email = f"integration-{uuid4().hex}@example.com"
     client = TestClient(app)
 
     try:
@@ -49,10 +50,31 @@ def test_application_flow_uses_postgresql() -> None:
 
         history = client.get("/api/analyses")
         assert history.status_code == 200
-        assert any(
-            item["job_description_preview"] == description
+        history_item = next(
+            item
             for item in history.json()["items"]
+            if item["job_description_preview"] == description
         )
+        analysis_id = history_item["id"]
+
+        with SessionLocal() as session:
+            saved_analysis = session.scalar(
+                select(AnalysisRecord).where(AnalysisRecord.id == analysis_id)
+            )
+            assert saved_analysis is not None
+            assert saved_analysis.user_id == registration.json()["id"]
+
+        assert client.post("/api/auth/logout").status_code == 204
+        second_registration = client.post(
+            "/api/auth/register",
+            json={
+                "email": second_email,
+                "password": "Integration-password-27",
+            },
+        )
+        assert second_registration.status_code == 201
+        assert client.get("/api/analyses").json()["items"] == []
+        assert client.get(f"/api/analyses/{analysis_id}").status_code == 404
 
         assert engine.dialect.name == "postgresql"
         inspector = inspect(engine)
@@ -61,6 +83,15 @@ def test_application_flow_uses_postgresql() -> None:
             for column in inspector.get_columns("analyses")
         }
         assert isinstance(analysis_columns["user_skills"]["type"], JSONB)
+        assert analysis_columns["user_id"]["nullable"] is True
+        assert any(
+            foreign_key["name"] == "fk_analyses_user_id_users"
+            for foreign_key in inspector.get_foreign_keys("analyses")
+        )
+        assert any(
+            index["name"] == "ix_analyses_user_id_created_at"
+            for index in inspector.get_indexes("analyses")
+        )
         assert {column["name"] for column in inspector.get_columns("users")} == {
             "id",
             "email",
@@ -78,5 +109,7 @@ def test_application_flow_uses_postgresql() -> None:
                     AnalysisRecord.job_description == description
                 )
             )
-            session.execute(delete(User).where(User.email == email))
+            session.execute(
+                delete(User).where(User.email.in_([email, second_email]))
+            )
             session.commit()

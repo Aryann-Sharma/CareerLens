@@ -1,6 +1,16 @@
 from datetime import datetime
 
-from sqlalchemy import JSON, CheckConstraint, DateTime, Integer, SmallInteger, Text, func
+from sqlalchemy import (
+    JSON,
+    CheckConstraint,
+    DateTime,
+    ForeignKey,
+    Index,
+    Integer,
+    SmallInteger,
+    Text,
+    func,
+)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -16,9 +26,18 @@ class AnalysisRecord(Base):
             "match_score >= 0 AND match_score <= 100",
             name="ck_analyses_match_score_range",
         ),
+        Index("ix_analyses_user_id_created_at", "user_id", "created_at"),
     )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int | None] = mapped_column(
+        ForeignKey(
+            "users.id",
+            name="fk_analyses_user_id_users",
+            ondelete="CASCADE",
+        ),
+        nullable=True,
+    )
     job_description: Mapped[str] = mapped_column(Text, nullable=False)
     user_skills: Mapped[list[str]] = mapped_column(skill_list_type, nullable=False)
     extracted_skills: Mapped[list[str]] = mapped_column(skill_list_type, nullable=False)
