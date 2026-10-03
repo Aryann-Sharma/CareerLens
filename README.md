@@ -4,7 +4,7 @@
 
 CareerLens is a full-stack job-description analysis app for students and job seekers. Paste a job description, enter your current skills, and receive a clear breakdown of required, matched, and missing skills with a match score.
 
-The current MVP has a browser interface connected to a FastAPI backend, account authentication, and private analysis history. It can extract supported skills from a job description, compare them with a user's skills, calculate a match score, save the analysis for the signed-in user, and show the result in the browser. Browser-based registration and login controls are the next frontend milestone.
+The current MVP has a browser interface connected to a FastAPI backend, account authentication, and private analysis history. It can extract supported skills from a job description, compare them with a user's skills, calculate a match score, save the analysis for the signed-in user, and show the result in the browser. Users can create an account, log in, restore an existing session, and log out without leaving the main page.
 
 ## How it works
 
@@ -33,6 +33,8 @@ All supported skills currently have equal weight. If no supported skills are fou
 - Case-insensitive matching with duplicate removal
 - Transparent match score based on the percentage of required skills covered
 - Responsive HTML/CSS/JavaScript frontend
+- Browser registration, login, logout, and session restoration
+- Clear signed-out and expired-session states
 - FastAPI request validation and API documentation
 - Database persistence through SQLAlchemy
 - Versioned database migrations with Alembic
@@ -139,7 +141,7 @@ python -m uvicorn backend.app.main:app --reload
 
 Open [http://127.0.0.1:8000](http://127.0.0.1:8000). Interactive API documentation is available at [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
 
-Until the browser account controls are added, use `/docs` to call `POST /api/auth/register` or `POST /api/auth/login`, then return to the main page in the same browser. The HTTP-only session cookie is sent automatically with analysis and history requests.
+Create an account or log in from the main page. The browser sends the HTTP-only session cookie automatically with analysis and history requests.
 
 The health check is available at [http://127.0.0.1:8000/health](http://127.0.0.1:8000/health).
 
@@ -198,7 +200,7 @@ Registration and login accept JSON containing `email` and `password`. Session to
 python -m pytest backend/tests
 ```
 
-The local test suite contains 100 tests covering skill extraction, aliases, edge cases, match scoring, request validation, API responses, persistence, migrations, authentication, authorization, cross-user isolation, session security, user storage, password hashing, history pagination, and frontend serving. CI also runs a PostgreSQL-specific integration test against a temporary database service.
+The local test run has 101 passing tests covering skill extraction, aliases, edge cases, match scoring, request validation, API responses, persistence, migrations, authentication, authorization, cross-user isolation, session security, user storage, password hashing, history pagination, and frontend serving. One PostgreSQL-specific integration test is skipped locally and runs in CI against a temporary database service.
 
 ## Continuous integration
 
@@ -218,9 +220,8 @@ The workflow uses temporary test credentials and a temporary PostgreSQL service.
 - Skill extraction is rule-based and only recognizes the supported vocabulary above.
 - The match score measures skill coverage; it does not consider experience level, years of experience, education, or skill importance.
 - History does not yet support searching, filtering, or deleting records.
-- The browser interface does not have registration or login forms yet.
 - The project does not currently use file uploads or OCR.
 
 ## Planned next milestone
 
-Add registration, login, logout, and session-aware navigation to the browser interface. The frontend should restore the current user on page load, show clear signed-out states, and handle expired sessions without losing form input. File uploads, OCR, React, Docker, continuous deployment, and production hosting are intentionally deferred until they have a clear role in the project.
+Add automated browser tests for the main account and analysis journey, including registration, login, analysis creation, private history, session restoration, and logout. After that, prepare the application for production deployment with container configuration, environment-specific settings, health checks, and a managed PostgreSQL database. File uploads, OCR, and React remain deferred until they have a clear role in the project.

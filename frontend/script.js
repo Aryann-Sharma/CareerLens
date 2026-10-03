@@ -17,8 +17,31 @@ const historyPageStatus = document.querySelector("#history-page-status");
 const historyDialog = document.querySelector("#history-dialog");
 const historyDetail = document.querySelector("#history-detail");
 
+const authLoading = document.querySelector("#auth-loading");
+const signedOutActions = document.querySelector("#signed-out-actions");
+const signedInActions = document.querySelector("#signed-in-actions");
+const currentUserEmail = document.querySelector("#current-user-email");
+const authGate = document.querySelector("#auth-gate");
+const signedOutMessage = document.querySelector("#signed-out-message");
+const authenticatedApp = document.querySelector("#authenticated-app");
+const authDialog = document.querySelector("#auth-dialog");
+const authDialogStep = document.querySelector("#auth-dialog-step");
+const authDialogTitle = document.querySelector("#auth-dialog-title");
+const authDialogCopy = document.querySelector("#auth-dialog-copy");
+const authForm = document.querySelector("#auth-form");
+const authEmail = document.querySelector("#auth-email");
+const authPassword = document.querySelector("#auth-password");
+const passwordHint = document.querySelector("#password-hint");
+const authSubmit = document.querySelector("#auth-submit");
+const authError = document.querySelector("#auth-error");
+const authSwitchCopy = document.querySelector("#auth-switch-copy");
+const authSwitch = document.querySelector("#auth-switch");
+const logoutButton = document.querySelector("#logout-button");
+
 const HISTORY_PAGE_SIZE = 5;
 let currentHistoryPage = 1;
+let currentUser = null;
+let authMode = "login";
 
 const example = {
   description:
@@ -38,6 +61,83 @@ document.querySelector("#use-example").addEventListener("click", () => {
   formError.hidden = true;
 });
 
+document.querySelectorAll("#open-login, #gate-login").forEach((button) => {
+  button.addEventListener("click", () => openAuthDialog("login"));
+});
+
+document.querySelectorAll("#open-register, #gate-register").forEach((button) => {
+  button.addEventListener("click", () => openAuthDialog("register"));
+});
+
+document.querySelector("#close-auth-dialog").addEventListener("click", () => {
+  authDialog.close();
+});
+
+authDialog.addEventListener("click", (event) => {
+  if (event.target === authDialog) authDialog.close();
+});
+
+authSwitch.addEventListener("click", () => {
+  setAuthMode(authMode === "login" ? "register" : "login");
+  authPassword.focus();
+});
+
+authForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  setAuthSubmitting(true);
+  authError.hidden = true;
+
+  try {
+    const response = await apiFetch(`/api/auth/${authMode}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: authEmail.value,
+        password: authPassword.value,
+      }),
+    });
+
+    if (!response.ok) {
+      const body = await response.json().catch(() => null);
+      throw new Error(readErrorMessage(body, "We couldn't complete that request."));
+    }
+
+    const user = await response.json();
+    authForm.reset();
+    authDialog.close();
+    showSignedIn(user);
+  } catch (error) {
+    authError.textContent =
+      error instanceof TypeError
+        ? "Unable to reach the server. Check your connection and try again."
+        : error.message;
+    authError.hidden = false;
+    authError.focus();
+  } finally {
+    setAuthSubmitting(false);
+  }
+});
+
+logoutButton.addEventListener("click", async () => {
+  logoutButton.disabled = true;
+  logoutButton.textContent = "Logging out…";
+
+  try {
+    const response = await apiFetch("/api/auth/logout", { method: "POST" });
+    if (!response.ok && response.status !== 401) {
+      throw new Error("Logout request failed");
+    }
+    showSignedOut();
+  } catch {
+    formError.textContent = "We couldn't log you out. Please try again.";
+    formError.hidden = false;
+    formError.focus();
+  } finally {
+    logoutButton.disabled = false;
+    logoutButton.textContent = "Log out";
+  }
+});
+
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   setView("loading");
@@ -49,7 +149,7 @@ form.addEventListener("submit", async (event) => {
     .filter(Boolean);
 
   try {
-    const response = await fetch("/api/analyze", {
+    const response = await apiFetch("/api/analyze", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -58,9 +158,14 @@ form.addEventListener("submit", async (event) => {
       }),
     });
 
+    if (response.status === 401) {
+      handleExpiredSession();
+      return;
+    }
+
     if (!response.ok) {
       const body = await response.json().catch(() => null);
-      throw new Error(body?.detail?.[0]?.msg || "We couldn't analyze this role.");
+      throw new Error(readErrorMessage(body, "We couldn't analyze this role."));
     }
 
     renderResults(await response.json());
@@ -68,15 +173,10 @@ form.addEventListener("submit", async (event) => {
     resultsContent.focus();
     void loadHistory(1);
   } catch (error) {
-    if (error instanceof TypeError) {
-      formError.textContent =
-        "Unable to reach the server. Check that CareerLens is running and try again.";
-    } else {
-      formError.textContent =
-        error instanceof Error && error.message
-          ? error.message
-          : "Something went wrong. Please try again.";
-    }
+    formError.textContent =
+      error instanceof TypeError
+        ? "Unable to reach the server. Check that CareerLens is running and try again."
+        : error.message || "Something went wrong. Please try again.";
     formError.hidden = false;
     setView("empty");
     formError.focus();
@@ -105,6 +205,121 @@ document.querySelector("#close-history-dialog").addEventListener("click", () => 
 historyDialog.addEventListener("click", (event) => {
   if (event.target === historyDialog) historyDialog.close();
 });
+
+async function apiFetch(path, options = {}) {
+  return fetch(path, { credentials: "same-origin", ...options });
+}
+
+async function restoreSession() {
+  try {
+    const response = await apiFetch("/api/auth/me");
+    if (response.ok) {
+      showSignedIn(await response.json());
+      return;
+    }
+
+    if (response.status === 401) {
+      showSignedOut();
+    } else {
+      showSignedOut("We couldn't check your session. You can still try logging in.");
+    }
+  } catch {
+    showSignedOut("We couldn't check your session. You can still try logging in.");
+  }
+}
+
+function showSignedIn(user) {
+  currentUser = user;
+  authLoading.hidden = true;
+  signedOutActions.hidden = true;
+  signedInActions.hidden = false;
+  authGate.hidden = true;
+  authenticatedApp.hidden = false;
+  currentUserEmail.textContent = user.email;
+  formError.hidden = true;
+  void loadHistory(1);
+}
+
+function showSignedOut(
+  message = "Your analyses are saved to your account and are only visible to you.",
+) {
+  currentUser = null;
+  authLoading.hidden = true;
+  signedOutActions.hidden = false;
+  signedInActions.hidden = true;
+  authGate.hidden = false;
+  authenticatedApp.hidden = true;
+  currentUserEmail.textContent = "";
+  signedOutMessage.textContent = message;
+  clearPrivateViews();
+}
+
+function clearPrivateViews() {
+  setView("empty");
+  historyList.replaceChildren();
+  historyPagination.hidden = true;
+  historyStatus.hidden = false;
+  historyStatus.textContent = "Loading recent analyses…";
+  historyDetail.replaceChildren();
+  if (historyDialog.open) historyDialog.close();
+}
+
+function handleExpiredSession() {
+  showSignedOut("Your session ended. Log in again to continue.");
+  openAuthDialog("login");
+}
+
+function openAuthDialog(mode) {
+  setAuthMode(mode);
+  authError.hidden = true;
+  authPassword.value = "";
+  if (!authDialog.open) authDialog.showModal();
+  authEmail.focus();
+}
+
+function setAuthMode(mode) {
+  authMode = mode;
+  const isRegistering = mode === "register";
+
+  authDialogStep.textContent = isRegistering ? "Get started" : "Welcome back";
+  authDialogTitle.textContent = isRegistering
+    ? "Create your CareerLens account"
+    : "Log in to CareerLens";
+  authDialogCopy.textContent = isRegistering
+    ? "Save each analysis privately and return to it later."
+    : "Continue to your saved analyses and private history.";
+  authPassword.minLength = isRegistering ? 12 : 1;
+  authPassword.autocomplete = isRegistering ? "new-password" : "current-password";
+  passwordHint.textContent = isRegistering
+    ? "Use at least 12 characters."
+    : "";
+  authSubmit.querySelector("span").textContent = isRegistering
+    ? "Create account"
+    : "Log in";
+  authSwitchCopy.textContent = isRegistering
+    ? "Already have an account?"
+    : "New to CareerLens?";
+  authSwitch.textContent = isRegistering ? "Log in" : "Create an account";
+  authError.hidden = true;
+}
+
+function setAuthSubmitting(isSubmitting) {
+  authSubmit.disabled = isSubmitting;
+  const isRegistering = authMode === "register";
+  const idleText = isRegistering ? "Create account" : "Log in";
+  const busyText = isRegistering ? "Creating account…" : "Logging in…";
+  authSubmit.querySelector("span").textContent = isSubmitting
+    ? busyText
+    : idleText;
+}
+
+function readErrorMessage(body, fallback) {
+  if (typeof body?.detail === "string") return body.detail;
+  if (Array.isArray(body?.detail) && body.detail[0]?.msg) {
+    return body.detail[0].msg;
+  }
+  return fallback;
+}
 
 function setSubmitting(isSubmitting) {
   analyzeButton.disabled = isSubmitting;
@@ -186,14 +401,20 @@ function appendSkills(container, skills, variant, emptyMessage) {
 }
 
 async function loadHistory(page) {
+  if (!currentUser) return;
+
   historyStatus.hidden = false;
   historyStatus.textContent = "Loading recent analyses…";
   historyPagination.hidden = true;
 
   try {
-    const response = await fetch(
+    const response = await apiFetch(
       `/api/analyses?page=${page}&page_size=${HISTORY_PAGE_SIZE}`,
     );
+    if (response.status === 401) {
+      handleExpiredSession();
+      return;
+    }
     if (!response.ok) throw new Error("History request failed");
 
     renderHistory(await response.json());
@@ -269,7 +490,11 @@ async function openHistoryDetail(analysisId) {
   if (!historyDialog.open) historyDialog.showModal();
 
   try {
-    const response = await fetch(`/api/analyses/${analysisId}`);
+    const response = await apiFetch(`/api/analyses/${analysisId}`);
+    if (response.status === 401) {
+      handleExpiredSession();
+      return;
+    }
     if (!response.ok) throw new Error("Detail request failed");
     renderHistoryDetail(await response.json());
   } catch {
@@ -330,4 +555,4 @@ function formatDate(value) {
   }).format(date);
 }
 
-void loadHistory(1);
+void restoreSession();
