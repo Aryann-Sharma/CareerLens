@@ -64,6 +64,10 @@ def test_production_session_cookie_is_secure(
 ) -> None:
     monkeypatch.setenv("ENVIRONMENT", "production")
     monkeypatch.setenv("AUTH_SECRET_KEY", "x" * 64)
+    monkeypatch.setenv(
+        "DATABASE_URL",
+        "postgresql+psycopg://careerlens:test@localhost/careerlens_test",
+    )
     get_settings.cache_clear()
 
     try:

@@ -20,12 +20,16 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     @model_validator(mode="after")
-    def require_production_auth_secret(self) -> "Settings":
-        if (
-            self.environment.casefold() == "production"
-            and self.auth_secret_key == DEVELOPMENT_AUTH_SECRET
-        ):
+    def validate_production_settings(self) -> "Settings":
+        if self.environment.casefold() != "production":
+            return self
+
+        if self.auth_secret_key == DEVELOPMENT_AUTH_SECRET:
             raise ValueError("AUTH_SECRET_KEY must be set in production")
+
+        if not self.database_url.startswith("postgresql"):
+            raise ValueError("DATABASE_URL must use PostgreSQL in production")
+
         return self
 
 

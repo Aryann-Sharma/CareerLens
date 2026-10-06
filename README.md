@@ -48,6 +48,8 @@ All supported skills currently have equal weight. If no supported skills are fou
 - Automated quality checks with GitHub Actions and PostgreSQL
 - Unit and API tests with pytest
 - Browser-level user journey tests with Playwright
+- Separate liveness and database readiness checks
+- Docker image and local PostgreSQL Compose environment
 
 ## Supported skills
 
@@ -70,14 +72,19 @@ The first version uses a deliberately small vocabulary so the matching behavior 
 - **Database:** PostgreSQL, Alembic migrations, SQLite for local fallback and tests
 - **Frontend:** HTML, CSS, vanilla JavaScript
 - **Testing:** pytest, FastAPI TestClient, Playwright
+- **Deployment:** Docker, Docker Compose, GitHub Actions
 
 ## Project structure
 
 ```text
 CareerLens/
 ├── .github/workflows/ci.yml
+├── .dockerignore
 ├── alembic.ini
+├── compose.yaml
+├── Dockerfile
 ├── .env.example
+├── .env.docker.example
 ├── backend/
 │   ├── app/
 │   │   ├── api/
@@ -109,6 +116,7 @@ CareerLens/
 ├── e2e/
 │   ├── conftest.py
 │   └── test_user_journey.py
+├── docs/deployment.md
 ├── frontend/
 │   ├── index.html
 │   ├── style.css
@@ -148,7 +156,14 @@ Open [http://127.0.0.1:8000](http://127.0.0.1:8000). Interactive API documentati
 
 Create an account or log in from the main page. The browser sends the HTTP-only session cookie automatically with analysis and history requests.
 
-The health check is available at [http://127.0.0.1:8000/health](http://127.0.0.1:8000/health).
+The liveness check is available at [http://127.0.0.1:8000/health/live](http://127.0.0.1:8000/health/live). The database-aware readiness check is available at [http://127.0.0.1:8000/health/ready](http://127.0.0.1:8000/health/ready).
+
+## Run with containers
+
+The repository includes a Docker image and a Compose environment for testing the
+container with PostgreSQL. See the [deployment guide](docs/deployment.md) for
+environment setup, startup commands, production configuration, and the release
+checklist.
 
 ## Database setup
 
@@ -162,7 +177,7 @@ python -m alembic upgrade head
 
 Alembic keeps schema changes versioned and supports both upgrades and downgrades. PostgreSQL stores each skill collection as `JSONB` and uses an ownership-and-date index for user history queries. SQLite foreign-key enforcement is enabled so local ownership constraints match PostgreSQL. Analyses created before accounts were introduced are preserved with no owner, but they are not exposed through authenticated history endpoints.
 
-The development environment includes a local-only authentication secret so the app runs without extra setup. Set `AUTH_SECRET_KEY` to a random value of at least 32 characters before using a production environment. The application refuses to start in production with the development secret.
+The development environment includes a local-only authentication secret so the app runs without extra setup. Set `AUTH_SECRET_KEY` to a random value of at least 32 characters before using a production environment. Production startup rejects both the development secret and non-PostgreSQL database URLs.
 
 ## API
 
@@ -220,7 +235,7 @@ Run the browser tests:
 python -m pytest e2e --browser chromium
 ```
 
-The unit and API suite has 101 passing tests covering skill extraction, aliases, edge cases, match scoring, request validation, API responses, persistence, migrations, authentication, authorization, cross-user isolation, session security, user storage, password hashing, history pagination, and frontend serving. One PostgreSQL-specific integration test is skipped locally and runs in CI against a temporary database service.
+The unit and API suite has 105 passing tests covering skill extraction, aliases, edge cases, match scoring, request validation, API responses, persistence, migrations, authentication, authorization, cross-user isolation, session security, user storage, password hashing, health checks, production configuration, history pagination, and frontend serving. One PostgreSQL-specific integration test is skipped locally and runs in CI against a temporary database service.
 
 The two browser tests start the real application with a fresh temporary database. They cover registration, login, invalid credentials, analysis creation, private history, session restoration, logout, and expired-session recovery without changing local development data.
 
@@ -235,6 +250,8 @@ GitHub Actions runs the following checks for every pull request and every push t
 - Chromium end-to-end tests with failure traces
 - Python compilation
 - Frontend JavaScript syntax
+- Docker Compose configuration
+- Production image build and import check
 
 The workflow uses temporary test credentials and a temporary PostgreSQL service. It does not connect to a development or production database.
 
@@ -244,7 +261,8 @@ The workflow uses temporary test credentials and a temporary PostgreSQL service.
 - The match score measures skill coverage; it does not consider experience level, years of experience, education, or skill importance.
 - History does not yet support searching, filtering, or deleting records.
 - The project does not currently use file uploads or OCR.
+- A public hosting provider and managed database have not been provisioned yet.
 
 ## Planned next milestone
 
-Prepare the application for production deployment with container configuration, environment-specific settings, health checks, and a managed PostgreSQL database. File uploads, OCR, and React remain deferred until they have a clear role in the project.
+Choose a hosting provider, provision managed PostgreSQL, deploy the container behind HTTPS, and run the documented post-deployment checks. File uploads, OCR, and React remain deferred until they have a clear role in the project.
