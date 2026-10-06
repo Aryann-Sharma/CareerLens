@@ -1,6 +1,6 @@
-from datetime import datetime
-
 from pydantic import BaseModel, ConfigDict
+
+from backend.app.schemas.dates import UTCDateTime
 
 
 class AnalysisHistoryItem(BaseModel):
@@ -10,7 +10,7 @@ class AnalysisHistoryItem(BaseModel):
     matched_skills: list[str]
     missing_skills: list[str]
     match_score: int
-    created_at: datetime
+    created_at: UTCDateTime
 
 
 class AnalysisHistoryResponse(BaseModel):
@@ -31,4 +31,4 @@ class AnalysisDetailResponse(BaseModel):
     matched_skills: list[str]
     missing_skills: list[str]
     match_score: int
-    created_at: datetime
+    created_at: UTCDateTime

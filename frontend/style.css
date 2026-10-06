@@ -301,7 +301,7 @@ button:focus-visible, a:focus-visible, summary:focus-visible {
 .match-count { color: var(--green); background: var(--green-soft); }
 .missing-count { color: var(--amber); background: var(--amber-soft); }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 13px; }
-.chip { padding: 8px 11px; border-radius: 8px; font-size: 0.79rem; font-weight: 600; }
+.chip { max-width: 100%; overflow-wrap: anywhere; padding: 8px 11px; border-radius: 8px; font-size: 0.79rem; font-weight: 600; }
 .chip.matched { color: var(--green-dark); background: var(--green-soft); }
 .chip.missing { color: #824713; background: var(--amber-soft); }
 .chip.neutral { border: 1px solid var(--line); color: var(--muted); background: white; }
@@ -335,6 +335,8 @@ button:focus-visible, a:focus-visible, summary:focus-visible {
 
 .history-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .history-card {
+  min-width: 0;
+  overflow-wrap: anywhere;
   padding: 22px;
   border: 1px solid var(--line);
   border-radius: 16px;
@@ -422,6 +424,7 @@ button:focus-visible, a:focus-visible, summary:focus-visible {
 .detail-summary strong { color: var(--green-dark); font-size: 1.25rem; }
 .history-detail h3 { margin: 26px 0 10px; font-size: 0.9rem; }
 .saved-description {
+  overflow-wrap: anywhere;
   max-height: 220px;
   overflow: auto;
   margin: 0;

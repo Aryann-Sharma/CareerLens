@@ -38,4 +38,4 @@ def test_readiness_check_reports_database_failure(client: TestClient) -> None:
         app.dependency_overrides[get_db] = original_override
 
     assert response.status_code == 503
-    assert response.json() == {"detail": "Database unavailable"}
+    assert response.json() == {"detail": "Database unavailable or schema not ready"}

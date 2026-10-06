@@ -14,9 +14,10 @@ from backend.app.models.user import User
 
 @pytest.mark.skipif(
     os.getenv("RUN_POSTGRES_TESTS") != "1",
-    reason="PostgreSQL integration test is only enabled in CI",
+    reason="Set RUN_POSTGRES_TESTS=1 and DATABASE_URL to a migrated PostgreSQL test database",
 )
 def test_application_flow_uses_postgresql() -> None:
+    assert engine.dialect.name == "postgresql", "Use a disposable PostgreSQL database"
     description = "PostgreSQL integration check using Python and SQL."
     email = f"integration-{uuid4().hex}@example.com"
     second_email = f"integration-{uuid4().hex}@example.com"
@@ -36,6 +37,8 @@ def test_application_flow_uses_postgresql() -> None:
         current_user = client.get("/api/auth/me")
         assert current_user.status_code == 200
         assert current_user.json()["id"] == registration.json()["id"]
+        assert current_user.json()["created_at"].endswith("Z")
+        assert client.get("/health/ready").status_code == 200
 
         response = client.post(
             "/api/analyze",
@@ -56,6 +59,10 @@ def test_application_flow_uses_postgresql() -> None:
             if item["job_description_preview"] == description
         )
         analysis_id = history_item["id"]
+        assert history_item["created_at"].endswith("Z")
+        detail = client.get(f"/api/analyses/{analysis_id}")
+        assert detail.status_code == 200
+        assert detail.json()["job_description"] == description
 
         with SessionLocal() as session:
             saved_analysis = session.scalar(

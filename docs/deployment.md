@@ -30,7 +30,7 @@ uses the development environment because it is served over local HTTP.
 
 Compose waits for PostgreSQL to become healthy, applies the Alembic migrations,
 and then starts the application. Open `http://127.0.0.1:8000` when the app is
-ready.
+ready. The local app uses HTTP; production requires HTTPS and secure cookies.
 
 Stop the containers with:
 
@@ -39,7 +39,7 @@ docker compose --env-file .env.docker down
 ```
 
 The `postgres_data` volume keeps local database data between restarts. Running
-`docker compose down -v` also removes that volume and its data.
+`docker compose --env-file .env.docker down -v` also removes that volume and its data.
 
 ## Production environment
 
@@ -54,7 +54,10 @@ not commit production values to Git.
 | `AUTH_TOKEN_EXPIRE_MINUTES` | Session lifetime in minutes. Defaults to `60`. |
 
 Production startup is rejected when the development signing secret or a
-non-PostgreSQL database URL is used.
+database URL without the `postgresql+psycopg://` driver is used. `ENVIRONMENT`
+accepts `development`, `testing`, or `production` (ignoring case and surrounding
+spaces); other values are rejected. URL-encode reserved characters in database
+credentials. Session lifetimes must be between 5 and 10,080 minutes.
 
 ## Release process
 
@@ -77,8 +80,9 @@ adding unrelated process-management tools to the image.
 ## Health checks
 
 - `/health/live` confirms that the application process is responding.
-- `/health/ready` also checks the database connection and returns `503` when the
-  database is unavailable.
+- `/health/ready` queries the user and analysis table columns without fetching
+  rows. It returns `503` if the database is unavailable or the required schema
+  is missing. It does not replace the migration consistency check.
 - `/health` remains available as the original liveness endpoint.
 
 ## Post-deployment checks
@@ -102,5 +106,17 @@ Before calling the deployment production-ready, confirm that:
 - Database backups and recovery options are enabled.
 - Secrets are stored outside the repository.
 - Health alerts and basic error monitoring are configured.
-- The public URL has passed the browser smoke test.
+- The public URL has passed the browser smoke test, including Secure cookies.
+- Authentication and analysis endpoints have request rate limits at the proxy
+  or application layer; the application does not yet provide them.
 - A rollback to the previous container image is possible.
+
+Keep schema changes compatible with the image being restored. Back up the
+database before applying migrations; downgrades can remove tables or columns.
+
+Accounts currently have no password-reset or email-verification flow. Logout
+clears the browser cookie but does not revoke a copied session token before its
+expiry. These are limitations to address before a wider public launch.
+
+See the [testing guide](testing.md) for automated checks and disposable
+PostgreSQL test configuration.

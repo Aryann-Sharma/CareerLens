@@ -1,3 +1,5 @@
+from uuid import uuid4
+
 import httpx
 from playwright.sync_api import Page, expect
 
@@ -9,7 +11,7 @@ def test_new_user_can_analyze_a_role_and_restore_the_session(
     page: Page,
     app_url: str,
 ) -> None:
-    email = "new-student@example.com"
+    email = f"new-student-{uuid4().hex}@example.com"
 
     page.goto(app_url)
     expect(
@@ -58,7 +60,7 @@ def test_login_errors_and_expired_sessions_keep_the_draft(
     page: Page,
     app_url: str,
 ) -> None:
-    email = "returning-student@example.com"
+    email = f"returning-student-{uuid4().hex}@example.com"
     draft = "This role requires Python, SQL, FastAPI, and Docker experience."
 
     response = httpx.post(

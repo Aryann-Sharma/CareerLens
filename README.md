@@ -2,149 +2,86 @@
 
 ![CI](https://github.com/Aryann-Sharma/CareerLens/actions/workflows/ci.yml/badge.svg)
 
-CareerLens is a full-stack job-description analysis app for students and job seekers. Paste a job description, enter your current skills, and receive a clear breakdown of required, matched, and missing skills with a match score.
+CareerLens compares the technical skills in a job description with a user's skills. It shows a percentage match, lists matched and missing skills, and saves each analysis to the user's private history.
 
-The current MVP has a browser interface connected to a FastAPI backend, account authentication, and private analysis history. It can extract supported skills from a job description, compare them with a user's skills, calculate a match score, save the analysis for the signed-in user, and show the result in the browser. Users can create an account, log in, restore an existing session, and log out without leaving the main page.
+The project connects a browser interface to a Python API and a relational database. The interface uses HTML, CSS, and JavaScript; the backend uses FastAPI and SQLAlchemy.
 
-## How it works
+## Features
 
-1. The API identifies the user from the signed session cookie.
-2. The user enters a job description and a list of their skills in the browser.
-3. The frontend sends the data to `POST /api/analyze` as JSON.
-4. Pydantic validates and cleans the request before it reaches the analysis logic.
-5. The skill extractor searches the description using a curated list of skills and common aliases.
-6. The scorer compares the extracted skills with the user's skills.
-7. SQLAlchemy saves the request and result with the authenticated user's ID.
-8. The API returns the extracted, matched, and missing skills with a percentage score.
-9. The frontend displays the result and refreshes only that user's analysis history.
+- Register, log in, and restore a session using an HTTP-only cookie.
+- Paste a job description and enter a comma-separated list of skills.
+- Recognize common aliases, ignore case, and remove duplicate skill mentions.
+- View matched skills, missing skills, and a percentage score.
+- Browse paginated history and open the full details of a saved analysis.
+- Keep each user's history separate, including when switching accounts.
+- Use the interface on desktop or mobile, with keyboard-accessible dialogs.
+- Run locally with SQLite or use PostgreSQL with versioned Alembic migrations.
 
-The score is calculated as:
+## How matching works
+
+The extractor checks a fixed vocabulary: **Docker, FastAPI, Git, Java, JavaScript, Linux, PostgreSQL, Python, React, and SQL**. Aliases include `js`, `ecmascript`, `fast api`, `postgres`, `postgre sql`, `react.js`, and `reactjs`.
+
+Skills appear in the order they first occur in the description. Longer aliases take precedence, so `React.js` counts as React and does not also count as JavaScript. Repeated mentions count once.
 
 ```text
-(number of matched skills / number of extracted skills) * 100
+score = round(matched skills / extracted skills * 100)
 ```
 
-All supported skills currently have equal weight. If no supported skills are found in the description, the score is `0`.
+Every detected skill has equal weight. If no supported skills are found, the score is zero. Unknown user-entered skills are kept in the saved profile but cannot match skills outside the vocabulary.
 
-## Current features
+The score measures coverage of detected skills. It does not measure hiring probability, experience, education, or suitability for a role. The extractor also does not distinguish required, optional, and negated mentions.
 
-- Rule-based extraction from a curated technical-skill vocabulary
-- Alias handling (for example, `js` becomes `JavaScript` and `postgres` becomes `PostgreSQL`)
-- Case-insensitive matching with duplicate removal
-- Transparent match score based on the percentage of required skills covered
-- Responsive HTML/CSS/JavaScript frontend
-- Browser registration, login, logout, and session restoration
-- Clear signed-out and expired-session states
-- FastAPI request validation and API documentation
-- Database persistence through SQLAlchemy
-- Versioned database migrations with Alembic
-- PostgreSQL configuration with JSONB skill fields
-- Paginated, user-specific analysis history with full record lookup
-- User account data model with unique email addresses
-- Argon2 password hashing and verification foundation
-- Registration, login, logout, and current-user API endpoints
-- Signed sessions stored in HTTP-only, same-site cookies
-- Owner-scoped analysis creation, history, and detail access
-- Automated quality checks with GitHub Actions and PostgreSQL
-- Unit and API tests with pytest
-- Browser-level user journey tests with Playwright
-- Separate liveness and database readiness checks
-- Docker image and local PostgreSQL Compose environment
+## Stack and structure
 
-## Supported skills
-
-The first version uses a deliberately small vocabulary so the matching behavior stays predictable and easy to test:
-
-- Docker
-- FastAPI
-- Git
-- Java
-- JavaScript
-- Linux
-- PostgreSQL
-- Python
-- React
-- SQL
-
-## Technology
-
-- **Backend:** Python, FastAPI, Pydantic, SQLAlchemy, pwdlib, PyJWT, Uvicorn
-- **Database:** PostgreSQL, Alembic migrations, SQLite for local fallback and tests
-- **Frontend:** HTML, CSS, vanilla JavaScript
-- **Testing:** pytest, FastAPI TestClient, Playwright
-- **Deployment:** Docker, Docker Compose, GitHub Actions
-
-## Project structure
+| Area | Tools |
+| --- | --- |
+| Backend | Python 3.12, FastAPI, Pydantic, SQLAlchemy |
+| Data | PostgreSQL, SQLite, Alembic |
+| Authentication | Argon2 password hashing, signed JWT session cookies |
+| Frontend | HTML, CSS, vanilla JavaScript |
+| Testing | pytest, HTTPX, Playwright with Chromium |
+| Packaging and checks | Docker, Docker Compose, GitHub Actions |
 
 ```text
-CareerLens/
-├── .github/workflows/ci.yml
-├── .dockerignore
-├── alembic.ini
-├── compose.yaml
-├── Dockerfile
-├── .env.example
-├── .env.docker.example
-├── backend/
-│   ├── app/
-│   │   ├── api/
-│   │   │   ├── dependencies.py
-│   │   │   └── routes/
-│   │   │       ├── analysis.py
-│   │   │       ├── auth.py
-│   │   │       └── history.py
-│   │   ├── core/config.py
-│   │   ├── db/
-│   │   ├── models/
-│   │   │   ├── analysis.py
-│   │   │   └── user.py
-│   │   ├── schemas/
-│   │   │   ├── analysis.py
-│   │   │   ├── auth.py
-│   │   │   └── history.py
-│   │   ├── services/analysis_store.py
-│   │   ├── services/passwords.py
-│   │   ├── services/sessions.py
-│   │   ├── services/skill_extractor.py
-│   │   ├── services/scorer.py
-│   │   ├── services/user_store.py
-│   │   └── main.py
-│   ├── migrations/
-│   ├── tests/
-│   ├── requirements.txt
-│   └── requirements-dev.txt
-├── e2e/
-│   ├── conftest.py
-│   └── test_user_journey.py
-├── docs/deployment.md
-├── frontend/
-│   ├── index.html
-│   ├── style.css
-│   └── script.js
-└── README.md
+backend/
+  app/
+    api/          # Routes and authentication dependencies
+    core/         # Environment settings
+    db/           # Database engine and sessions
+    models/       # Users and saved analyses
+    schemas/      # Request validation and response formats
+    services/     # Matching, passwords, sessions, and storage
+    main.py       # Application and static frontend routes
+  migrations/     # Versioned schema changes
+  tests/          # Unit, API, migration, and PostgreSQL tests
+frontend/         # Browser interface
+e2e/             # Browser tests against a running application
+docs/            # Deployment and testing guides
 ```
 
 ## Run locally
 
-From the repository root:
+Use Python 3.12. From the repository root, create a virtual environment:
 
 ```text
 python -m venv .venv
 ```
 
-Activate the environment with PowerShell:
+Activate it in PowerShell:
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
 ```
 
-Or with Git Bash:
+On macOS or Linux:
 
 ```bash
-source .venv/Scripts/activate
+source .venv/bin/activate
 ```
 
-Then install the dependencies and start the server:
+For Git Bash on Windows, use `source .venv/Scripts/activate`.
+
+Install dependencies, apply the schema, and start the server:
 
 ```text
 python -m pip install -r backend/requirements.txt
@@ -152,36 +89,33 @@ python -m alembic upgrade head
 python -m uvicorn backend.app.main:app --reload
 ```
 
-Open [http://127.0.0.1:8000](http://127.0.0.1:8000). Interactive API documentation is available at [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
+Open [the app](http://127.0.0.1:8000) and create an account. The [interactive API documentation](http://127.0.0.1:8000/docs) is served by the same application.
 
-Create an account or log in from the main page. The browser sends the HTTP-only session cookie automatically with analysis and history requests.
+Without a `.env` file, the app uses `careerlens.db` in the working directory and a development-only signing secret. Run commands from the repository root. Local database files and environment files are ignored by Git.
 
-The liveness check is available at [http://127.0.0.1:8000/health/live](http://127.0.0.1:8000/health/live). The database-aware readiness check is available at [http://127.0.0.1:8000/health/ready](http://127.0.0.1:8000/health/ready).
+### PostgreSQL and containers
 
-## Run with containers
+To use an existing PostgreSQL database, copy `.env.example` to `.env`, set `DATABASE_URL` and `AUTH_SECRET_KEY`, then run `python -m alembic upgrade head`. The URL must use the installed driver: `postgresql+psycopg://user:password@host:5432/database`. URL-encode reserved characters in database credentials.
 
-The repository includes a Docker image and a Compose environment for testing the
-container with PostgreSQL. See the [deployment guide](docs/deployment.md) for
-environment setup, startup commands, production configuration, and the release
-checklist.
-
-## Database setup
-
-CareerLens uses a local SQLite database by default so the project can be started without additional setup. Database files are ignored by Git.
-
-To use PostgreSQL, create a database and user, copy `.env.example` to `.env`, and replace the example password in `DATABASE_URL`. Then apply the schema:
-
-```text
-python -m alembic upgrade head
-```
-
-Alembic keeps schema changes versioned and supports both upgrades and downgrades. PostgreSQL stores each skill collection as `JSONB` and uses an ownership-and-date index for user history queries. SQLite foreign-key enforcement is enabled so local ownership constraints match PostgreSQL. Analyses created before accounts were introduced are preserved with no owner, but they are not exposed through authenticated history endpoints.
-
-The development environment includes a local-only authentication secret so the app runs without extra setup. Set `AUTH_SECRET_KEY` to a random value of at least 32 characters before using a production environment. Production startup rejects both the development secret and non-PostgreSQL database URLs.
+For a local application and PostgreSQL stack, follow the [deployment guide](docs/deployment.md). It covers Compose configuration, migrations, health checks, and production settings.
 
 ## API
 
-`POST /api/analyze` requires an authenticated session.
+| Method | Route | Purpose |
+| --- | --- | --- |
+| POST | `/api/auth/register` | Create an account and start a session |
+| POST | `/api/auth/login` | Start a session |
+| POST | `/api/auth/logout` | Clear the browser's session cookie |
+| GET | `/api/auth/me` | Return the signed-in user |
+| POST | `/api/analyze` | Analyze and save a job description |
+| GET | `/api/analyses` | List the signed-in user's history |
+| GET | `/api/analyses/{id}` | Open one owned analysis |
+| GET | `/health/live` | Check that the application responds |
+| GET | `/health/ready` | Check the database connection and required table columns |
+
+`/health` is an alias for `/health/live`. All analysis and history routes require authentication. A missing or foreign-owned analysis returns `404`.
+
+Example request to `POST /api/analyze`:
 
 ```json
 {
@@ -201,68 +135,39 @@ Response:
 }
 ```
 
-`GET /api/analyses?page=1&page_size=10` returns the signed-in user's saved analyses in newest-first order. Page size is limited to 50 records.
+Descriptions must contain 1–50,000 characters after trimming. Requests accept up to 200 user skills, each at most 100 characters after trimming. Blank entries and case-insensitive duplicates are removed; an empty skill list is allowed. Unknown request fields are rejected.
 
-`GET /api/analyses/{analysis_id}` returns the complete saved analysis only when it belongs to the signed-in user. Missing and foreign-owned IDs both return `404`.
+History uses `page` and `page_size`, with defaults of 1 and 10. Pages range from 1 to 2,147,483,647; page size ranges from 1 to 50. The browser shows five records per page. Results are ordered newest first, with the record ID breaking timestamp ties. API timestamps include a UTC offset; the browser displays them in the user's timezone.
 
-Authentication endpoints:
+Registration and login accept `email` and `password`. Email addresses are normalized for case-insensitive lookup. Registration requires a password of 12–128 characters. Sessions last 60 minutes by default and use HTTP-only, SameSite=Lax cookies; production also enables Secure cookies. Logout clears the cookie, while previously issued tokens remain valid until expiry. Explicit logout clears the draft and displayed results. After a session expires, the draft is restored only when the same account signs back in.
 
-- `POST /api/auth/register` creates an account and starts a session.
-- `POST /api/auth/login` verifies the email and password and starts a session.
-- `POST /api/auth/logout` clears the browser session.
-- `GET /api/auth/me` returns the signed-in user or a `401` response.
+## Tests and continuous integration
 
-Registration and login accept JSON containing `email` and `password`. Session tokens are signed, expire after one hour by default, and are stored in an HTTP-only cookie rather than returned in the response body. Cookies are also marked `Secure` when `ENVIRONMENT=production`.
-
-## Tests
-
-Install the development dependencies and Chromium once:
+Install the development dependencies and browser:
 
 ```text
 python -m pip install -r backend/requirements-dev.txt
 python -m playwright install chromium
 ```
 
-Run the unit and API tests:
+Run the suites:
 
 ```text
-python -m pytest backend/tests
+python -m pytest backend/tests -q
+python -m pytest e2e --browser chromium -q
 ```
 
-Run the browser tests:
+The [testing guide](docs/testing.md) describes feature coverage, PostgreSQL tests, and additional checks. Local browser tests use a temporary SQLite database unless `E2E_DATABASE_URL` is explicitly set. They do not use the development database.
 
-```text
-python -m pytest e2e --browser chromium
-```
+GitHub Actions runs on pull requests and pushes to `main`. It checks dependencies, migrations, the backend suite, PostgreSQL integration, Chromium browser journeys against PostgreSQL, Python compilation, JavaScript syntax, Compose configuration, and the container build.
 
-The unit and API suite has 105 passing tests covering skill extraction, aliases, edge cases, match scoring, request validation, API responses, persistence, migrations, authentication, authorization, cross-user isolation, session security, user storage, password hashing, health checks, production configuration, history pagination, and frontend serving. One PostgreSQL-specific integration test is skipped locally and runs in CI against a temporary database service.
+## Limitations and next steps
 
-The two browser tests start the real application with a fresh temporary database. They cover registration, login, invalid credentials, analysis creation, private history, session restoration, logout, and expired-session recovery without changing local development data.
+- Matching uses the ten-skill vocabulary above and does not interpret sentence meaning.
+- History has no search, filtering, or deletion controls.
+- Accounts have no email verification, password reset, or session revocation.
+- Request throttling is not built in; a public deployment needs rate limits at the proxy or application layer.
+- File uploads and document parsing are not implemented.
+- Hosting and a managed production database are not configured in this repository.
 
-## Continuous integration
-
-GitHub Actions runs the following checks for every pull request and every push to `main`:
-
-- Dependency installation and validation
-- Alembic migration upgrade and consistency check
-- Complete pytest suite
-- PostgreSQL integration test
-- Chromium end-to-end tests with failure traces
-- Python compilation
-- Frontend JavaScript syntax
-- Docker Compose configuration
-- Production image build and import check
-
-The workflow uses temporary test credentials and a temporary PostgreSQL service. It does not connect to a development or production database.
-
-## Current limitations
-
-- Skill extraction is rule-based and only recognizes the supported vocabulary above.
-- The match score measures skill coverage; it does not consider experience level, years of experience, education, or skill importance.
-- History does not yet support searching, filtering, or deleting records.
-- The project does not currently use file uploads or OCR.
-- A public hosting provider and managed database have not been provisioned yet.
-
-## Planned next milestone
-
-Choose a hosting provider, provision managed PostgreSQL, deploy the container behind HTTPS, and run the documented post-deployment checks. File uploads, OCR, and React remain deferred until they have a clear role in the project.
+The next step is deploying the existing application behind HTTPS with PostgreSQL backups and monitoring. Broader skill coverage and account-management features can follow once the deployed version has been tested.

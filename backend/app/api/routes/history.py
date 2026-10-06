@@ -40,7 +40,7 @@ def _history_item(record: AnalysisRecord) -> AnalysisHistoryItem:
 def analysis_history(
     session: Annotated[Session, Depends(get_db)],
     current_user: Annotated[User, Depends(get_current_user)],
-    page: Annotated[int, Query(ge=1)] = 1,
+    page: Annotated[int, Query(ge=1, le=2_147_483_647)] = 1,
     page_size: Annotated[int, Query(ge=1, le=50)] = 10,
 ) -> AnalysisHistoryResponse:
     records, total = list_analyses(
@@ -65,11 +65,13 @@ def analysis_detail(
     session: Annotated[Session, Depends(get_db)],
     current_user: Annotated[User, Depends(get_current_user)],
 ) -> AnalysisRecord:
-    record = get_analysis(
-        session,
-        analysis_id=analysis_id,
-        user_id=current_user.id,
-    )
+    record = None
+    if 1 <= analysis_id <= 2_147_483_647:
+        record = get_analysis(
+            session,
+            analysis_id=analysis_id,
+            user_id=current_user.id,
+        )
     if record is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

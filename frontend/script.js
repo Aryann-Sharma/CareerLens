@@ -42,6 +42,10 @@ const HISTORY_PAGE_SIZE = 5;
 let currentHistoryPage = 1;
 let currentUser = null;
 let authMode = "login";
+let sessionRevision = 0;
+let historyRevision = 0;
+let detailRevision = 0;
+let draftOwnerId = null;
 
 const example = {
   description:
@@ -74,7 +78,7 @@ document.querySelector("#close-auth-dialog").addEventListener("click", () => {
 });
 
 authDialog.addEventListener("click", (event) => {
-  if (event.target === authDialog) authDialog.close();
+  closeOnBackdrop(event, authDialog);
 });
 
 authSwitch.addEventListener("click", () => {
@@ -84,6 +88,7 @@ authSwitch.addEventListener("click", () => {
 
 authForm.addEventListener("submit", async (event) => {
   event.preventDefault();
+  if (authSubmit.disabled) return;
   setAuthSubmitting(true);
   authError.hidden = true;
 
@@ -140,6 +145,8 @@ logoutButton.addEventListener("click", async () => {
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
+  if (!currentUser || analyzeButton.disabled) return;
+  const revision = sessionRevision;
   setView("loading");
   setSubmitting(true);
 
@@ -157,6 +164,8 @@ form.addEventListener("submit", async (event) => {
         user_skills: userSkills,
       }),
     });
+    const body = await response.json().catch(() => null);
+    if (revision !== sessionRevision) return;
 
     if (response.status === 401) {
       handleExpiredSession();
@@ -164,15 +173,15 @@ form.addEventListener("submit", async (event) => {
     }
 
     if (!response.ok) {
-      const body = await response.json().catch(() => null);
       throw new Error(readErrorMessage(body, "We couldn't analyze this role."));
     }
 
-    renderResults(await response.json());
+    renderResults(body);
     setView("results");
     resultsContent.focus();
     void loadHistory(1);
   } catch (error) {
+    if (revision !== sessionRevision) return;
     formError.textContent =
       error instanceof TypeError
         ? "Unable to reach the server. Check that CareerLens is running and try again."
@@ -181,7 +190,7 @@ form.addEventListener("submit", async (event) => {
     setView("empty");
     formError.focus();
   } finally {
-    setSubmitting(false);
+    if (revision === sessionRevision) setSubmitting(false);
   }
 });
 
@@ -203,8 +212,24 @@ document.querySelector("#close-history-dialog").addEventListener("click", () => 
 });
 
 historyDialog.addEventListener("click", (event) => {
-  if (event.target === historyDialog) historyDialog.close();
+  closeOnBackdrop(event, historyDialog);
 });
+
+historyDialog.addEventListener("close", () => {
+  detailRevision += 1;
+  historyDialog.removeAttribute("aria-busy");
+});
+
+function closeOnBackdrop(event, dialog) {
+  if (event.target !== dialog) return;
+  const bounds = dialog.getBoundingClientRect();
+  if (
+    event.clientX < bounds.left || event.clientX > bounds.right ||
+    event.clientY < bounds.top || event.clientY > bounds.bottom
+  ) {
+    dialog.close();
+  }
+}
 
 async function apiFetch(path, options = {}) {
   return fetch(path, { credentials: "same-origin", ...options });
@@ -229,6 +254,9 @@ async function restoreSession() {
 }
 
 function showSignedIn(user) {
+  sessionRevision += 1;
+  if (draftOwnerId !== null && draftOwnerId !== user.id) clearDraft();
+  draftOwnerId = user.id;
   currentUser = user;
   authLoading.hidden = true;
   signedOutActions.hidden = true;
@@ -242,7 +270,10 @@ function showSignedIn(user) {
 
 function showSignedOut(
   message = "Your analyses are saved to your account and are only visible to you.",
+  preserveDraft = false,
 ) {
+  sessionRevision += 1;
+  if (!preserveDraft) clearDraft();
   currentUser = null;
   authLoading.hidden = true;
   signedOutActions.hidden = false;
@@ -254,7 +285,24 @@ function showSignedOut(
   clearPrivateViews();
 }
 
+function clearDraft() {
+  form.reset();
+  descriptionInput.dispatchEvent(new Event("input"));
+  draftOwnerId = null;
+}
+
 function clearPrivateViews() {
+  historyRevision += 1;
+  detailRevision += 1;
+  setSubmitting(false);
+  formError.textContent = "";
+  formError.hidden = true;
+  renderResults({
+    match_score: 0,
+    extracted_skills: [],
+    matched_skills: [],
+    missing_skills: [],
+  });
   setView("empty");
   historyList.replaceChildren();
   historyPagination.hidden = true;
@@ -265,7 +313,7 @@ function clearPrivateViews() {
 }
 
 function handleExpiredSession() {
-  showSignedOut("Your session ended. Log in again to continue.");
+  showSignedOut("Your session ended. Log in again to continue.", true);
   openAuthDialog("login");
 }
 
@@ -305,6 +353,7 @@ function setAuthMode(mode) {
 
 function setAuthSubmitting(isSubmitting) {
   authSubmit.disabled = isSubmitting;
+  authSwitch.disabled = isSubmitting;
   const isRegistering = authMode === "register";
   const idleText = isRegistering ? "Create account" : "Log in";
   const busyText = isRegistering ? "Creating account…" : "Logging in…";
@@ -345,7 +394,7 @@ function renderResults(result) {
   document.querySelector("#missing-count").textContent = result.missing_skills.length;
 
   const missingSkillsMessage = result.extracted_skills.length
-    ? "Nothing missing — excellent fit"
+    ? "You match all detected skills"
     : "No skills to compare";
 
   renderChips("#matched-skills", result.matched_skills, "matched", "No matches yet");
@@ -368,13 +417,13 @@ function renderResults(result) {
       "No skills from our current vocabulary were found in this description.";
   } else if (result.match_score >= 80) {
     summary.textContent =
-      "Strong alignment. Your current profile covers most of this role’s detected skills.";
+      "Your skills cover most of the supported skills found in this description.";
   } else if (result.match_score >= 50) {
     summary.textContent =
-      "Promising fit. Focus on the missing skills to make your application more competitive.";
+      "You match at least half of the detected skills. Review the remaining skills below.";
   } else {
     summary.textContent =
-      "This role has a meaningful skills gap. Use the list below as a focused learning roadmap.";
+      "You match fewer than half of the detected skills. The list below shows what is missing.";
   }
 }
 
@@ -402,6 +451,7 @@ function appendSkills(container, skills, variant, emptyMessage) {
 
 async function loadHistory(page) {
   if (!currentUser) return;
+  const revision = ++historyRevision;
 
   historyStatus.hidden = false;
   historyStatus.textContent = "Loading recent analyses…";
@@ -411,14 +461,17 @@ async function loadHistory(page) {
     const response = await apiFetch(
       `/api/analyses?page=${page}&page_size=${HISTORY_PAGE_SIZE}`,
     );
+    const body = await response.json().catch(() => null);
+    if (revision !== historyRevision) return;
     if (response.status === 401) {
       handleExpiredSession();
       return;
     }
     if (!response.ok) throw new Error("History request failed");
 
-    renderHistory(await response.json());
+    renderHistory(body);
   } catch {
+    if (revision !== historyRevision) return;
     historyList.replaceChildren();
     historyStatus.textContent =
       "Recent analyses could not be loaded. Please try again later.";
@@ -481,6 +534,8 @@ function createHistoryCard(item) {
 }
 
 async function openHistoryDetail(analysisId) {
+  if (!currentUser) return;
+  const revision = ++detailRevision;
   historyDetail.replaceChildren();
   const loading = document.createElement("p");
   loading.className = "history-status";
@@ -491,16 +546,19 @@ async function openHistoryDetail(analysisId) {
 
   try {
     const response = await apiFetch(`/api/analyses/${analysisId}`);
+    const body = await response.json().catch(() => null);
+    if (revision !== detailRevision) return;
     if (response.status === 401) {
       handleExpiredSession();
       return;
     }
     if (!response.ok) throw new Error("Detail request failed");
-    renderHistoryDetail(await response.json());
+    renderHistoryDetail(body);
   } catch {
+    if (revision !== detailRevision) return;
     loading.textContent = "This analysis could not be loaded.";
   } finally {
-    historyDialog.removeAttribute("aria-busy");
+    if (revision === detailRevision) historyDialog.removeAttribute("aria-busy");
   }
 }
 

@@ -85,3 +85,17 @@ def test_history_detail_returns_not_found(client: TestClient) -> None:
 def test_history_rejects_invalid_pagination(client: TestClient) -> None:
     assert client.get("/api/analyses?page=0").status_code == 422
     assert client.get("/api/analyses?page_size=51").status_code == 422
+    assert client.get(f"/api/analyses?page={10 ** 30}").status_code == 422
+
+
+@pytest.mark.parametrize("analysis_id", [-1, 0, 10 ** 30])
+def test_out_of_range_analysis_id_is_not_found(client: TestClient, analysis_id: int) -> None:
+    assert client.get(f"/api/analyses/{analysis_id}").status_code == 404
+
+
+def test_history_beyond_last_page_is_empty(client: TestClient) -> None:
+    create_analysis(client, "Python")
+    response = client.get("/api/analyses?page=2147483647&page_size=50")
+    assert response.status_code == 200
+    assert response.json()["items"] == []
+    assert response.json()["total"] == 1

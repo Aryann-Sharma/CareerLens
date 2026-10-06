@@ -9,9 +9,18 @@ from urllib.error import URLError
 from urllib.request import urlopen
 
 import pytest
+from playwright.sync_api import Page
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+
+
+@pytest.fixture(autouse=True)
+def no_browser_errors(page: Page) -> Generator[None, None, None]:
+    errors: list[str] = []
+    page.on("pageerror", lambda error: errors.append(str(error)))
+    yield
+    assert not errors, "Browser errors: " + "; ".join(errors)
 
 
 def find_available_port() -> int:
@@ -48,7 +57,9 @@ def app_url(tmp_path_factory: pytest.TempPathFactory) -> Generator[str, None, No
     environment = os.environ.copy()
     environment.update(
         {
-            "DATABASE_URL": f"sqlite:///{database_path.as_posix()}",
+            "DATABASE_URL": os.getenv(
+                "E2E_DATABASE_URL", f"sqlite:///{database_path.as_posix()}"
+            ),
             "ENVIRONMENT": "testing",
             "AUTH_SECRET_KEY": "browser-test-secret-that-is-long-enough",
         }
@@ -83,7 +94,7 @@ def app_url(tmp_path_factory: pytest.TempPathFactory) -> Generator[str, None, No
         )
 
         try:
-            wait_for_server(process, f"{url}/health")
+            wait_for_server(process, f"{url}/health/ready")
             yield url
         finally:
             process.terminate()

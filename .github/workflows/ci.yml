@@ -79,6 +79,8 @@ jobs:
         run: python -m pytest backend/tests/test_postgres_integration.py -q
 
       - name: Run browser tests
+        env:
+          E2E_DATABASE_URL: ${{ env.DATABASE_URL }}
         run: python -m pytest e2e --browser chromium --tracing=retain-on-failure -q
 
       - name: Upload browser traces
