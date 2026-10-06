@@ -95,3 +95,17 @@ jobs:
 
       - name: Check frontend JavaScript
         run: node --check frontend/script.js
+
+      - name: Validate deployment configuration
+        env:
+          POSTGRES_PASSWORD: ci-database-password
+          AUTH_SECRET_KEY: ci-auth-secret-that-is-at-least-32-characters
+        run: docker compose config --quiet
+
+      - name: Build production image
+        run: docker build --tag careerlens:ci .
+
+      - name: Check production image imports
+        run: >-
+          docker run --rm careerlens:ci python -c
+          "from backend.app.main import app; assert app.title == 'CareerLens'"

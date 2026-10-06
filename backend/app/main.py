@@ -7,6 +7,7 @@ from fastapi.staticfiles import StaticFiles
 from backend.app.api.routes.analysis import router as analysis_router
 from backend.app.api.routes.auth import router as auth_router
 from backend.app.api.routes.history import router as history_router
+from backend.app.api.routes.system import router as system_router
 from backend.app.core.config import get_settings
 
 settings = get_settings()
@@ -20,11 +21,7 @@ app = FastAPI(
 app.include_router(analysis_router)
 app.include_router(auth_router)
 app.include_router(history_router)
-
-
-@app.get("/health", tags=["system"])
-def health_check() -> dict[str, str]:
-    return {"status": "healthy"}
+app.include_router(system_router)
 
 
 frontend_directory = Path(__file__).resolve().parents[2] / "frontend"
