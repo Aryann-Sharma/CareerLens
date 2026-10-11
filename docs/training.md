@@ -131,9 +131,11 @@ fine-tuning or a production-quality general skill extractor.
 python -m backend.ml.predict "Experience with Python and SQL. Excellent communication skills."
 ```
 
-In the app, paste a job description and expand **Inspect extraction only**
-below the analysis panels. The preview lists activity phrases and
-knowledge phrases. It does not affect the fit score or save a history record.
+In the app, paste a job description, select **Find skills in context**, and
+choose **Analyze my fit**. Open **Review the skills found** to see highlighted
+phrases and correct the list used for scoring. The earlier standalone extraction
+panel has been removed because the main analysis includes this review now.
+For a raw prediction without scoring or saving, use the API below.
 The public `POST /api/extract` endpoint accepts `job_description` and returns
 span text, category, half-open character offsets, and a model manifest hash.
 Offsets count Unicode code points in the trimmed request text, not JavaScript

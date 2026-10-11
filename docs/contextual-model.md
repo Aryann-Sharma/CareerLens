@@ -143,3 +143,37 @@ until reviewed. MiniLM suggestions cover only catalog skills; other phrases
 require exact profile matches. Further work needs independently labelled résumé
 data and validated open-vocabulary matching, without repeatedly tuning on these
 test sets.
+
+## Filtering suggestions in the app
+
+A model can predict a phrase that is not useful as a skill. For example, in
+“be a team worker, and be diligent”, it predicted the article “a” separately.
+The application now rejects spans containing only common grammar words,
+punctuation, or numbers before building the skill list and calculating the
+score. Job analysis, PDF import, and reuse of a saved résumé share this filter.
+Rejected spans are also excluded from the highlights shown with those results.
+Words inside meaningful phrases are kept, as are short names such as C, R, and IT.
+
+This is a conservative output filter, not another training run. It cannot remove
+every incorrect prediction, so users should still review the suggested skills.
+The raw `/api/extract` response and the training/evaluation code retain the model's
+original spans; the reported benchmark scores have not changed. Existing saved
+analyses retain their original results. Run the analysis again to use the filter.
+
+## Technical-skill spelling
+
+The application also has a small explicit map of common technical-skill typos
+in `backend/app/services/skill_spelling.py`. It normalizes those spellings for
+scoring and records the original token and correction alongside the result.
+Other tokens of 5–24 letters can produce review suggestions when they differ
+from a catalog alias by one insertion, deletion, substitution, or adjacent
+transposition. Several aliases for the same skill yield one candidate. Exact
+known names are excluded from guessing. Suggestions are limited to 200 distinct
+spellings per document; they do not silently become score requirements.
+
+Users must confirm general suggestions through the skill review controls.
+A nearby spelling may be an ordinary word or a different tool, so edit distance
+alone is not enough for automatic correction. Free-form soft skills and arbitrary
+spelling mistakes are not corrected. The original text and model spans remain
+unchanged, and raw extraction and benchmark evaluation still use the original
+predictions. These application rules do not retrain either model.

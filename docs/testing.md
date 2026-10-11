@@ -6,11 +6,19 @@ Run commands from the repository root with the virtual environment activated.
 
 | Date | Check | Result |
 | --- | --- | --- |
-| 2026-10-11 | Backend and Chromium suites, with MiniLM, CRF, and contextual integration checks enabled | 266 passed; one PostgreSQL-only test skipped |
+| 2026-10-12 | Complete backend and Chromium suites, with MiniLM, CRF, and contextual integration checks enabled, including PDF/photo job imports and section selection | 444 passed; one PostgreSQL-only test skipped |
+| 2026-10-12 | Separate PostgreSQL 18 integration test, saved-résumé browser checks, and job-PDF browser checks | 22 passed; fresh migrations and migration consistency check passed |
 | 2026-10-08 | Separate PostgreSQL integration test and Chromium suite against a disposable PostgreSQL 18 database | 54 passed; migration consistency check passed |
-| 2026-10-11 | Installed application dependencies and frontend JavaScript syntax | Passed |
+| 2026-10-12 | Installed application dependencies, frontend JavaScript syntax, documentation links, and whitespace | Passed |
 
-The PostgreSQL run repeats browser coverage against a different database; these
+The latest photo-upload checks use clear generated text fixtures; they do not measure accuracy on arbitrary photos. The OCR models are supplied by the pinned dependency and do not need a test download.
+
+The PDF/photo toolbar and document review were also visually reviewed at 320,
+768, and 1,440 pixels. Both attachment buttons fit side by side at 320 pixels.
+A delayed session response check confirmed that the upload button stays in place
+when the guest account controls appear at all three widths.
+
+The PostgreSQL runs repeat browser coverage against a different database; these
 counts should not be added together as unique tests. Model weights were reused
 for the latest checks, not retrained. The latest suite reported one upstream
 Starlette/AnyIO deprecation warning and no test failures.
@@ -62,11 +70,15 @@ The browser fixture applies migrations to a temporary SQLite database and starts
 | Feature | Checks |
 | --- | --- |
 | Extraction | Every supported skill and alias, case, duplicates, punctuation, overlapping names, word boundaries, repeated input |
+| Spelling | Every supported name and alias in multiple casings, multiword aliases, known technical typos, uncertain suggestions that require review, exact-name protection, short names and compounds, original offsets/text/PDF preservation, deduplication, scores and history, résumé reuse, review overrides, real contextual inference, mobile layout |
 | Scoring | Partial and full matches, empty profiles, unknown skills, rounding, preserved ordering |
 | Semantic matching | Real local inference, repeatability, explicit denials, ambiguity, similarity thresholds, exact baseline, saved explanations, unavailable-model recovery |
 | Trained extraction | Split deduplication, label validation, span metrics, miniature CRF training, artifact integrity, offline prediction, Unicode offsets, contextual word alignment and long inputs, public preview, failure recovery |
-| Skill review | Trained phrases affect scoring, corrected lists override predictions, input limits, source highlighting, original input snapshots, saved extraction evidence |
+| Skill review | Screenshot regression for standalone “a”, grammar-only/punctuation/numeric fragment filtering, preservation of short skills and meaningful phrases, shared PDF/reuse filtering, trained phrases affect scoring, corrected lists override predictions, input limits, source highlighting, original input snapshots, saved extraction evidence |
+| Job image import | Real offline PNG/JPEG/WebP recognition, unsaved guest uploads, byte/pixel/dimension limits, EXIF rotation, transparent backgrounds, animation and blank-image rejection, timeout and busy recovery, camera-button file picker and keyboard access, editable preview, multiple photos appended without overwriting typed text, editing the combined description, text limits, discard during reading and restored focus, logout and upload races, literal text rendering, mobile/tablet/desktop layout |
+| Job PDF and section selection | Real PDF and photo extraction from full postings, required/preferred skills retained, clearly labelled unrelated sections omitted, original text available, unclear headings keep full text, unknown headings retained, PDF limits and retry, private review cleared on logout, PDF/photo switching races, mixed-source appends, editable combined text, literal original-text preview, responsive attachment controls |
 | Résumé import | PDF validation, byte/page/text limits, encrypted and image-only documents, parser timeout, reviewed profile import, no database writes, ignored upload responses after logout |
+| Saved résumé | Authenticated save/download/reuse/delete, account isolation, replacement validation, user deletion cascade, migration consistency, guest sign-in after upload, retries, late responses after logout, mobile layout |
 | Guest access | Immediate workspace, exact and semantic preview without database access, private save/history routes, sign-in-to-save, cancellation, retries, preserved result snapshots, delayed session checks |
 | Validation | Missing and extra fields, incorrect types, blank descriptions, input limits |
 | Accounts | Registration, duplicate email, password validation and hashing, login errors, session restoration, logout |
@@ -84,7 +96,7 @@ The contextual model has separate offline, Unicode-offset, repeated-inference,
 and long-input checks. Its alignment tests cover overlapping windows and control
 characters removed by tokenization. Enable `RUN_CONTEXTUAL_TESTS=1` after following
 the [contextual training guide](contextual-model.md). `RUN_EXTRACTOR_TESTS=1`
-enables the CRF and extraction-preview checks; `RUN_MODEL_TESTS=1` enables MiniLM.
+enables the CRF and extraction API checks; `RUN_MODEL_TESTS=1` enables MiniLM.
 
 Backend tests cover trained/reviewed scoring, saved extraction evidence,
 deletion ownership and identifier bounds, PDF byte/page/text limits, encrypted
@@ -112,7 +124,9 @@ then enable the integration checks in PowerShell:
 ```powershell
 $env:RUN_EXTRACTOR_TESTS = '1'
 python -m pytest backend/tests/test_ml_training.py backend/tests/test_trained_extraction.py -q
-python -m pytest e2e/test_extraction_preview.py --browser chromium -q
+$env:RUN_CONTEXTUAL_TESTS = '1'
+python -m pytest e2e/test_review_upload_delete.py e2e/test_saved_resume.py --browser chromium -q
+Remove-Item Env:RUN_CONTEXTUAL_TESTS
 Remove-Item Env:RUN_EXTRACTOR_TESTS
 ```
 
@@ -144,7 +158,7 @@ $env:E2E_DATABASE_URL = $env:DATABASE_URL
 python -m pytest e2e --browser chromium --tracing=retain-on-failure -q
 ```
 
-The integration test checks the real PostgreSQL driver, JSONB fields, indexes, ownership, UTC dates, and the account-to-analysis flow. Most other backend tests still use isolated SQLite fixtures. Setting `E2E_DATABASE_URL` runs the complete browser suite against PostgreSQL. Browser test accounts remain in that disposable database after the run.
+The integration test checks the real PostgreSQL driver, JSONB fields, indexes, ownership, UTC dates, the account-to-analysis flow, PDF storage and reuse, invalid replacements, and résumé deletion when its owner is removed. Most other backend tests still use isolated SQLite fixtures. Setting `E2E_DATABASE_URL` runs the complete browser suite against PostgreSQL. Browser test accounts remain in that disposable database after the run.
 
 Remove the overrides when finished:
 
