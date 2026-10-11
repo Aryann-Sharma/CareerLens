@@ -1,5 +1,20 @@
 const form = document.querySelector("#analysis-form");
 const descriptionInput = document.querySelector("#job-description");
+const jobImage = document.querySelector("#job-image");
+const jobPdf = document.querySelector("#job-pdf");
+const addPdfButton = document.querySelector("#add-job-pdf");
+let jobUploadFile = null;
+let jobUploadKind = "image";
+let fullJobText = "";
+let selectedJobText = "";
+const importPanel = document.querySelector("#job-import");
+const addImageButton = document.querySelector("#add-job-image");
+const importStatus = document.querySelector("#job-import-status");
+const importReview = document.querySelector("#job-import-review");
+const importText = document.querySelector("#job-import-text");
+const readUploadButton = document.querySelector("#read-job-upload");
+let importRevision = 0;
+let importController = null;
 const skillsInput = document.querySelector("#user-skills");
 const matchingMethod = document.querySelector("#matching-method");
 const extractionMethod = document.querySelector("#extraction-method");
@@ -9,6 +24,14 @@ const resumeFile = document.querySelector("#resume-file");
 const resumeStatus = document.querySelector("#resume-status");
 const resumeReview = document.querySelector("#resume-review");
 const resumeSkills = document.querySelector("#resume-skills");
+const savedResumePanel = document.querySelector("#saved-resume");
+const savedResumeStatus = document.querySelector("#saved-resume-status");
+const saveResumeButton = document.querySelector("#save-resume");
+const resumeDeleteDialog = document.querySelector("#delete-resume-dialog");
+let savedResume = null;
+let resumeCandidate = null;
+let savedResumeRevision = 0;
+let resumeBusy = false;
 const deleteDialog = document.querySelector("#delete-dialog");
 const deleteError = document.querySelector("#delete-error");
 const confirmDelete = document.querySelector("#confirm-delete");
@@ -55,10 +78,6 @@ const authError = document.querySelector("#auth-error");
 const authSwitchCopy = document.querySelector("#auth-switch-copy");
 const authSwitch = document.querySelector("#auth-switch");
 const logoutButton = document.querySelector("#logout-button");
-const extractButton = document.querySelector("#extract-button");
-const extractionStatus = document.querySelector("#extraction-status");
-const extractionResults = document.querySelector("#extraction-results");
-let extractionRevision = 0;
 
 const HISTORY_PAGE_SIZE = 5;
 let currentHistoryPage = 1;
@@ -80,17 +99,16 @@ const example = {
 matchingMethod.addEventListener("change", () => {
   matchingHint.textContent = matchingMethod.value === "semantic"
     ? "Compare skill descriptions by meaning. Suggested matches may need review."
-    : "Match skill names and supported aliases only.";
+    : "Match skill names and common abbreviations only.";
 });
 
 extractionMethod.addEventListener("change", () => {
   document.querySelector("#extraction-hint").textContent = extractionMethod.value === "trained"
     ? "Find skill phrases in context, then review and correct the suggestions."
-    : "Recognize 18 supported technologies and their aliases. You can add other skills during review.";
+    : "Look for 18 common technical skills, such as Python, SQL, and Git. Add any missed skills during review.";
 });
 
 descriptionInput.addEventListener("input", () => {
-  clearExtraction();
   const count = descriptionInput.value.length;
   characterCount.textContent = `${count.toLocaleString()} ${count === 1 ? "character" : "characters"}`;
 });
@@ -280,16 +298,6 @@ historyDialog.addEventListener("click", (event) => {
   closeOnBackdrop(event, historyDialog);
 });
 
-function clearExtraction() {
-  extractionRevision += 1;
-  extractionStatus.textContent = "";
-  extractionResults.hidden = true;
-  document.querySelector("#extracted-activities").replaceChildren();
-  document.querySelector("#extracted-knowledge").replaceChildren();
-  extractButton.disabled = false;
-  extractButton.textContent = "Extract from job description";
-}
-
 function updateSaveControl() {
   saveButton.disabled = !lastAnalysis || lastAnalysis.saved;
   saveButton.textContent = lastAnalysis?.saved ? "Saved" : "Save analysis";
@@ -355,53 +363,6 @@ async function saveCurrentAnalysis() {
   }
 }
 
-extractButton.addEventListener("click", async () => {
-  if (extractButton.disabled) return;
-  clearExtraction();
-  const text = descriptionInput.value.trim();
-  if (!text || Array.from(text).length > 50000) {
-    extractionStatus.textContent = "Enter a job description of 1 to 50,000 characters above.";
-    descriptionInput.focus();
-    return;
-  }
-  const revision = extractionRevision;
-  const session = sessionRevision;
-  extractButton.disabled = true;
-  extractButton.textContent = "Extracting…";
-  extractionStatus.textContent = "Looking for skill phrases…";
-  try {
-    const response = await apiFetch("/api/extract", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ job_description: text }),
-    });
-    const body = await response.json().catch(() => null);
-    if (revision !== extractionRevision || session !== sessionRevision) return;
-    if (response.status === 401) {
-      handleExpiredSession();
-      return;
-    }
-    if (!response.ok) throw new Error(readErrorMessage(body, "We couldn't extract skill phrases."));
-    const phrases = (label) => [...new Set(body.spans.filter((span) => span.label === label).map((span) => span.text))];
-    renderChips("#extracted-activities", phrases("skill"), "neutral", "No activity phrases detected.");
-    renderChips("#extracted-knowledge", phrases("knowledge"), "neutral", "No knowledge phrases detected.");
-    extractionResults.hidden = false;
-    extractionStatus.textContent = body.spans.length
-      ? "Preview ready. These are model predictions and may be incomplete or incorrect."
-      : "No phrases detected. This does not mean the description has no skills.";
-  } catch (error) {
-    if (revision !== extractionRevision || session !== sessionRevision) return;
-    extractionStatus.textContent = error instanceof TypeError
-      ? "Unable to reach the server. Please try again."
-      : error.message;
-  } finally {
-    if (revision === extractionRevision && session === sessionRevision) {
-      extractButton.disabled = false;
-      extractButton.textContent = "Extract from job description";
-    }
-  }
-});
-
 historyDialog.addEventListener("close", () => {
   detailRevision += 1;
   historyDialog.removeAttribute("aria-busy");
@@ -463,6 +424,8 @@ function showSignedIn(user) {
   if (!lastAnalysis) setView("empty");
   updateSaveControl();
   currentUserEmail.textContent = user.email;
+  updateResumeControls();
+  void loadSavedResume();
   formError.hidden = true;
   void loadHistory(1);
 }
@@ -485,6 +448,7 @@ function showSignedOut(
   currentUserEmail.textContent = "";
   signedOutMessage.textContent = message;
   if (!initial) clearPrivateViews();
+  updateResumeControls();
 }
 
 function clearDraft() {
@@ -500,11 +464,10 @@ function clearPrivateViews() {
   pendingSave = null;
   analysisRevision += 1;
   clearResume();
+  clearJobImport();
   deleteTarget = null;
   if (deleteDialog.open) deleteDialog.close();
   document.querySelector("#skill-review").open = false;
-  clearExtraction();
-  document.querySelector("#extraction-preview").open = false;
   historyRevision += 1;
   detailRevision += 1;
   setSubmitting(false);
@@ -602,6 +565,12 @@ function setView(view) {
 
 function renderResults(result) {
   reviewInput.value = result.extracted_skills.join("\n");
+  renderSpellingChecks(document.querySelector("#spelling-checks"), result.extraction_details?.spelling, (original, candidate) => {
+    applySpellingChoice(reviewInput, original, candidate);
+    document.querySelector("#skill-review").open = true;
+    reviewInput.focus();
+    return "Added to your review. Choose Update analysis to recalculate the score.";
+  });
   renderSourceEvidence(document.querySelector("#source-evidence"), lastAnalysis?.request.job_description || "", result.extraction_details);
   document.querySelector("#extraction-method-note").textContent = extractionExplanation(result.extraction_details);
   renderMatchingEvidence(document.querySelector("#matching-evidence"), result.matching_details);
@@ -651,16 +620,15 @@ function renderMatchingEvidence(container, details) {
   container.hidden = false;
   const explanation = document.createElement("p");
   explanation.textContent = details
-    ? `Semantic matching · Exact-match baseline: ${details.exact_match_score}%. ` +
-      "Suggested matches count toward this score. Similarity is not proof of proficiency."
-    : "Exact matching · Skill names and supported aliases only.";
+    ? `Including similar wording. With skill names alone: ${details.exact_match_score}%. ` +
+      "Suggested matches count toward this score. Review them to check they describe your experience."
+    : "Matching skill names and common abbreviations only.";
   container.append(explanation);
   if (!details?.semantic_matches.length) return;
   const list = document.createElement("ul");
   details.semantic_matches.forEach((match) => {
     const item = document.createElement("li");
-    item.textContent = `${match.skill} ← “${match.user_skill}” ` +
-      `(similarity ${match.similarity.toFixed(2)})`;
+    item.textContent = `${match.skill} — suggested from “${match.user_skill}”`;
     list.append(item);
   });
   container.append(list);
@@ -851,6 +819,10 @@ function renderHistoryDetail(analysis) {
   const methodNote = document.createElement("p");
   methodNote.textContent = extractionExplanation(analysis.extraction_details);
   historyDetail.append(methodNote);
+  const spelling = document.createElement("div");
+  spelling.className = "spelling-checks";
+  renderSpellingChecks(spelling, analysis.extraction_details?.spelling);
+  historyDetail.append(spelling);
   appendDetailGroup("Your skills", analysis.user_skills, "neutral");
   appendDetailGroup("Matched skills", analysis.matched_skills, "matched");
   appendDetailGroup("Skills to build", analysis.missing_skills, "missing");
@@ -882,8 +854,70 @@ function formatDate(value) {
 
 function extractionExplanation(details) {
   if (details?.method === "reviewed") return "Reviewed skill list · The score uses your corrections.";
-  if (details?.method === "trained") return "Trained extraction + technology catalog. Highlighted phrases are predictions; review them for errors and duplicates.";
-  return "Catalog extraction · Only supported technology names and aliases are detected.";
+  if (details?.method === "trained") return "Skills found using the wording of the description. Check the highlighted phrases and correct any mistakes below.";
+  return "Skills found from a list of 18 common technologies. Add any other requirements that were missed.";
+}
+
+function applySpellingChoice(input, original, candidate) {
+  const escaped = original.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const pattern = new RegExp(`\\b${escaped}\\b`, "gi");
+  const lines = input.value.split("\n").map((line) => line.replace(pattern, () => candidate).trim()).filter(Boolean);
+  lines.push(candidate);
+  const seen = new Set();
+  input.value = lines.filter((line) => {
+    const key = line.toLocaleLowerCase();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  }).join("\n");
+}
+
+function renderSpellingChecks(container, checks, onChoose) {
+  container.replaceChildren();
+  container.hidden = !checks?.length;
+  if (!checks?.length) return;
+  const heading = document.createElement("h3");
+  heading.textContent = "Spelling checks";
+  container.append(heading);
+  for (const check of checks) {
+    const row = document.createElement("div");
+    const note = document.createElement("p");
+    note.textContent = check.applied
+      ? `Read “${check.original}” as ${check.candidates[0]}.`
+      : `“${check.original}” might mean ${check.candidates.join(" or ")}. No correction has been applied.`;
+    row.append(note);
+    if (!check.applied && onChoose) {
+      const actions = document.createElement("div");
+      actions.className = "resume-actions";
+      for (const candidate of check.candidates) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "secondary-button";
+        button.textContent = `Use ${candidate}`;
+        button.addEventListener("click", () => {
+          note.textContent = onChoose(check.original, candidate);
+          actions.remove();
+        });
+        actions.append(button);
+      }
+      row.append(actions);
+    }
+    container.append(row);
+  }
+  if (onChoose) {
+    const hint = document.createElement("p");
+    hint.className = "field-hint";
+    hint.textContent = "Check the suggested spellings. You can edit the skill list if a correction is wrong.";
+    container.append(hint);
+  }
+}
+
+function renderResumeSpelling(checks) {
+  renderSpellingChecks(document.querySelector("#resume-spelling"), checks, (original, candidate) => {
+    applySpellingChoice(resumeSkills, original, candidate);
+    resumeSkills.focus();
+    return "Updated the list below. Choose Add to my skills when you have finished reviewing.";
+  });
 }
 
 function renderSourceEvidence(container, text, details) {
@@ -911,18 +945,30 @@ function renderSourceEvidence(container, text, details) {
 
 function clearResume() {
   resumeRevision += 1;
+  savedResumeRevision += 1;
+  savedResume = null;
+  resumeCandidate = null;
+  resumeBusy = false;
+  savedResumeStatus.textContent = "";
+  document.querySelector("#retry-saved-resume").hidden = true;
+  if (resumeDeleteDialog.open) resumeDeleteDialog.close();
+  updateResumeControls();
   resumeFile.value = "";
   resumeStatus.textContent = "";
   resumeSkills.value = "";
   resumeReview.hidden = true;
+  renderResumeSpelling([]);
 }
 
 resumeFile.addEventListener("change", async () => {
   const file = resumeFile.files[0];
+  resumeCandidate = null;
+  updateResumeControls();
   const revision = ++resumeRevision;
   const session = sessionRevision;
   resumeReview.hidden = true;
   resumeSkills.value = "";
+  renderResumeSpelling([]);
   if (!file) { resumeStatus.textContent = ""; return; }
   if (file.size > 5 * 1024 * 1024) {
     resumeStatus.textContent = "Choose a PDF smaller than 5 MB.";
@@ -936,7 +982,10 @@ resumeFile.addEventListener("change", async () => {
     const body = await response.json().catch(() => null);
     if (revision !== resumeRevision || session !== sessionRevision) return;
     if (!response.ok) throw new Error(readErrorMessage(body, "This PDF could not be read."));
+    resumeCandidate = file;
+    updateResumeControls();
     resumeSkills.value = body.skills.join("\n");
+    renderResumeSpelling(body.spelling);
     resumeReview.hidden = false;
     resumeStatus.textContent = `Read ${body.pages} ${body.pages === 1 ? "page" : "pages"}. Review the suggestions below; add any skills that were missed.`;
   } catch (error) {
@@ -999,5 +1048,248 @@ confirmDelete.addEventListener("click", async () => {
     }
   }
 });
+
+function clearJobImport(message = "") {
+  importRevision += 1;
+  importController?.abort();
+  importController = null;
+  jobUploadFile = null;
+  jobImage.value = "";
+  jobPdf.value = "";
+  fullJobText = "";
+  selectedJobText = "";
+  importText.value = "";
+  importReview.hidden = true;
+  importPanel.hidden = true;
+  importStatus.textContent = message;
+  document.querySelector("#original-job-text").textContent = "";
+  document.querySelector("#original-job-document").open = false;
+  document.querySelector("#job-section-note").textContent = "";
+  document.querySelector("#job-section-actions").hidden = true;
+  readUploadButton.disabled = true;
+  readUploadButton.textContent = "Read upload again";
+}
+
+async function readJobUpload() {
+  importController?.abort();
+  const revision = ++importRevision;
+  const session = sessionRevision;
+  const file = jobUploadFile;
+  const isPdf = jobUploadKind === "pdf";
+  const source = isPdf ? "PDF" : "image";
+  importText.value = "";
+  fullJobText = "";
+  selectedJobText = "";
+  document.querySelector("#original-job-text").textContent = "";
+  document.querySelector("#original-job-document").open = false;
+  importReview.hidden = true;
+  readUploadButton.disabled = true;
+  if (!file) { clearJobImport(); return; }
+  importPanel.hidden = false;
+  document.querySelector("#import-file-hint").textContent = isPdf
+    ? "PDF with selectable text, up to 5 MB and 10 pages. The file is read on this server and is not saved. For a scanned PDF, add a photo or screenshot of the page instead."
+    : "PNG, JPEG, or WebP, up to 5 MB. The image is read on this server and is not saved. Clear, upright images work best.";
+  if (file.size > 5 * 1024 * 1024) {
+    importStatus.textContent = `Choose ${isPdf ? "a PDF" : "an image"} no larger than 5 MB.`;
+    return;
+  }
+  const media = file.type || ({ pdf: "application/pdf", png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", webp: "image/webp" })[file.name.split(".").pop().toLowerCase()];
+  const allowed = isPdf ? ["application/pdf"] : ["image/png", "image/jpeg", "image/webp"];
+  if (!allowed.includes(media)) {
+    importStatus.textContent = isPdf ? "Choose a PDF file." : "Choose a PNG, JPEG, or WebP image.";
+    return;
+  }
+  importController = new AbortController();
+  importStatus.textContent = `Reading text from the ${source}… This may take a few seconds.`;
+  readUploadButton.textContent = "Reading…";
+  try {
+    const response = await apiFetch(isPdf ? "/api/job-pdf" : "/api/job-image", {
+      method: "POST", headers: { "Content-Type": media }, body: file, signal: importController.signal,
+    });
+    const body = await response.json().catch(() => null);
+    if (revision !== importRevision || session !== sessionRevision) return;
+    if (!response.ok) throw new Error(readErrorMessage(body, `This ${source} could not be read.`));
+    selectedJobText = body.text;
+    fullJobText = body.full_text ?? body.text;
+    importText.value = selectedJobText;
+    document.querySelector("#original-job-text").textContent = fullJobText;
+    document.querySelector("#job-section-note").textContent = body.selection_applied
+      ? "Suggested role sections are shown below. Clearly labelled company, benefits, or application sections were set aside. The full text is still available below."
+      : "The full text is shown below because there were no clearly separate extra sections to remove. You can edit it before adding it.";
+    document.querySelector("#job-section-actions").hidden = !body.selection_applied;
+    importReview.hidden = false;
+    importStatus.textContent = "Text found. Check and edit it below before adding it to the job description.";
+  } catch (error) {
+    if (revision !== importRevision || session !== sessionRevision || error.name === "AbortError") return;
+    importStatus.textContent = error instanceof TypeError ? "Unable to reach the server. Try reading the upload again." : error.message;
+  } finally {
+    if (revision === importRevision) {
+      importController = null;
+      readUploadButton.disabled = false;
+      readUploadButton.textContent = "Read upload again";
+      if (session !== sessionRevision) importStatus.textContent = "Your session changed. Read the upload again to continue.";
+    }
+  }
+}
+
+addImageButton.addEventListener("click", () => jobImage.click());
+addPdfButton.addEventListener("click", () => jobPdf.click());
+for (const [input, kind] of [[jobImage, "image"], [jobPdf, "pdf"]]) {
+  input.addEventListener("change", () => {
+    if (!input.files[0]) return;
+    jobUploadFile = input.files[0];
+    jobUploadKind = kind;
+    void readJobUpload();
+  });
+}
+readUploadButton.addEventListener("click", () => void readJobUpload());
+document.querySelector("#discard-job-upload").addEventListener("click", () => {
+  const button = jobUploadKind === "pdf" ? addPdfButton : addImageButton;
+  clearJobImport();
+  button.focus();
+});
+for (const [id, full] of [["use-full-job-text", true], ["use-selected-job-text", false]]) {
+  document.getElementById(id).addEventListener("click", () => {
+    importText.value = full ? fullJobText : selectedJobText;
+    importStatus.textContent = full ? "Full text copied to the review box. You can edit it before adding it." : "Suggested sections restored in the review box. Check them before adding.";
+    importText.focus();
+    importText.setSelectionRange(0, 0);
+    importText.scrollTop = 0;
+  });
+}
+document.querySelector("#apply-job-upload").addEventListener("click", () => {
+  const text = importText.value.trim();
+  if (!text) { importStatus.textContent = "Add some text to the review box first."; importText.focus(); return; }
+  const existing = descriptionInput.value;
+  const combined = existing ? `${existing}\n\n${text}` : text;
+  if (combined.length > 50000) {
+    importStatus.textContent = "The combined description is too long. Shorten it to 50,000 characters before adding this text.";
+    return;
+  }
+  descriptionInput.value = combined;
+  descriptionInput.dispatchEvent(new Event("input"));
+  clearJobImport("Reviewed text added. Check the full description, then choose Analyze my fit when ready.");
+  descriptionInput.focus();
+});
+
+function updateResumeControls() {
+  savedResumePanel.hidden = !currentUser || !savedResume;
+  document.querySelector("#saved-resume-info").textContent = savedResume
+    ? `${savedResume.filename} · ${savedResume.pages} ${savedResume.pages === 1 ? "page" : "pages"} · Saved to your account`
+    : "";
+  saveResumeButton.hidden = !resumeCandidate || !currentUser;
+  saveResumeButton.disabled = resumeBusy || !document.querySelector("#retry-saved-resume").hidden;
+  saveResumeButton.textContent = savedResume ? "Replace saved résumé with this PDF" : "Save résumé to my account";
+  document.querySelector("#resume-save-hint").textContent = currentUser
+    ? "Keep one PDF in your account. You can replace or delete it at any time. Saving keeps the original PDF; edits to the skills below do not change it."
+    : "Sign in to keep a résumé for your next visit.";
+  resumeFile.disabled = resumeBusy;
+  for (const id of ["use-saved-resume", "delete-resume", "retry-saved-resume", "confirm-delete-resume"]) {
+    document.getElementById(id).disabled = resumeBusy;
+  }
+}
+
+async function loadSavedResume() {
+  if (!currentUser || resumeBusy) return;
+  const session = sessionRevision;
+  const operation = ++savedResumeRevision;
+  resumeBusy = true;
+  updateResumeControls();
+  savedResumeStatus.textContent = "Checking for a saved résumé…";
+  document.querySelector("#retry-saved-resume").hidden = true;
+  try {
+    const response = await apiFetch("/api/resume/saved", { cache: "no-store" });
+    const body = await response.json().catch(() => null);
+    if (session !== sessionRevision || operation !== savedResumeRevision) return;
+    if (response.status === 401) { handleExpiredSession(); return; }
+    if (!response.ok && response.status !== 404) throw new Error("We couldn't check your saved résumé.");
+    savedResume = response.ok ? body : null;
+    savedResumeStatus.textContent = savedResume ? "" : "No saved résumé yet. Upload a PDF below to get started.";
+  } catch {
+    if (session !== sessionRevision || operation !== savedResumeRevision) return;
+    savedResumeStatus.textContent = "We couldn't check your saved résumé. Check again before saving a replacement.";
+    document.querySelector("#retry-saved-resume").hidden = false;
+  } finally {
+    if (session === sessionRevision && operation === savedResumeRevision) {
+      resumeBusy = false;
+      updateResumeControls();
+      // Avoid replacing a file the user has not been able to inspect.
+      saveResumeButton.disabled = !document.querySelector("#retry-saved-resume").hidden;
+    }
+  }
+}
+
+document.querySelector("#retry-saved-resume").addEventListener("click", () => void loadSavedResume());
+
+async function resumeAction(action) {
+  if (!currentUser || resumeBusy) return;
+  const file = resumeCandidate;
+  if (action === "save" && (!file || !document.querySelector("#retry-saved-resume").hidden)) return;
+  const session = sessionRevision;
+  const operation = ++savedResumeRevision;
+  const revision = ++resumeRevision;
+  resumeBusy = true;
+  updateResumeControls();
+  savedResumeStatus.textContent = action === "save" ? "Saving résumé…" : action === "delete" ? "Deleting résumé…" : "Finding skills in your saved résumé…";
+  const deleteError = document.querySelector("#delete-resume-error");
+  deleteError.hidden = true;
+  try {
+    const url = action === "save" ? `/api/resume/saved?filename=${encodeURIComponent(file.name)}`
+      : action === "use" ? `/api/resume/saved/skills?method=${extractionMethod.value}` : "/api/resume/saved";
+    const response = await apiFetch(url, action === "save"
+      ? { method: "PUT", headers: { "Content-Type": "application/pdf" }, body: file }
+      : { method: action === "use" ? "POST" : "DELETE" });
+    const body = response.status === 204 ? null : await response.json().catch(() => null);
+    if (session !== sessionRevision || operation !== savedResumeRevision || revision !== resumeRevision) return;
+    if (response.status === 401) { handleExpiredSession(); return; }
+    if (!response.ok && !(action === "delete" && response.status === 404)) {
+      throw new Error(readErrorMessage(body, "We couldn't complete that request. Please try again."));
+    }
+    if (action === "save") {
+      savedResume = body;
+      resumeCandidate = null;
+      savedResumeStatus.textContent = "Résumé saved. You can use it again on your next visit.";
+    } else if (action === "use") {
+      resumeCandidate = null;
+      resumeFile.value = "";
+      resumeSkills.value = body.skills.join("\n");
+      renderResumeSpelling(body.spelling);
+      resumeReview.hidden = false;
+      resumeStatus.textContent = "Review these skills, then choose Add to my skills.";
+      savedResumeStatus.textContent = "Skills loaded from your saved résumé.";
+      resumeSkills.focus();
+    } else {
+      savedResume = null;
+      resumeCandidate = null;
+      resumeFile.value = "";
+      resumeSkills.value = "";
+      resumeReview.hidden = true;
+      renderResumeSpelling([]);
+      resumeStatus.textContent = "";
+      savedResumeStatus.textContent = "Saved résumé deleted. Your analyses are unchanged.";
+      resumeDeleteDialog.close();
+    }
+  } catch (error) {
+    if (session !== sessionRevision || operation !== savedResumeRevision) return;
+    const message = error instanceof TypeError ? "Unable to reach the server. Please try again." : error.message;
+    savedResumeStatus.textContent = message;
+    if (action === "delete") { deleteError.textContent = message; deleteError.hidden = false; }
+  } finally {
+    if (session === sessionRevision && operation === savedResumeRevision) {
+      resumeBusy = false;
+      updateResumeControls();
+    }
+  }
+}
+
+saveResumeButton.addEventListener("click", () => void resumeAction("save"));
+document.querySelector("#use-saved-resume").addEventListener("click", () => void resumeAction("use"));
+document.querySelector("#delete-resume").addEventListener("click", () => {
+  document.querySelector("#delete-resume-error").hidden = true;
+  resumeDeleteDialog.showModal();
+});
+document.querySelector("#cancel-delete-resume").addEventListener("click", () => resumeDeleteDialog.close());
+document.querySelector("#confirm-delete-resume").addEventListener("click", () => void resumeAction("delete"));
+resumeDeleteDialog.addEventListener("click", (event) => closeOnBackdrop(event, resumeDeleteDialog));
 
 void restoreSession();

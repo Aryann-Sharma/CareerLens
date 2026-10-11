@@ -10,8 +10,17 @@ class ExtractedSpan(BaseModel):
     end: int = Field(gt=0)
 
 
+class SpellingCheck(BaseModel):
+    original: str
+    candidates: list[str]
+    applied: bool
+    start: int = Field(ge=0)
+    end: int = Field(gt=0)
+
+
 class ExtractionDetails(BaseModel):
-    method: Literal["trained", "reviewed"]
+    method: Literal["trained", "reviewed", "catalog"]
     model: str | None = None
     revision: str | None = None
     spans: list[ExtractedSpan] = Field(default_factory=list)
+    spelling: list[SpellingCheck] = Field(default_factory=list)

@@ -84,7 +84,7 @@ def test_login_errors_and_expired_sessions_keep_the_draft(
     page.get_by_role("button", name="Log in", exact=True).last.click()
     expect(page.get_by_text(email, exact=True)).to_be_visible()
 
-    description = page.get_by_label("Job description")
+    description = page.get_by_label("Job description", exact=True)
     description.fill(draft)
     page.get_by_label("Your skills").fill("Python, SQL")
 

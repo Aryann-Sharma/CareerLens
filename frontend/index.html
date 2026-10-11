@@ -8,8 +8,8 @@
       content="Compare your skills with a job description using CareerLens."
     />
     <title>CareerLens — See your fit clearly</title>
-    <link rel="stylesheet" href="/static/style.css" />
-    <script src="/static/script.js" defer></script>
+    <link rel="stylesheet" href="/static/style.css?v=20261012-3" />
+    <script src="/static/script.js?v=20261012-3" defer></script>
   </head>
   <body class="has-workspace">
     <header class="site-header">
@@ -70,29 +70,66 @@
             </button>
           </div>
 
-          <label class="sr-only" for="job-description">Job description</label>
-          <textarea
-            id="job-description"
-            name="job_description"
-            rows="11"
-            maxlength="50000"
-            placeholder="Paste the responsibilities and requirements here…"
-            aria-describedby="description-hint character-count"
-            required
-          ></textarea>
-          <div class="field-meta">
-            <span id="description-hint">
-              Include the full requirements section for a better result.
-            </span>
-            <span id="character-count">0 characters</span>
+          <div class="description-editor">
+            <label class="sr-only" for="job-description">Job description</label>
+            <textarea
+              id="job-description"
+              name="job_description"
+              rows="8"
+              maxlength="50000"
+              placeholder="Paste the responsibilities and requirements here…"
+              aria-describedby="description-hint character-count"
+              required
+            ></textarea>
+            <div class="description-toolbar">
+              <button id="add-job-image" class="text-button photo-button" type="button" aria-label="Add a photo or screenshot" title="Add a photo or screenshot">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="4"/></svg>
+                <span>Add photo</span>
+              </button>
+              <button id="add-job-pdf" class="text-button photo-button" type="button" aria-label="Attach PDF" title="Attach a job posting PDF">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 12 6.5-6.5a3.5 3.5 0 0 1 5 5L10 20a5 5 0 0 1-7-7L13 3a2 2 0 0 1 3 3L6.5 15.5a.7.7 0 0 0 1 1L16 8"/></svg>
+                <span>Attach PDF</span>
+              </button>
+              <span id="character-count">0 characters</span>
+            </div>
           </div>
+          <p id="description-hint" class="field-hint description-hint">Paste text or upload a full job posting. We’ll look for the role details; you can combine and edit them here.</p>
+          <input id="job-image" type="file" accept="image/png,image/jpeg,image/webp,.png,.jpg,.jpeg,.webp" aria-label="Job description image" hidden />
+          <input id="job-pdf" type="file" accept="application/pdf,.pdf" aria-label="Job description PDF" hidden />
+          <p id="job-import-status" class="field-hint" role="status"></p>
 
+          <section id="job-import" class="job-import" aria-labelledby="import-heading" hidden>
+            <div class="import-heading">
+              <h3 id="import-heading">Review the job details</h3>
+              <button id="discard-job-upload" class="text-button" type="button">Discard</button>
+            </div>
+            <p id="import-file-hint" class="field-hint"></p>
+            <p id="import-warning" class="field-hint">Extracted text can contain mistakes or miss lines. The suggested sections may also miss relevant details. Check the requirements and compare with the full text before adding them.</p>
+            <div id="job-import-review" hidden>
+              <p id="job-section-note" class="field-hint"></p>
+              <label for="job-import-text">Check and edit the text found</label>
+              <textarea id="job-import-text" rows="7" maxlength="50000" aria-describedby="import-warning"></textarea>
+              <details id="original-job-document" class="original-job-document">
+                <summary>View full extracted text</summary>
+                <pre id="original-job-text" class="document-text"></pre>
+                <div id="job-section-actions" class="resume-actions" hidden>
+                  <button id="use-full-job-text" class="text-button" type="button">Use full text instead</button>
+                  <button id="use-selected-job-text" class="text-button" type="button">Use suggested sections</button>
+                </div>
+              </details>
+              <div class="resume-actions">
+                <button id="apply-job-upload" class="secondary-button" type="button">Add to description</button>
+              </div>
+              <p class="field-hint">This adds the reviewed text after your existing text. You can edit the combined description before analyzing.</p>
+            </div>
+            <button id="read-job-upload" class="text-button" type="button" disabled>Read upload again</button>
+          </section>
           <div class="skills-field">
             <div class="matching-field">
-              <label for="extraction-method">Skill extraction</label>
+              <label for="extraction-method">How to find skills</label>
               <select id="extraction-method" aria-describedby="extraction-hint">
-                <option value="trained" selected>Trained model + technology catalog</option>
-                <option value="catalog">Technology catalog only</option>
+                <option value="trained" selected>Find skills in context</option>
+                <option value="catalog">Find listed technical skills</option>
               </select>
               <p class="field-hint" id="extraction-hint">Find skill phrases in context, then review and correct the suggestions.</p>
             </div>
@@ -109,11 +146,24 @@
             <p class="field-hint" id="skills-hint">Separate skills or short skill descriptions with commas.</p>
             <details class="resume-upload">
               <summary>Import skills from a résumé</summary>
-              <label for="resume-file">Résumé PDF</label>
+              <div id="saved-resume" hidden>
+                <p id="saved-resume-info" class="field-hint"></p>
+                <div class="resume-actions">
+                  <button id="use-saved-resume" class="secondary-button" type="button">Use saved résumé</button>
+                  <a id="download-resume" class="secondary-button" href="/api/resume/saved/file" download>Download PDF</a>
+                  <button id="delete-resume" class="text-button" type="button">Delete saved résumé</button>
+                </div>
+              </div>
+              <p id="saved-resume-status" class="field-hint" role="status"></p>
+              <button id="retry-saved-resume" class="text-button" type="button" hidden>Check again</button>
+              <label for="resume-file">Upload a résumé PDF</label>
               <input id="resume-file" type="file" accept="application/pdf,.pdf" aria-describedby="resume-hint" />
-              <p id="resume-hint" class="field-hint">Text-based PDF, up to 5 MB and 10 pages. The file is processed locally by this server and is not stored. Review suggestions before adding them.</p>
+              <p id="resume-hint" class="field-hint">PDF with selectable text, up to 5 MB and 10 pages. Uploads are only stored when you choose to save them to your account. Review the skills before adding them.</p>
               <p id="resume-status" role="status"></p>
+              <button id="save-resume" class="secondary-button" type="button" hidden>Save résumé to my account</button>
+              <p id="resume-save-hint" class="field-hint">Sign in to keep a résumé for your next visit.</p>
               <div id="resume-review" hidden>
+                <div id="resume-spelling" class="spelling-checks" hidden></div>
                 <label for="resume-skills">Review résumé skills (one per line)</label>
                 <textarea id="resume-skills" rows="5" maxlength="20199"></textarea>
                 <button id="apply-resume" class="secondary-button" type="button">Add to my skills</button>
@@ -122,10 +172,10 @@
           </div>
 
           <div class="matching-field">
-            <label for="matching-method">Matching method</label>
+            <label for="matching-method">How to compare skills</label>
             <select id="matching-method" aria-describedby="matching-hint">
-              <option value="semantic" selected>Semantic matching</option>
-              <option value="exact">Exact matching</option>
+              <option value="semantic" selected>Include similar wording</option>
+              <option value="exact">Match skill names only</option>
             </select>
             <p class="field-hint" id="matching-hint">
               Compare skill descriptions by meaning. Suggested matches may need review.
@@ -148,7 +198,7 @@
           <div id="empty-state" class="empty-state">
             <div class="radar" aria-hidden="true"><span></span><span></span><span></span><i></i></div>
             <h2>Your analysis will appear here</h2>
-            <p>We’ll extract the role’s skills and compare them with your profile.</p>
+            <p>We’ll find the role’s skills and compare them with your profile.</p>
           </div>
 
           <div id="loading-state" class="loading-state" hidden>
@@ -168,6 +218,7 @@
             </div>
             <p class="score-summary" id="score-summary"></p>
             <div id="matching-evidence" class="matching-evidence" hidden></div>
+            <div id="spelling-checks" class="spelling-checks" hidden></div>
 
             <div class="result-group">
               <div class="result-heading">
@@ -186,11 +237,11 @@
             </div>
 
             <details class="extracted-details">
-              <summary>All extracted skills</summary>
+              <summary>All skills found</summary>
               <div class="chips neutral" id="extracted-skills"></div>
             </details>
             <details class="skill-review" id="skill-review">
-              <summary>Review skills and source evidence</summary>
+              <summary>Review the skills found</summary>
               <p id="extraction-method-note" class="field-hint"></p>
               <div id="source-evidence" class="source-evidence"></div>
               <label for="reviewed-skills">Skills required by this role (one per line)</label>
@@ -206,20 +257,6 @@
         </aside>
         </section>
 
-        <details class="extraction-preview" id="extraction-preview">
-          <summary>Inspect extraction only <span class="preview-label">Experimental</span></summary>
-          <p>Find skill phrases beyond the supported catalog using a model trained on job postings.
-            It can miss or mislabel phrases. Review suggestions before using them; this preview does not change your fit score or save to history.</p>
-          <button type="button" class="secondary-button" id="extract-button">Extract from job description</button>
-          <p class="field-hint">Uses the description above, up to 50,000 characters.</p>
-          <p id="extraction-status" role="status"></p>
-          <div id="extraction-results" hidden>
-            <h3>Skills and activities</h3>
-            <div class="chips" id="extracted-activities"></div>
-            <h3>Knowledge and technologies</h3>
-            <div class="chips neutral" id="extracted-knowledge"></div>
-          </div>
-        </details>
 
         <section id="history-section" class="history-section" aria-labelledby="history-title" hidden>
         <div class="history-heading">
@@ -343,6 +380,16 @@
       <div class="dialog-actions">
         <button type="button" id="cancel-delete" class="secondary-button" autofocus>Cancel</button>
         <button type="button" id="confirm-delete" class="secondary-button danger-button">Delete analysis</button>
+      </div>
+    </dialog>
+
+    <dialog id="delete-resume-dialog" class="auth-dialog" aria-labelledby="delete-resume-title">
+      <h2 id="delete-resume-title">Delete your saved résumé?</h2>
+      <p>This removes the PDF from your account. Your saved analyses will stay in your history.</p>
+      <p id="delete-resume-error" role="alert" hidden></p>
+      <div class="dialog-actions">
+        <button id="cancel-delete-resume" class="secondary-button" type="button" autofocus>Cancel</button>
+        <button id="confirm-delete-resume" class="secondary-button danger-button" type="button">Delete résumé</button>
       </div>
     </dialog>
 

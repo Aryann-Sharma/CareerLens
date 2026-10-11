@@ -13,15 +13,17 @@ from backend.app.services.skill_extractor import extract_skills
 from backend.app.services.semantic_matcher import ModelUnavailableError, analyze_semantic_match
 from backend.app.core.config import get_settings
 from backend.app.schemas.extraction import ExtractionDetails
-from backend.app.services.trained_extractor import extract, suggested_skills, ExtractorUnavailableError
+from backend.app.services.trained_extractor import extract, suggested_skills, usable_skill_spans, ExtractorUnavailableError
 from backend.app.services.skill_extractor import canonicalize_skill
+from backend.app.services.skill_spelling import correct_known_typos, spelling_checks
 
 router = APIRouter(prefix="/api", tags=["analysis"])
 
 
 def calculate_analysis(request: AnalysisRequest) -> AnalysisResponse:
-    extracted_skills = extract_skills(request.job_description)
-    extraction_details = None
+    checks = spelling_checks(request.job_description) if request.reviewed_job_skills is None else []
+    extracted_skills = extract_skills(correct_known_typos(request.job_description))
+    extraction_details = ExtractionDetails(method="catalog", spelling=checks) if checks else None
     if request.reviewed_job_skills is not None:
         extracted_skills = list(dict.fromkeys(canonicalize_skill(skill) for skill in request.reviewed_job_skills))
         extraction_details = ExtractionDetails(method="reviewed")
@@ -30,11 +32,12 @@ def calculate_analysis(request: AnalysisRequest) -> AnalysisResponse:
             prediction = extract(request.job_description, get_settings().extraction_model_path)
         except ExtractorUnavailableError as error:
             raise HTTPException(status_code=503, detail=(
-                "Trained extraction is unavailable. Choose Catalog extraction or try again later."
+                "Finding skills in context is unavailable. Choose 'Find listed technical skills' or try again later."
             )) from error
-        extracted_skills = suggested_skills(request.job_description, prediction["spans"])
+        spans = usable_skill_spans(prediction["spans"])
+        extracted_skills = suggested_skills(request.job_description, spans)
         extraction_details = ExtractionDetails(method="trained", model=prediction["model"],
-                                                revision=prediction["revision"], spans=prediction["spans"])
+                                                revision=prediction["revision"], spans=spans, spelling=checks)
     matching_details = None
     if request.matching_method == "semantic":
         try:
@@ -42,7 +45,7 @@ def calculate_analysis(request: AnalysisRequest) -> AnalysisResponse:
         except ModelUnavailableError as error:
             raise HTTPException(
                 status_code=503,
-                detail="Semantic matching is unavailable. Choose Exact matching or try again later.",
+                detail="Comparing similar wording is unavailable. Choose 'Match skill names only' or try again later.",
             ) from error
     else:
         result = analyze_skill_match(extracted_skills, request.user_skills)

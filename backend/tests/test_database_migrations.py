@@ -40,6 +40,10 @@ def test_migrations_upgrade_and_downgrade(
         inspector = inspect(engine)
         assert "analyses" in inspector.get_table_names()
         assert "users" in inspector.get_table_names()
+        assert "saved_resumes" in inspector.get_table_names()
+        assert inspector.get_pk_constraint("saved_resumes")["constrained_columns"] == ["user_id"]
+        assert inspector.get_foreign_keys("saved_resumes")[0]["options"]["ondelete"] == "CASCADE"
+        command.check(config)
         assert {column["name"] for column in inspector.get_columns("analyses")} == {
             "id",
             "user_id",
@@ -84,6 +88,7 @@ def test_migrations_upgrade_and_downgrade(
         remaining_tables = inspect(engine).get_table_names()
         assert "analyses" not in remaining_tables
         assert "users" not in remaining_tables
+        assert "saved_resumes" not in remaining_tables
         engine.dispose()
     finally:
         get_settings.cache_clear()

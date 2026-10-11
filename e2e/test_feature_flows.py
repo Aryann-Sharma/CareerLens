@@ -336,7 +336,7 @@ def test_semantic_matching_and_exact_baseline_are_visible_and_saved(page: Page, 
     submit(page, "SQL, CSS and Python are required.",
            "writing relational database queries, styling web pages, Python")
     expect(page.locator("#match-score")).to_have_text("100%")
-    expect(page.locator("#matching-evidence")).to_contain_text("Exact-match baseline: 33%")
+    expect(page.locator("#matching-evidence")).to_contain_text("With skill names alone: 33%")
     expect(page.locator("#matching-evidence li")).to_have_count(2)
     expect(page.locator(".history-card")).to_have_count(1)
     page.get_by_role("button", name="View details").click()
@@ -346,7 +346,7 @@ def test_semantic_matching_and_exact_baseline_are_visible_and_saved(page: Page, 
     page.locator("#extraction-method").select_option("catalog")
     page.get_by_role("button", name="Analyze my fit").click()
     expect(page.locator("#match-score")).to_have_text("33%")
-    expect(page.locator("#matching-evidence")).to_contain_text("Exact matching")
+    expect(page.locator("#matching-evidence")).to_contain_text("Matching skill names")
     page.reload()
     expect(page.locator(".history-card")).to_have_count(2)
     page.get_by_role("button", name="View details").last.click()
@@ -356,13 +356,13 @@ def test_semantic_matching_and_exact_baseline_are_visible_and_saved(page: Page, 
 def test_unavailable_semantic_matching_can_be_retried_in_exact_mode(page: Page, app_url: str) -> None:
     register(page, app_url)
     page.route("**/api/analyze", lambda route: route.fulfill(status=503, json={
-        "detail": "Semantic matching is unavailable. Choose Exact matching or try again later.",
+        "detail": "Comparing similar wording is unavailable. Choose 'Match skill names only' or try again later.",
     }))
     submit(page, "SQL", "SQL")
-    expect(page.locator("#form-error")).to_contain_text("Choose Exact matching")
+    expect(page.locator("#form-error")).to_contain_text("Match skill names only")
     page.unroute("**/api/analyze")
     page.locator("#matching-method").select_option("exact")
     page.locator("#extraction-method").select_option("catalog")
     page.get_by_role("button", name="Analyze my fit").click()
     expect(page.locator("#match-score")).to_have_text("100%")
-    expect(page.locator("#matching-evidence")).to_contain_text("Exact matching")
+    expect(page.locator("#matching-evidence")).to_contain_text("Matching skill names")

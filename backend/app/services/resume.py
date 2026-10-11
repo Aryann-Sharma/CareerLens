@@ -31,4 +31,4 @@ def parse_pdf(content: bytes) -> dict:
     except subprocess.TimeoutExpired as error:
         raise ResumeError("This PDF took too long to read. Try a simpler text-based PDF.") from error
     except (OSError, json.JSONDecodeError) as error:
-        raise ResumeError("PDF extraction is unavailable. You can still enter your skills manually.") from error
+        raise ResumeError("PDF extraction is unavailable. You can still enter the text manually.") from error

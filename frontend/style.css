@@ -26,6 +26,7 @@ body {
 
 button, input, textarea, select { font: inherit; }
 button { white-space: nowrap; }
+button:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px solid var(--green); outline-offset: 4px; }
 .site-header, main, footer { width: min(1180px, calc(100% - 40px)); margin-inline: auto; }
 main { flex: 1; }
 
@@ -80,6 +81,8 @@ main { flex: 1; }
   color: var(--muted);
   font-size: 0.82rem;
 }
+
+.auth-loading { display: inline-flex; align-items: center; justify-content: center; min-width: 196px; min-height: 44px; }
 
 .current-user-email {
   max-width: 220px;
@@ -214,7 +217,7 @@ textarea:focus, input:focus, select:focus { border-color: var(--green); box-shad
 .matching-evidence li { margin-top: 8px; overflow-wrap: anywhere; font-size: 0.84rem; line-height: 1.5; }
 .history-detail .matching-evidence { margin-top: 20px; }
 ::placeholder { color: #9da69f; }
-.field-meta, .field-hint { color: var(--muted); font-size: 0.76rem; }
+.field-meta, .field-hint { color: var(--muted); font-size: 0.8rem; line-height: 1.6; }
 .field-meta { display: flex; justify-content: space-between; gap: 20px; margin-top: 9px; }
 .skills-field { margin-top: 34px; }
 .skills-field label { display: block; margin-bottom: 10px; font-size: 1.08rem; font-weight: 700; }
@@ -323,12 +326,6 @@ button:focus-visible, a:focus-visible, summary:focus-visible {
 .extracted-details summary { color: var(--muted); cursor: pointer; font-size: 0.82rem; font-weight: 600; }
 
 .history-section { padding: 52px 0 24px; }
-.extraction-preview { margin-top: 24px; padding: clamp(18px, 3vw, 28px); border: 1px solid var(--line); border-radius: 18px; background: var(--panel, white); }
-.extraction-preview summary { cursor: pointer; font-weight: 700; line-height: 1.8; padding-block: 8px; }
-.extraction-preview p { color: var(--muted); line-height: 1.65; max-width: 80ch; }
-.extraction-preview h3 { font-size: 0.95rem; margin-top: 24px; }
-.extraction-preview button { max-width: 100%; white-space: normal; text-align: center; }
-.preview-label { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 6px; background: var(--amber-soft); color: #824713; font-size: 0.72rem; font-weight: 600; }
 .history-heading {
   display: flex;
   align-items: end;
@@ -447,7 +444,7 @@ button:focus-visible, a:focus-visible, summary:focus-visible {
 .detail-summary { padding: 18px; border-radius: 12px; background: var(--green-soft); }
 .detail-summary strong { color: var(--green-dark); font-size: 1.25rem; }
 .history-detail h3 { margin: 26px 0 10px; font-size: 0.9rem; }
-.saved-description {
+.saved-description, .document-text {
   overflow-wrap: anywhere;
   max-height: 220px;
   overflow: auto;
@@ -508,10 +505,11 @@ footer a { color: var(--green); font-weight: 700; }
 [hidden] { display: none !important; }
 
 .skill-review, .resume-upload { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--border, #dedfd6); }
-.skill-review summary, .resume-upload summary { cursor: pointer; font-weight: 650; padding: .4rem 0; }
+.skill-review summary, .resume-upload summary { cursor: pointer; font-weight: 650; padding: .65rem 0; line-height: 1.5; }
 .skill-review label, .resume-upload label { display: block; margin: 1rem 0 .5rem; }
-.skill-review textarea, .resume-upload textarea { width: 100%; min-height: 7rem; }
-.skills-field > .matching-field { margin-top: 0; margin-bottom: 1.75rem; }
+.skill-review textarea, .resume-upload textarea { width: 100%; min-height: 7rem; margin-top: 0; }
+.skills-field > .matching-field { margin-top: 0; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--line); }
+.skills-field .matching-field label { font-size: .9rem; }
 .skill-review > button, #resume-review > button { margin-top: .75rem; }
 .source-evidence { max-height: 14rem; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font-size: .9rem; line-height: 1.7; margin: 1rem 0; }
 .source-evidence mark, .saved-description mark { background: #dcecd1; color: #183c29; border-radius: 3px; }
@@ -521,3 +519,44 @@ footer a { color: var(--green); font-weight: 700; }
 .danger-button, .delete-history-button { color: #a42c23; }
 #resume-file { max-width: 100%; font-size: .875rem; }
 #resume-status, #delete-error { overflow-wrap: anywhere; }
+
+.resume-actions { display: flex; align-items: center; flex-wrap: wrap; gap: .75rem; margin: .75rem 0; }
+.resume-actions .secondary-button { text-decoration: none; }
+.resume-upload button, .resume-actions a { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+#saved-resume { padding: .75rem; margin: .75rem 0; border-radius: 10px; background: var(--green-soft); }
+#saved-resume-info, #saved-resume-status, #delete-resume-error { overflow-wrap: anywhere; }
+.spelling-checks { margin: 1rem 0; padding: 1rem; border: 1px solid var(--line); border-radius: 10px; overflow-wrap: anywhere; }
+.spelling-checks h3 { margin: 0 0 .75rem; font-size: .95rem; }
+.spelling-checks p { font-size: .85rem; line-height: 1.5; }
+.spelling-checks button { white-space: normal; max-width: 100%; }
+.description-editor { margin-top: 22px; border: 1px solid var(--line); border-radius: 12px; background: white; transition: border-color 160ms, box-shadow 160ms; }
+.description-editor:focus-within { border-color: var(--green); box-shadow: 0 0 0 3px rgba(31, 107, 80, .12); }
+.description-editor textarea { margin: 0; border: 0; border-radius: 12px 12px 0 0; min-height: 210px; }
+.description-editor textarea:focus { box-shadow: none; }
+.description-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 12px; padding: 6px 12px; border-top: 1px solid var(--line); }
+.photo-button { display: inline-flex; align-items: center; gap: 8px; border-radius: 8px; }
+.photo-button:hover { background: var(--green-soft); }
+.photo-button svg { flex-shrink: 0; }
+.original-job-document { margin-top: 16px; }
+.original-job-document summary { cursor: pointer; padding: 12px 0; font-size: .85rem; font-weight: 650; }
+.original-job-document .document-text { font-family: inherit; font-size: .85rem; }
+#character-count { color: var(--muted); font-size: .75rem; white-space: nowrap; margin-left: auto; }
+.description-hint { margin-top: 12px; }
+.job-import { margin-top: 20px; padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: #f7f8f3; }
+.import-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.import-heading h3 { margin: 0; font-size: 1rem; }
+.job-import label { display: block; margin: 1rem 0 .5rem; }
+.job-import textarea { width: 100%; min-height: 10rem; margin-top: 0; padding: 12px; }
+.job-import button { max-width: 100%; white-space: normal; }
+#job-import-status { overflow-wrap: anywhere; }
+#job-import-status:empty { margin: 0; }
+#import-warning { padding-left: 12px; border-left: 3px solid #d7b586; margin-top: 14px; }
+#read-job-upload { margin-top: 8px; }
+#read-job-upload:disabled { color: var(--muted); cursor: wait; }
+@media (max-width: 540px) {
+  .panel-heading { align-items: flex-start; flex-wrap: wrap; gap: 4px 12px; }
+  .job-import { padding: 14px; }
+  .description-toolbar { padding-inline: 8px; gap: 4px; }
+  .description-toolbar .photo-button { padding-inline: 6px; gap: 6px; font-size: .8rem; }
+  .description-toolbar #character-count { flex-basis: 100%; text-align: right; padding-bottom: 4px; }
+}

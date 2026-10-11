@@ -10,6 +10,8 @@ from backend.app.db.session import SessionLocal, engine
 from backend.app.main import app
 from backend.app.models.analysis import AnalysisRecord
 from backend.app.models.user import User
+from backend.app.models.resume import SavedResume
+from backend.tests.pdf_fixtures import make_pdf
 
 
 @pytest.mark.skipif(
@@ -83,6 +85,16 @@ def test_application_flow_uses_postgresql() -> None:
         assert client.delete(reviewed_url).status_code == 204
         assert client.get(reviewed_url).status_code == 404
 
+        pdf = make_pdf("Python SQL")
+        saved_resume = client.put("/api/resume/saved?filename=resume.pdf", content=pdf,
+                                  headers={"Content-Type": "application/pdf"})
+        assert saved_resume.status_code == 200
+        assert saved_resume.json()["updated_at"].endswith("Z")
+        assert client.get("/api/resume/saved/file").content == pdf
+        assert client.post("/api/resume/saved/skills?method=catalog").json()["skills"] == ["Python", "SQL"]
+        assert client.put("/api/resume/saved", content=b"invalid", headers={"Content-Type": "application/pdf"}).status_code == 422
+        assert client.get("/api/resume/saved/file").content == pdf
+
         with SessionLocal() as session:
             saved_analysis = session.scalar(
                 select(AnalysisRecord).where(AnalysisRecord.id == analysis_id)
@@ -102,6 +114,9 @@ def test_application_flow_uses_postgresql() -> None:
         assert client.get("/api/analyses").json()["items"] == []
         assert client.get(f"/api/analyses/{analysis_id}").status_code == 404
         assert client.delete(f"/api/analyses/{analysis_id}").status_code == 404
+        assert client.get("/api/resume/saved").status_code == 404
+        assert client.get("/api/resume/saved/file").status_code == 404
+        assert client.delete("/api/resume/saved").status_code == 404
 
         assert engine.dialect.name == "postgresql"
         inspector = inspect(engine)
@@ -142,3 +157,4 @@ def test_application_flow_uses_postgresql() -> None:
                 delete(User).where(User.email.in_([email, second_email]))
             )
             session.commit()
+            assert session.scalar(select(SavedResume).where(SavedResume.user_id == registration.json()["id"])) is None

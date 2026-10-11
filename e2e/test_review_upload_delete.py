@@ -8,6 +8,22 @@ from backend.tests.pdf_fixtures import make_pdf
 from e2e.test_feature_flows import register, create_analysis
 
 
+@pytest.mark.skipif(os.getenv("RUN_CONTEXTUAL_TESTS") != "1", reason="Requires contextual weights")
+def test_filler_prediction_is_not_displayed_or_scored(page: Page, app_url: str):
+    page.goto(app_url)
+    page.locator("#job-description").fill("be a team worker, and be diligent")
+    page.locator("#analyze-button").click()
+    expect(page.locator("#missing-skills .chip")).to_have_text(["team worker", "diligent"], timeout=30000)
+    expect(page.locator("#missing-count")).to_have_text("2")
+    page.locator("#skill-review summary").click()
+    expect(page.locator("#reviewed-skills")).to_have_value("team worker\ndiligent")
+    expect(page.locator("#source-evidence mark")).to_have_text(["team worker", "diligent"])
+    page.locator("#user-skills").fill("team worker")
+    page.locator("#analyze-button").click()
+    expect(page.locator("#match-score")).to_have_text("50%")
+    expect(page.locator("#missing-skills .chip")).to_have_text(["diligent"])
+
+
 def test_guest_can_review_predictions_and_recalculate_from_original_input(page: Page, app_url: str):
     page.goto(app_url)
     text = "🧭 Python and stakeholder communication <b>required</b>"
@@ -101,7 +117,7 @@ def test_real_contextual_analysis_and_pdf(page: Page, app_url: str):
     page.locator("#analyze-button").click()
     expect(page.locator("#results-content")).to_be_visible(timeout=30000)
     page.locator("#skill-review summary").click()
-    expect(page.locator("#extraction-method-note")).to_contain_text("Trained extraction")
+    expect(page.locator("#extraction-method-note")).to_contain_text("Skills found using the wording")
     assert page.locator("#source-evidence mark").count() > 0
     page.locator(".resume-upload summary").click()
     page.locator("#resume-file").set_input_files({"name": "resume.pdf", "mimeType": "application/pdf", "buffer": make_pdf("Experience with Python and SQL. Excellent communication skills.")})

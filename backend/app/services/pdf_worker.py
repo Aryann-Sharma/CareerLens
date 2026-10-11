@@ -33,7 +33,7 @@ def read_pdf(content: bytes) -> dict:
         part = page.extract_text() or ""
         size += len(part) + 1
         if size > MAX_TEXT:
-            raise ValueError("The PDF contains too much text. Upload a shorter résumé.")
+            raise ValueError("The PDF contains too much text. Upload a shorter document.")
         parts.append(part)
     text = "\n".join(parts).strip()
     if not text:
