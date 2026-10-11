@@ -2,10 +2,30 @@
 
 Run commands from the repository root with the virtual environment activated.
 
+## Verification record
+
+| Date | Check | Result |
+| --- | --- | --- |
+| 2026-10-11 | Backend and Chromium suites, with MiniLM, CRF, and contextual integration checks enabled | 266 passed; one PostgreSQL-only test skipped |
+| 2026-10-08 | Separate PostgreSQL integration test and Chromium suite against a disposable PostgreSQL 18 database | 54 passed; migration consistency check passed |
+| 2026-10-11 | Installed application dependencies and frontend JavaScript syntax | Passed |
+
+The PostgreSQL run repeats browser coverage against a different database; these
+counts should not be added together as unique tests. Model weights were reused
+for the latest checks, not retrained. The latest suite reported one upstream
+Starlette/AnyIO deprecation warning and no test failures.
+
+These checks support the implemented local workflows. They do not establish
+production load capacity, browser compatibility beyond Chromium, or accuracy on
+every résumé format. Docker runtime and public HTTPS deployment remain unverified
+locally. See the [deployment guide](deployment.md) for those separate checks and
+the [contextual model guide](contextual-model.md) for measured extraction quality.
+
 ## Install test dependencies
 
 ```text
 python -m pip install -r backend/requirements-dev.txt
+python -m backend.scripts.download_model
 python -m playwright install chromium
 ```
 
@@ -25,6 +45,16 @@ Node.js is needed only for the JavaScript syntax check. The application itself d
 
 The backend fixtures create an isolated in-memory SQLite database. Migration tests use temporary files. The PostgreSQL integration test is skipped unless explicitly enabled.
 
+Most semantic tests use controlled model rankings to check thresholds, ambiguity,
+ownership, persistence, and failure handling. To test the real model offline and
+check repeatability, set `$env:RUN_MODEL_TESTS = '1'` in PowerShell before running
+the backend suite. Remove it afterwards with `Remove-Item Env:RUN_MODEL_TESTS`.
+Browser tests exercise the real model, so download it before running them.
+
+Run `python -m backend.scripts.evaluate_matching` to regenerate
+`evaluation/results.json`. The [model guide](model.md) explains how to read the
+development results and why they are not a production accuracy claim.
+
 The browser fixture applies migrations to a temporary SQLite database and starts the real application on an available loopback port. Each test gets a fresh browser context, and the server is stopped after the suite. Tests fail on uncaught browser errors. Playwright writes retained failure traces under `test-results/`.
 
 ## Feature coverage
@@ -33,15 +63,69 @@ The browser fixture applies migrations to a temporary SQLite database and starts
 | --- | --- |
 | Extraction | Every supported skill and alias, case, duplicates, punctuation, overlapping names, word boundaries, repeated input |
 | Scoring | Partial and full matches, empty profiles, unknown skills, rounding, preserved ordering |
+| Semantic matching | Real local inference, repeatability, explicit denials, ambiguity, similarity thresholds, exact baseline, saved explanations, unavailable-model recovery |
+| Trained extraction | Split deduplication, label validation, span metrics, miniature CRF training, artifact integrity, offline prediction, Unicode offsets, contextual word alignment and long inputs, public preview, failure recovery |
+| Skill review | Trained phrases affect scoring, corrected lists override predictions, input limits, source highlighting, original input snapshots, saved extraction evidence |
+| Résumé import | PDF validation, byte/page/text limits, encrypted and image-only documents, parser timeout, reviewed profile import, no database writes, ignored upload responses after logout |
+| Guest access | Immediate workspace, exact and semantic preview without database access, private save/history routes, sign-in-to-save, cancellation, retries, preserved result snapshots, delayed session checks |
 | Validation | Missing and extra fields, incorrect types, blank descriptions, input limits |
 | Accounts | Registration, duplicate email, password validation and hashing, login errors, session restoration, logout |
 | Sessions | Invalid and expired tokens, deleted users, production cookie flags |
 | Privacy | Ownership checks, foreign IDs, legacy unowned records, cleared drafts, ignored responses after logout |
-| History | Persistence, newest-first ordering, pagination, previews, complete details |
+| History | Persistence, newest-first ordering, pagination, previews, saved evidence, deletion ownership, confirmation/cancellation, retry, last-page recovery |
 | Browser recovery | Failed analysis requests and retries, unavailable history, missing details, expired sessions |
-| Interface | Example input, score and skill displays, keyboard dismissal, dialog padding, mobile long content, literal text rendering |
+| Interface | Example input, score and skill displays, keyboard dismissal, dialog padding, button alignment and touch targets, seven viewport widths from 320 to 1,440 pixels, mobile long content, literal text rendering |
 | Database | Migrations, schema consistency, write rollback, uniqueness, foreign keys, PostgreSQL JSONB |
 | Operations | Liveness, database readiness, missing schema, production configuration |
+
+## Trained extraction checks
+
+The contextual model has separate offline, Unicode-offset, repeated-inference,
+and long-input checks. Its alignment tests cover overlapping windows and control
+characters removed by tokenization. Enable `RUN_CONTEXTUAL_TESTS=1` after following
+the [contextual training guide](contextual-model.md). `RUN_EXTRACTOR_TESTS=1`
+enables the CRF and extraction-preview checks; `RUN_MODEL_TESTS=1` enables MiniLM.
+
+Backend tests cover trained/reviewed scoring, saved extraction evidence,
+deletion ownership and identifier bounds, PDF byte/page/text limits, encrypted
+and image-only PDFs, parser timeouts, and unsaved guest imports. Browser tests
+exercise source highlights, literal HTML rendering, corrections using the original
+analysis snapshot, reviewed PDF skill import, 320/768/1440-pixel layouts, stale
+upload responses after logout, and deletion with cancel, retry, and last-page recovery.
+
+```powershell
+$env:RUN_CONTEXTUAL_TESTS = '1'
+$env:RUN_EXTRACTOR_TESTS = '1'
+$env:RUN_MODEL_TESTS = '1'
+python -m pytest backend/tests e2e --browser chromium -q
+Remove-Item Env:RUN_CONTEXTUAL_TESTS, Env:RUN_EXTRACTOR_TESTS, Env:RUN_MODEL_TESTS
+```
+
+The ordinary backend suite trains a small synthetic fixture to verify the full
+training pipeline. This fixture is a software test, not the SkillSpan experiment
+or a source of reported model quality. Browser tests mock preview responses to
+cover layout, input limits, safe text rendering, errors, edits, and logout.
+
+To check the actual trained weights, first follow the [training guide](training.md),
+then enable the integration checks in PowerShell:
+
+```powershell
+$env:RUN_EXTRACTOR_TESTS = '1'
+python -m pytest backend/tests/test_ml_training.py backend/tests/test_trained_extraction.py -q
+python -m pytest e2e/test_extraction_preview.py --browser chromium -q
+Remove-Item Env:RUN_EXTRACTOR_TESTS
+```
+
+The real-model check blocks outbound socket connections during inference and
+checks repeated predictions and source offsets. The browser check verifies an
+actual prediction from the local model. The separate training workflow runs
+the training and backend checks; the main CI suite does not retrain on every
+application change.
+
+On Windows, if an old system temporary directory is inaccessible, give pytest a
+new directory under `.review-tests` using `--basetemp=.review-tests/my-test-run`
+and disable pytest's cache with `-p no:cacheprovider` if necessary.
+Choose an unused path: pytest clears the specified base directory when starting.
 
 ## PostgreSQL checks
 
