@@ -1,0 +1,309 @@
+{
+  "model": "sentence-transformers/all-MiniLM-L6-v2",
+  "revision": "d13954661f83248295ba75c1ed411eef3b7b936e",
+  "data_sha256": "47a4843baad55b1419dc50d10dafc82b64cf8c4ef1f289ad6b3aa30f57fa776c",
+  "threshold": 0.7,
+  "margin": 0.08,
+  "note": "Hand-authored development fixtures, not an independent real-world benchmark. No model training was performed.",
+  "splits": {
+    "calibration": {
+      "exact": {
+        "examples": 36,
+        "correct": 24,
+        "precision": 1.0,
+        "recall": 0.4,
+        "f1": 0.5714,
+        "errors": [
+          {
+            "id": "calibration-09",
+            "split": "calibration",
+            "phrase": "writing relational database queries",
+            "expected": "SQL",
+            "predicted": null
+          },
+          {
+            "id": "calibration-10",
+            "split": "calibration",
+            "phrase": "styling web pages",
+            "expected": "CSS",
+            "predicted": null
+          },
+          {
+            "id": "calibration-11",
+            "split": "calibration",
+            "phrase": "creating web page markup",
+            "expected": "HTML",
+            "predicted": null
+          },
+          {
+            "id": "calibration-12",
+            "split": "calibration",
+            "phrase": "training predictive models",
+            "expected": "Machine Learning",
+            "predicted": null
+          },
+          {
+            "id": "calibration-13",
+            "split": "calibration",
+            "phrase": "analyzing human language",
+            "expected": "Natural Language Processing",
+            "predicted": null
+          },
+          {
+            "id": "calibration-14",
+            "split": "calibration",
+            "phrase": "Python programming",
+            "expected": "Python",
+            "predicted": null
+          },
+          {
+            "id": "calibration-15",
+            "split": "calibration",
+            "phrase": "React hooks and components",
+            "expected": "React",
+            "predicted": null
+          },
+          {
+            "id": "calibration-16",
+            "split": "calibration",
+            "phrase": "source code version control",
+            "expected": "Git",
+            "predicted": null
+          },
+          {
+            "id": "calibration-17",
+            "split": "calibration",
+            "phrase": "building Docker containers",
+            "expected": "Docker",
+            "predicted": null
+          },
+          {
+            "id": "calibration-18",
+            "split": "calibration",
+            "phrase": "administering Linux servers",
+            "expected": "Linux",
+            "predicted": null
+          },
+          {
+            "id": "calibration-19",
+            "split": "calibration",
+            "phrase": "writing TypeScript applications",
+            "expected": "TypeScript",
+            "predicted": null
+          },
+          {
+            "id": "calibration-20",
+            "split": "calibration",
+            "phrase": "Django web development",
+            "expected": "Django",
+            "predicted": null
+          }
+        ]
+      },
+      "semantic": {
+        "examples": 36,
+        "correct": 34,
+        "precision": 1.0,
+        "recall": 0.9,
+        "f1": 0.9474,
+        "errors": [
+          {
+            "id": "calibration-16",
+            "split": "calibration",
+            "phrase": "source code version control",
+            "expected": "Git",
+            "predicted": null
+          },
+          {
+            "id": "calibration-18",
+            "split": "calibration",
+            "phrase": "administering Linux servers",
+            "expected": "Linux",
+            "predicted": null
+          }
+        ]
+      }
+    },
+    "evaluation": {
+      "exact": {
+        "examples": 36,
+        "correct": 20,
+        "precision": 1.0,
+        "recall": 0.3333,
+        "f1": 0.5,
+        "errors": [
+          {
+            "id": "evaluation-09",
+            "split": "evaluation",
+            "phrase": "designing page layouts with cascading stylesheets",
+            "expected": "CSS",
+            "predicted": null
+          },
+          {
+            "id": "evaluation-10",
+            "split": "evaluation",
+            "phrase": "writing joins to retrieve relational data",
+            "expected": "SQL",
+            "predicted": null
+          },
+          {
+            "id": "evaluation-11",
+            "split": "evaluation",
+            "phrase": "creating page structure with markup tags",
+            "expected": "HTML",
+            "predicted": null
+          },
+          {
+            "id": "evaluation-12",
+            "split": "evaluation",
+            "phrase": "predictive modelling from training data",
+            "expected": "Machine Learning",
+            "predicted": null
+          },
+          {
+            "id": "evaluation-13",
+            "split": "evaluation",
+            "phrase": "processing text and human language",
+            "expected": "Natural Language Processing",
+            "predicted": null
+          },
+          {
+            "id": "evaluation-14",
+            "split": "evaluation",
+            "phrase": "automating tasks using Python scripts",
+            "expected": "Python",
+            "predicted": null
+          },
+          {
+            "id": "evaluation-15",
+            "split": "evaluation",
+            "phrase": "managing source code branches and commits",
+            "expected": "Git",
+            "predicted": null
+          },
+          {
+            "id": "evaluation-16",
+            "split": "evaluation",
+            "phrase": "developing interfaces with React hooks",
+            "expected": "React",
+            "predicted": null
+          },
+          {
+            "id": "evaluation-17",
+            "split": "evaluation",
+            "phrase": "deploying applications inside Docker containers",
+            "expected": "Docker",
+            "predicted": null
+          },
+          {
+            "id": "evaluation-18",
+            "split": "evaluation",
+            "phrase": "managing a PostgreSQL database",
+            "expected": "PostgreSQL",
+            "predicted": null
+          },
+          {
+            "id": "evaluation-19",
+            "split": "evaluation",
+            "phrase": "developing APIs using FastAPI",
+            "expected": "FastAPI",
+            "predicted": null
+          },
+          {
+            "id": "evaluation-20",
+            "split": "evaluation",
+            "phrase": "server development with the Node.js runtime",
+            "expected": "Node.js",
+            "predicted": null
+          },
+          {
+            "id": "evaluation-21",
+            "split": "evaluation",
+            "phrase": "building web applications using Django",
+            "expected": "Django",
+            "predicted": null
+          },
+          {
+            "id": "evaluation-22",
+            "split": "evaluation",
+            "phrase": "statically typed JavaScript development",
+            "expected": "TypeScript",
+            "predicted": null
+          },
+          {
+            "id": "evaluation-23",
+            "split": "evaluation",
+            "phrase": "developing applications in Java",
+            "expected": "Java",
+            "predicted": null
+          },
+          {
+            "id": "evaluation-24",
+            "split": "evaluation",
+            "phrase": "administering a Linux operating system",
+            "expected": "Linux",
+            "predicted": null
+          }
+        ]
+      },
+      "semantic": {
+        "examples": 36,
+        "correct": 35,
+        "precision": 1.0,
+        "recall": 0.9583,
+        "f1": 0.9787,
+        "errors": [
+          {
+            "id": "evaluation-09",
+            "split": "evaluation",
+            "phrase": "designing page layouts with cascading stylesheets",
+            "expected": "CSS",
+            "predicted": null
+          }
+        ]
+      }
+    }
+  },
+  "calibration_sweep": [
+    {
+      "threshold": 0.55,
+      "examples": 36,
+      "correct": 35,
+      "precision": 0.9524,
+      "recall": 1.0,
+      "f1": 0.9756
+    },
+    {
+      "threshold": 0.6,
+      "examples": 36,
+      "correct": 35,
+      "precision": 0.9524,
+      "recall": 1.0,
+      "f1": 0.9756
+    },
+    {
+      "threshold": 0.65,
+      "examples": 36,
+      "correct": 34,
+      "precision": 0.95,
+      "recall": 0.95,
+      "f1": 0.95
+    },
+    {
+      "threshold": 0.7,
+      "examples": 36,
+      "correct": 34,
+      "precision": 1.0,
+      "recall": 0.9,
+      "f1": 0.9474
+    },
+    {
+      "threshold": 0.75,
+      "examples": 36,
+      "correct": 32,
+      "precision": 1.0,
+      "recall": 0.8,
+      "f1": 0.8889
+    }
+  ]
+}

@@ -49,6 +49,8 @@ def test_migrations_upgrade_and_downgrade(
             "matched_skills",
             "missing_skills",
             "match_score",
+            "matching_details",
+            "extraction_details",
             "created_at",
         }
         assert {index["name"] for index in inspector.get_indexes("analyses")} == {

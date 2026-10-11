@@ -1,0 +1,1029 @@
+{
+  "dataset": {
+    "repository": "https://github.com/acp19tag/skill-extraction-dataset",
+    "revision": "ca1eadd2885a277853b01f0ec96fc89094adf71e",
+    "license": "CC-BY-4.0",
+    "sha256": {
+      "test.csv": "ff69bff0202fda1f4d244fb5d8248fdea364ddbcf6e7217d989cc072b3f49201",
+      "LICENSE": "7e7170e3cebf88a9f60c7b8421418323c09304da1af4d5e90f4da1dc1c8a2661"
+    }
+  },
+  "original_sentences": 336,
+  "retained_sentences": 336,
+  "duplicates_removed": 0,
+  "usage": "evaluation only; no tuning on this corpus",
+  "mapping": "Green Skill spans compared with the union of SkillSpan skill and knowledge spans; other Green entities count as outside",
+  "limitations": "Different annotation policies; exact sentence deduplication does not establish posting-level independence. Supplied tokens, not raw PDF text.",
+  "crf_revision": "0ddc35149a149400f2e686dfa3f305fc666074138c2a6206b1a88f2e522379a7",
+  "contextual_revision": "c405c29c94e49c8746940ca708c4158ff30adf823ca81a04fc31d8382a782896",
+  "crf": {
+    "overall": {
+      "precision": 0.359091,
+      "recall": 0.116864,
+      "f1": 0.176339,
+      "tp": 79,
+      "fp": 141,
+      "fn": 597,
+      "support": 676
+    },
+    "error_examples": [
+      {
+        "sentence_id": "1",
+        "expected_spans": [
+          [
+            3,
+            9
+          ]
+        ],
+        "predicted_spans": [
+          [
+            3,
+            7
+          ]
+        ]
+      },
+      {
+        "sentence_id": "2",
+        "expected_spans": [
+          [
+            0,
+            3
+          ],
+          [
+            6,
+            10
+          ]
+        ],
+        "predicted_spans": [
+          [
+            11,
+            14
+          ]
+        ]
+      },
+      {
+        "sentence_id": "3",
+        "expected_spans": [
+          [
+            5,
+            11
+          ],
+          [
+            14,
+            19
+          ],
+          [
+            27,
+            33
+          ],
+          [
+            36,
+            41
+          ],
+          [
+            45,
+            47
+          ],
+          [
+            62,
+            67
+          ],
+          [
+            77,
+            81
+          ]
+        ],
+        "predicted_spans": [
+          [
+            5,
+            8
+          ],
+          [
+            38,
+            41
+          ]
+        ]
+      },
+      {
+        "sentence_id": "4",
+        "expected_spans": [
+          [
+            0,
+            12
+          ],
+          [
+            15,
+            21
+          ],
+          [
+            24,
+            28
+          ],
+          [
+            30,
+            36
+          ]
+        ],
+        "predicted_spans": [
+          [
+            30,
+            35
+          ]
+        ]
+      },
+      {
+        "sentence_id": "5",
+        "expected_spans": [
+          [
+            3,
+            6
+          ],
+          [
+            9,
+            11
+          ]
+        ],
+        "predicted_spans": [
+          [
+            9,
+            11
+          ]
+        ]
+      },
+      {
+        "sentence_id": "7",
+        "expected_spans": [
+          [
+            8,
+            9
+          ],
+          [
+            10,
+            11
+          ]
+        ],
+        "predicted_spans": []
+      },
+      {
+        "sentence_id": "8",
+        "expected_spans": [
+          [
+            7,
+            10
+          ],
+          [
+            17,
+            22
+          ]
+        ],
+        "predicted_spans": []
+      },
+      {
+        "sentence_id": "9",
+        "expected_spans": [
+          [
+            4,
+            6
+          ],
+          [
+            7,
+            9
+          ],
+          [
+            12,
+            14
+          ]
+        ],
+        "predicted_spans": [
+          [
+            4,
+            11
+          ]
+        ]
+      },
+      {
+        "sentence_id": "11",
+        "expected_spans": [
+          [
+            3,
+            4
+          ],
+          [
+            11,
+            13
+          ]
+        ],
+        "predicted_spans": []
+      },
+      {
+        "sentence_id": "13",
+        "expected_spans": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            7,
+            15
+          ],
+          [
+            16,
+            18
+          ],
+          [
+            20,
+            21
+          ]
+        ],
+        "predicted_spans": [
+          [
+            1,
+            5
+          ],
+          [
+            7,
+            15
+          ],
+          [
+            20,
+            22
+          ]
+        ]
+      },
+      {
+        "sentence_id": "14",
+        "expected_spans": [],
+        "predicted_spans": [
+          [
+            17,
+            18
+          ],
+          [
+            18,
+            19
+          ],
+          [
+            19,
+            20
+          ],
+          [
+            20,
+            21
+          ]
+        ]
+      },
+      {
+        "sentence_id": "15",
+        "expected_spans": [
+          [
+            5,
+            6
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            12,
+            14
+          ]
+        ],
+        "predicted_spans": []
+      },
+      {
+        "sentence_id": "16",
+        "expected_spans": [
+          [
+            8,
+            11
+          ],
+          [
+            12,
+            17
+          ],
+          [
+            21,
+            23
+          ]
+        ],
+        "predicted_spans": [
+          [
+            2,
+            4
+          ]
+        ]
+      },
+      {
+        "sentence_id": "18",
+        "expected_spans": [
+          [
+            19,
+            21
+          ],
+          [
+            23,
+            24
+          ]
+        ],
+        "predicted_spans": [
+          [
+            25,
+            26
+          ]
+        ]
+      },
+      {
+        "sentence_id": "19",
+        "expected_spans": [
+          [
+            6,
+            8
+          ]
+        ],
+        "predicted_spans": []
+      },
+      {
+        "sentence_id": "20",
+        "expected_spans": [
+          [
+            4,
+            5
+          ],
+          [
+            6,
+            8
+          ],
+          [
+            9,
+            10
+          ],
+          [
+            11,
+            12
+          ],
+          [
+            13,
+            14
+          ]
+        ],
+        "predicted_spans": [
+          [
+            6,
+            8
+          ],
+          [
+            9,
+            10
+          ],
+          [
+            11,
+            12
+          ],
+          [
+            13,
+            14
+          ]
+        ]
+      },
+      {
+        "sentence_id": "21",
+        "expected_spans": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "predicted_spans": [
+          [
+            3,
+            4
+          ]
+        ]
+      },
+      {
+        "sentence_id": "22",
+        "expected_spans": [
+          [
+            7,
+            17
+          ]
+        ],
+        "predicted_spans": []
+      },
+      {
+        "sentence_id": "24",
+        "expected_spans": [
+          [
+            0,
+            7
+          ],
+          [
+            12,
+            18
+          ]
+        ],
+        "predicted_spans": [
+          [
+            2,
+            18
+          ]
+        ]
+      },
+      {
+        "sentence_id": "25",
+        "expected_spans": [
+          [
+            12,
+            13
+          ],
+          [
+            14,
+            20
+          ]
+        ],
+        "predicted_spans": [
+          [
+            7,
+            18
+          ],
+          [
+            11,
+            13
+          ]
+        ]
+      }
+    ]
+  },
+  "contextual": {
+    "overall": {
+      "precision": 0.36407,
+      "recall": 0.338757,
+      "f1": 0.350958,
+      "tp": 229,
+      "fp": 400,
+      "fn": 447,
+      "support": 676
+    },
+    "error_examples": [
+      {
+        "sentence_id": "2",
+        "expected_spans": [
+          [
+            0,
+            3
+          ],
+          [
+            6,
+            10
+          ]
+        ],
+        "predicted_spans": [
+          [
+            0,
+            4
+          ],
+          [
+            6,
+            10
+          ],
+          [
+            11,
+            14
+          ]
+        ]
+      },
+      {
+        "sentence_id": "3",
+        "expected_spans": [
+          [
+            5,
+            11
+          ],
+          [
+            14,
+            19
+          ],
+          [
+            27,
+            33
+          ],
+          [
+            36,
+            41
+          ],
+          [
+            45,
+            47
+          ],
+          [
+            62,
+            67
+          ],
+          [
+            77,
+            81
+          ]
+        ],
+        "predicted_spans": [
+          [
+            5,
+            11
+          ],
+          [
+            14,
+            19
+          ],
+          [
+            27,
+            35
+          ],
+          [
+            36,
+            38
+          ],
+          [
+            38,
+            43
+          ],
+          [
+            45,
+            50
+          ],
+          [
+            62,
+            63
+          ],
+          [
+            65,
+            66
+          ],
+          [
+            66,
+            67
+          ],
+          [
+            77,
+            81
+          ]
+        ]
+      },
+      {
+        "sentence_id": "4",
+        "expected_spans": [
+          [
+            0,
+            12
+          ],
+          [
+            15,
+            21
+          ],
+          [
+            24,
+            28
+          ],
+          [
+            30,
+            36
+          ]
+        ],
+        "predicted_spans": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            4
+          ],
+          [
+            5,
+            6
+          ],
+          [
+            15,
+            17
+          ],
+          [
+            17,
+            21
+          ],
+          [
+            30,
+            36
+          ]
+        ]
+      },
+      {
+        "sentence_id": "5",
+        "expected_spans": [
+          [
+            3,
+            6
+          ],
+          [
+            9,
+            11
+          ]
+        ],
+        "predicted_spans": [
+          [
+            5,
+            6
+          ],
+          [
+            9,
+            11
+          ]
+        ]
+      },
+      {
+        "sentence_id": "7",
+        "expected_spans": [
+          [
+            8,
+            9
+          ],
+          [
+            10,
+            11
+          ]
+        ],
+        "predicted_spans": []
+      },
+      {
+        "sentence_id": "8",
+        "expected_spans": [
+          [
+            7,
+            10
+          ],
+          [
+            17,
+            22
+          ]
+        ],
+        "predicted_spans": [
+          [
+            17,
+            22
+          ]
+        ]
+      },
+      {
+        "sentence_id": "9",
+        "expected_spans": [
+          [
+            4,
+            6
+          ],
+          [
+            7,
+            9
+          ],
+          [
+            12,
+            14
+          ]
+        ],
+        "predicted_spans": [
+          [
+            4,
+            12
+          ]
+        ]
+      },
+      {
+        "sentence_id": "11",
+        "expected_spans": [
+          [
+            3,
+            4
+          ],
+          [
+            11,
+            13
+          ]
+        ],
+        "predicted_spans": [
+          [
+            3,
+            4
+          ],
+          [
+            17,
+            18
+          ]
+        ]
+      },
+      {
+        "sentence_id": "13",
+        "expected_spans": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            7,
+            15
+          ],
+          [
+            16,
+            18
+          ],
+          [
+            20,
+            21
+          ]
+        ],
+        "predicted_spans": [
+          [
+            1,
+            5
+          ],
+          [
+            7,
+            15
+          ]
+        ]
+      },
+      {
+        "sentence_id": "15",
+        "expected_spans": [
+          [
+            5,
+            6
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            12,
+            14
+          ]
+        ],
+        "predicted_spans": []
+      },
+      {
+        "sentence_id": "16",
+        "expected_spans": [
+          [
+            8,
+            11
+          ],
+          [
+            12,
+            17
+          ],
+          [
+            21,
+            23
+          ]
+        ],
+        "predicted_spans": [
+          [
+            8,
+            11
+          ],
+          [
+            12,
+            17
+          ]
+        ]
+      },
+      {
+        "sentence_id": "18",
+        "expected_spans": [
+          [
+            19,
+            21
+          ],
+          [
+            23,
+            24
+          ]
+        ],
+        "predicted_spans": [
+          [
+            13,
+            15
+          ],
+          [
+            15,
+            18
+          ],
+          [
+            19,
+            21
+          ],
+          [
+            23,
+            24
+          ],
+          [
+            25,
+            26
+          ],
+          [
+            28,
+            31
+          ]
+        ]
+      },
+      {
+        "sentence_id": "19",
+        "expected_spans": [
+          [
+            6,
+            8
+          ]
+        ],
+        "predicted_spans": []
+      },
+      {
+        "sentence_id": "20",
+        "expected_spans": [
+          [
+            4,
+            5
+          ],
+          [
+            6,
+            8
+          ],
+          [
+            9,
+            10
+          ],
+          [
+            11,
+            12
+          ],
+          [
+            13,
+            14
+          ]
+        ],
+        "predicted_spans": [
+          [
+            6,
+            8
+          ],
+          [
+            9,
+            10
+          ],
+          [
+            11,
+            12
+          ],
+          [
+            13,
+            14
+          ]
+        ]
+      },
+      {
+        "sentence_id": "21",
+        "expected_spans": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "predicted_spans": []
+      },
+      {
+        "sentence_id": "22",
+        "expected_spans": [
+          [
+            7,
+            17
+          ]
+        ],
+        "predicted_spans": [
+          [
+            7,
+            17
+          ],
+          [
+            11,
+            12
+          ]
+        ]
+      },
+      {
+        "sentence_id": "24",
+        "expected_spans": [
+          [
+            0,
+            7
+          ],
+          [
+            12,
+            18
+          ]
+        ],
+        "predicted_spans": [
+          [
+            0,
+            11
+          ],
+          [
+            12,
+            13
+          ],
+          [
+            13,
+            15
+          ],
+          [
+            15,
+            18
+          ]
+        ]
+      },
+      {
+        "sentence_id": "25",
+        "expected_spans": [
+          [
+            12,
+            13
+          ],
+          [
+            14,
+            20
+          ]
+        ],
+        "predicted_spans": [
+          [
+            7,
+            13
+          ],
+          [
+            14,
+            20
+          ]
+        ]
+      },
+      {
+        "sentence_id": "27",
+        "expected_spans": [],
+        "predicted_spans": [
+          [
+            9,
+            12
+          ]
+        ]
+      },
+      {
+        "sentence_id": "29",
+        "expected_spans": [
+          [
+            1,
+            2
+          ],
+          [
+            4,
+            6
+          ],
+          [
+            7,
+            9
+          ]
+        ],
+        "predicted_spans": [
+          [
+            1,
+            3
+          ],
+          [
+            4,
+            6
+          ],
+          [
+            7,
+            10
+          ]
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,1115 @@
+{
+  "dataset": {
+    "repository": "https://github.com/kris927b/SkillSpan",
+    "revision": "2ccf3de5b5af7a5409b8dd814fb1315dd6e0ae1b",
+    "sha256": {
+      "train.json": "5e884c3426087d14fc437d328eb72132082edbfe1e776292ae0e6e9b36c1e1f6",
+      "dev.json": "3732937c6869fe191c749b4efe7ffd597ce84eea1192f09b7fe3bd1eb459e2b4",
+      "test.json": "8438eda34939a5877b984ea5daf9e6ff39b2d5c7e3d73cca0499d3de3784d24a",
+      "LICENSE": "c7843d7998182d06cfe6d0cf4b215d487595527dfcd3ddce6584a9fdb8f61416"
+    }
+  },
+  "split_audit": {
+    "train": {
+      "original": 4800,
+      "retained": 3943,
+      "duplicates_removed": 857
+    },
+    "dev": {
+      "original": 3174,
+      "retained": 2438,
+      "duplicates_removed": 736
+    },
+    "test": {
+      "original": 3569,
+      "retained": 2404,
+      "duplicates_removed": 1165
+    }
+  },
+  "features": "word-context-v1",
+  "python": "3.12.14",
+  "python_crfsuite": "0.9.12",
+  "selection_metric": "development exact-span F1, independently per head",
+  "max_iterations": 100,
+  "experiments": {
+    "skill": [
+      {
+        "config": {
+          "window": 0,
+          "c1": 0.1,
+          "c2": 0.1
+        },
+        "file": "skill-0.crfsuite",
+        "training_seconds": 2.104,
+        "development": {
+          "precision": 0.317623,
+          "recall": 0.146503,
+          "f1": 0.200517,
+          "tp": 155,
+          "fp": 333,
+          "fn": 903,
+          "support": 1058
+        }
+      },
+      {
+        "config": {
+          "window": 2,
+          "c1": 0.1,
+          "c2": 0.1
+        },
+        "file": "skill-1.crfsuite",
+        "training_seconds": 12.542,
+        "development": {
+          "precision": 0.40694,
+          "recall": 0.243856,
+          "f1": 0.304965,
+          "tp": 258,
+          "fp": 376,
+          "fn": 800,
+          "support": 1058
+        }
+      },
+      {
+        "config": {
+          "window": 2,
+          "c1": 0.1,
+          "c2": 1.0
+        },
+        "file": "skill-2.crfsuite",
+        "training_seconds": 17.113,
+        "development": {
+          "precision": 0.479029,
+          "recall": 0.205104,
+          "f1": 0.287227,
+          "tp": 217,
+          "fp": 236,
+          "fn": 841,
+          "support": 1058
+        }
+      }
+    ],
+    "knowledge": [
+      {
+        "config": {
+          "window": 0,
+          "c1": 0.1,
+          "c2": 0.1
+        },
+        "file": "knowledge-0.crfsuite",
+        "training_seconds": 8.003,
+        "development": {
+          "precision": 0.427002,
+          "recall": 0.252319,
+          "f1": 0.317201,
+          "tp": 272,
+          "fp": 365,
+          "fn": 806,
+          "support": 1078
+        }
+      },
+      {
+        "config": {
+          "window": 2,
+          "c1": 0.1,
+          "c2": 0.1
+        },
+        "file": "knowledge-1.crfsuite",
+        "training_seconds": 10.731,
+        "development": {
+          "precision": 0.512285,
+          "recall": 0.386827,
+          "f1": 0.440803,
+          "tp": 417,
+          "fp": 397,
+          "fn": 661,
+          "support": 1078
+        }
+      },
+      {
+        "config": {
+          "window": 2,
+          "c1": 0.1,
+          "c2": 1.0
+        },
+        "file": "knowledge-2.crfsuite",
+        "training_seconds": 13.188,
+        "development": {
+          "precision": 0.551873,
+          "recall": 0.355288,
+          "f1": 0.43228,
+          "tp": 383,
+          "fp": 311,
+          "fn": 695,
+          "support": 1078
+        }
+      }
+    ]
+  },
+  "test": {
+    "skill": {
+      "crf": {
+        "overall": {
+          "precision": 0.368914,
+          "recall": 0.189241,
+          "f1": 0.250159,
+          "tp": 197,
+          "fp": 337,
+          "fn": 844,
+          "support": 1041
+        },
+        "by_source": {
+          "house": {
+            "precision": 0.370861,
+            "recall": 0.173375,
+            "f1": 0.236287,
+            "tp": 112,
+            "fp": 190,
+            "fn": 534,
+            "support": 646
+          },
+          "tech": {
+            "precision": 0.366379,
+            "recall": 0.21519,
+            "f1": 0.271132,
+            "tp": 85,
+            "fp": 147,
+            "fn": 310,
+            "support": 395
+          }
+        },
+        "error_examples": [
+          {
+            "row": 11,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [
+              [
+                5,
+                6
+              ],
+              [
+                20,
+                26
+              ]
+            ],
+            "predicted_spans": [
+              [
+                20,
+                26
+              ]
+            ]
+          },
+          {
+            "row": 13,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [],
+            "predicted_spans": [
+              [
+                18,
+                35
+              ]
+            ]
+          },
+          {
+            "row": 14,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [],
+            "predicted_spans": [
+              [
+                28,
+                32
+              ]
+            ]
+          },
+          {
+            "row": 18,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [
+              [
+                5,
+                7
+              ]
+            ],
+            "predicted_spans": []
+          },
+          {
+            "row": 20,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [
+              [
+                4,
+                9
+              ],
+              [
+                10,
+                13
+              ],
+              [
+                16,
+                20
+              ]
+            ],
+            "predicted_spans": [
+              [
+                4,
+                9
+              ],
+              [
+                16,
+                20
+              ]
+            ]
+          },
+          {
+            "row": 22,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [],
+            "predicted_spans": [
+              [
+                2,
+                5
+              ]
+            ]
+          },
+          {
+            "row": 24,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [
+              [
+                4,
+                9
+              ]
+            ],
+            "predicted_spans": [
+              [
+                2,
+                9
+              ]
+            ]
+          },
+          {
+            "row": 37,
+            "posting": 3,
+            "source": "tech",
+            "expected_spans": [],
+            "predicted_spans": [
+              [
+                11,
+                18
+              ]
+            ]
+          },
+          {
+            "row": 38,
+            "posting": 3,
+            "source": "tech",
+            "expected_spans": [
+              [
+                0,
+                4
+              ]
+            ],
+            "predicted_spans": []
+          },
+          {
+            "row": 39,
+            "posting": 3,
+            "source": "tech",
+            "expected_spans": [
+              [
+                0,
+                10
+              ]
+            ],
+            "predicted_spans": [
+              [
+                0,
+                5
+              ]
+            ]
+          }
+        ]
+      },
+      "training_lexicon": {
+        "overall": {
+          "precision": 0.125904,
+          "recall": 0.083573,
+          "f1": 0.100462,
+          "tp": 87,
+          "fp": 604,
+          "fn": 954,
+          "support": 1041
+        },
+        "by_source": {
+          "house": {
+            "precision": 0.140476,
+            "recall": 0.091331,
+            "f1": 0.110694,
+            "tp": 59,
+            "fp": 361,
+            "fn": 587,
+            "support": 646
+          },
+          "tech": {
+            "precision": 0.103321,
+            "recall": 0.070886,
+            "f1": 0.084084,
+            "tp": 28,
+            "fp": 243,
+            "fn": 367,
+            "support": 395
+          }
+        },
+        "error_examples": [
+          {
+            "row": 11,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [
+              [
+                5,
+                6
+              ],
+              [
+                20,
+                26
+              ]
+            ],
+            "predicted_spans": [
+              [
+                5,
+                6
+              ],
+              [
+                13,
+                14
+              ]
+            ]
+          },
+          {
+            "row": 13,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [],
+            "predicted_spans": [
+              [
+                15,
+                16
+              ]
+            ]
+          },
+          {
+            "row": 14,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [],
+            "predicted_spans": [
+              [
+                16,
+                17
+              ]
+            ]
+          },
+          {
+            "row": 17,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [],
+            "predicted_spans": [
+              [
+                6,
+                7
+              ]
+            ]
+          },
+          {
+            "row": 18,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [
+              [
+                5,
+                7
+              ]
+            ],
+            "predicted_spans": []
+          },
+          {
+            "row": 20,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [
+              [
+                4,
+                9
+              ],
+              [
+                10,
+                13
+              ],
+              [
+                16,
+                20
+              ]
+            ],
+            "predicted_spans": [
+              [
+                4,
+                9
+              ],
+              [
+                14,
+                15
+              ],
+              [
+                16,
+                20
+              ]
+            ]
+          },
+          {
+            "row": 21,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [],
+            "predicted_spans": [
+              [
+                8,
+                9
+              ]
+            ]
+          },
+          {
+            "row": 24,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [
+              [
+                4,
+                9
+              ]
+            ],
+            "predicted_spans": []
+          },
+          {
+            "row": 38,
+            "posting": 3,
+            "source": "tech",
+            "expected_spans": [
+              [
+                0,
+                4
+              ]
+            ],
+            "predicted_spans": [
+              [
+                0,
+                1
+              ],
+              [
+                5,
+                6
+              ],
+              [
+                27,
+                28
+              ]
+            ]
+          },
+          {
+            "row": 39,
+            "posting": 3,
+            "source": "tech",
+            "expected_spans": [
+              [
+                0,
+                10
+              ]
+            ],
+            "predicted_spans": []
+          }
+        ]
+      },
+      "lexicon_entries": 111,
+      "seconds_including_load_and_features": 1.108
+    },
+    "knowledge": {
+      "crf": {
+        "overall": {
+          "precision": 0.545939,
+          "recall": 0.412475,
+          "f1": 0.469914,
+          "tp": 410,
+          "fp": 341,
+          "fn": 584,
+          "support": 994
+        },
+        "by_source": {
+          "house": {
+            "precision": 0.5,
+            "recall": 0.318681,
+            "f1": 0.389262,
+            "tp": 116,
+            "fp": 116,
+            "fn": 248,
+            "support": 364
+          },
+          "tech": {
+            "precision": 0.566474,
+            "recall": 0.466667,
+            "f1": 0.511749,
+            "tp": 294,
+            "fp": 225,
+            "fn": 336,
+            "support": 630
+          }
+        },
+        "error_examples": [
+          {
+            "row": 0,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [],
+            "predicted_spans": [
+              [
+                7,
+                8
+              ]
+            ]
+          },
+          {
+            "row": 16,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [
+              [
+                5,
+                11
+              ]
+            ],
+            "predicted_spans": [
+              [
+                5,
+                7
+              ],
+              [
+                8,
+                10
+              ]
+            ]
+          },
+          {
+            "row": 17,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [
+              [
+                4,
+                5
+              ],
+              [
+                6,
+                7
+              ]
+            ],
+            "predicted_spans": [
+              [
+                4,
+                7
+              ]
+            ]
+          },
+          {
+            "row": 18,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [],
+            "predicted_spans": [
+              [
+                5,
+                7
+              ]
+            ]
+          },
+          {
+            "row": 21,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [
+              [
+                11,
+                12
+              ],
+              [
+                13,
+                14
+              ]
+            ],
+            "predicted_spans": [
+              [
+                7,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                11,
+                12
+              ],
+              [
+                13,
+                14
+              ]
+            ]
+          },
+          {
+            "row": 23,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [
+              [
+                3,
+                4
+              ],
+              [
+                5,
+                6
+              ]
+            ],
+            "predicted_spans": [
+              [
+                5,
+                6
+              ]
+            ]
+          },
+          {
+            "row": 25,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [
+              [
+                2,
+                11
+              ],
+              [
+                12,
+                13
+              ]
+            ],
+            "predicted_spans": [
+              [
+                2,
+                4
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                12,
+                13
+              ]
+            ]
+          },
+          {
+            "row": 33,
+            "posting": 3,
+            "source": "tech",
+            "expected_spans": [
+              [
+                1,
+                3
+              ],
+              [
+                3,
+                4
+              ],
+              [
+                4,
+                5
+              ]
+            ],
+            "predicted_spans": [
+              [
+                1,
+                3
+              ],
+              [
+                3,
+                4
+              ]
+            ]
+          },
+          {
+            "row": 34,
+            "posting": 3,
+            "source": "tech",
+            "expected_spans": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                3
+              ],
+              [
+                3,
+                4
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                5,
+                6
+              ]
+            ],
+            "predicted_spans": [
+              [
+                0,
+                4
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                5,
+                6
+              ]
+            ]
+          },
+          {
+            "row": 35,
+            "posting": 3,
+            "source": "tech",
+            "expected_spans": [
+              [
+                0,
+                2
+              ],
+              [
+                2,
+                3
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            "predicted_spans": [
+              [
+                0,
+                2
+              ],
+              [
+                2,
+                3
+              ]
+            ]
+          }
+        ]
+      },
+      "training_lexicon": {
+        "overall": {
+          "precision": 0.115463,
+          "recall": 0.397384,
+          "f1": 0.178935,
+          "tp": 395,
+          "fp": 3026,
+          "fn": 599,
+          "support": 994
+        },
+        "by_source": {
+          "house": {
+            "precision": 0.049776,
+            "recall": 0.244505,
+            "f1": 0.082714,
+            "tp": 89,
+            "fp": 1699,
+            "fn": 275,
+            "support": 364
+          },
+          "tech": {
+            "precision": 0.187385,
+            "recall": 0.485714,
+            "f1": 0.270437,
+            "tp": 306,
+            "fp": 1327,
+            "fn": 324,
+            "support": 630
+          }
+        },
+        "error_examples": [
+          {
+            "row": 0,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [],
+            "predicted_spans": [
+              [
+                5,
+                6
+              ],
+              [
+                7,
+                8
+              ]
+            ]
+          },
+          {
+            "row": 1,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [],
+            "predicted_spans": [
+              [
+                0,
+                2
+              ],
+              [
+                2,
+                4
+              ],
+              [
+                4,
+                5
+              ]
+            ]
+          },
+          {
+            "row": 11,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [],
+            "predicted_spans": [
+              [
+                14,
+                16
+              ],
+              [
+                24,
+                25
+              ],
+              [
+                31,
+                32
+              ]
+            ]
+          },
+          {
+            "row": 12,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [],
+            "predicted_spans": [
+              [
+                1,
+                2
+              ],
+              [
+                28,
+                29
+              ]
+            ]
+          },
+          {
+            "row": 13,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [],
+            "predicted_spans": [
+              [
+                8,
+                9
+              ],
+              [
+                35,
+                36
+              ]
+            ]
+          },
+          {
+            "row": 14,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [],
+            "predicted_spans": [
+              [
+                13,
+                14
+              ],
+              [
+                23,
+                24
+              ],
+              [
+                31,
+                32
+              ],
+              [
+                39,
+                40
+              ]
+            ]
+          },
+          {
+            "row": 16,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [
+              [
+                5,
+                11
+              ]
+            ],
+            "predicted_spans": [
+              [
+                5,
+                10
+              ]
+            ]
+          },
+          {
+            "row": 19,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [
+              [
+                4,
+                10
+              ]
+            ],
+            "predicted_spans": []
+          },
+          {
+            "row": 21,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [
+              [
+                11,
+                12
+              ],
+              [
+                13,
+                14
+              ]
+            ],
+            "predicted_spans": [
+              [
+                7,
+                10
+              ],
+              [
+                11,
+                12
+              ],
+              [
+                13,
+                14
+              ]
+            ]
+          },
+          {
+            "row": 22,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [
+              [
+                8,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                11,
+                12
+              ],
+              [
+                13,
+                15
+              ]
+            ],
+            "predicted_spans": [
+              [
+                9,
+                10
+              ],
+              [
+                10,
+                11
+              ],
+              [
+                11,
+                12
+              ]
+            ]
+          }
+        ]
+      },
+      "lexicon_entries": 345,
+      "seconds_including_load_and_features": 1.27
+    },
+    "combined": {
+      "crf": {
+        "precision": 0.472374,
+        "recall": 0.29828,
+        "f1": 0.365663,
+        "tp": 607,
+        "fp": 678,
+        "fn": 1428,
+        "support": 2035
+      },
+      "training_lexicon": {
+        "precision": 0.117218,
+        "recall": 0.236855,
+        "f1": 0.156824,
+        "tp": 482,
+        "fp": 3630,
+        "fn": 1553,
+        "support": 2035
+      }
+    }
+  },
+  "models": {
+    "format_version": 1,
+    "features": "word-context-v1",
+    "dataset_revision": "2ccf3de5b5af7a5409b8dd814fb1315dd6e0ae1b",
+    "heads": {
+      "skill": {
+        "config": {
+          "window": 2,
+          "c1": 0.1,
+          "c2": 0.1
+        },
+        "file": "skill.crfsuite",
+        "sha256": "e4ab2de2266d9860edc5e17ce6905a9fbde08ded6ee36b4566086823d0af068e",
+        "bytes": 1304052
+      },
+      "knowledge": {
+        "config": {
+          "window": 2,
+          "c1": 0.1,
+          "c2": 0.1
+        },
+        "file": "knowledge.crfsuite",
+        "sha256": "038e3bbdc71bc1eb1a3a4106b7af7fbe48f9c5a9c7154bf79ad6e92a170e1f0d",
+        "bytes": 1016508
+      }
+    }
+  }
+}

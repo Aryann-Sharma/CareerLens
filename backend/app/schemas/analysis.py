@@ -1,4 +1,9 @@
+from typing import Literal
+
 from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+from backend.app.schemas.matching import MatchingDetails
+from backend.app.schemas.extraction import ExtractionDetails
 
 
 class AnalysisRequest(BaseModel):
@@ -6,6 +11,14 @@ class AnalysisRequest(BaseModel):
 
     job_description: str = Field(min_length=1, max_length=50_000)
     user_skills: list[str] = Field(max_length=200)
+    matching_method: Literal["exact", "semantic"] = "exact"
+    extraction_method: Literal["catalog", "trained"] = "catalog"
+    reviewed_job_skills: list[str] | None = Field(default=None, max_length=200)
+
+    @field_validator("reviewed_job_skills")
+    @classmethod
+    def clean_reviewed_skills(cls, skills):
+        return None if skills is None else cls.clean_user_skills(skills)
 
     @field_validator("job_description")
     @classmethod
@@ -35,3 +48,5 @@ class AnalysisResponse(BaseModel):
     matched_skills: list[str]
     missing_skills: list[str]
     match_score: int = Field(ge=0, le=100)
+    matching_details: MatchingDetails | None = None
+    extraction_details: ExtractionDetails | None = None

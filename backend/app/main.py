@@ -6,8 +6,10 @@ from fastapi.staticfiles import StaticFiles
 
 from backend.app.api.routes.analysis import router as analysis_router
 from backend.app.api.routes.auth import router as auth_router
+from backend.app.api.routes.extraction import router as extraction_router
 from backend.app.api.routes.history import router as history_router
 from backend.app.api.routes.system import router as system_router
+from backend.app.api.routes.resume import router as resume_router
 from backend.app.core.config import get_settings
 
 settings = get_settings()
@@ -20,8 +22,10 @@ app = FastAPI(
 
 app.include_router(analysis_router)
 app.include_router(auth_router)
+app.include_router(extraction_router)
 app.include_router(history_router)
 app.include_router(system_router)
+app.include_router(resume_router)
 
 
 frontend_directory = Path(__file__).resolve().parents[2] / "frontend"

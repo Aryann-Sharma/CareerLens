@@ -64,6 +64,25 @@ def test_application_flow_uses_postgresql() -> None:
         assert detail.status_code == 200
         assert detail.json()["job_description"] == description
 
+        semantic = client.post("/api/analyze", json={
+            "job_description": "SQL and CSS", "matching_method": "semantic",
+            "user_skills": ["writing relational database queries", "styling web pages"],
+        })
+        assert semantic.status_code == 200
+        assert semantic.json()["match_score"] == 100
+        semantic_id = client.get("/api/analyses").json()["items"][0]["id"]
+        assert client.get(f"/api/analyses/{semantic_id}").json()["matching_details"] == (
+            semantic.json()["matching_details"]
+        )
+        reviewed = client.post("/api/analyze", json={
+            "job_description": "Python and SQL", "user_skills": ["Python"], "reviewed_job_skills": ["Python"],
+        })
+        assert reviewed.status_code == 200
+        reviewed_url = reviewed.headers["Location"]
+        assert client.get(reviewed_url).json()["extraction_details"]["method"] == "reviewed"
+        assert client.delete(reviewed_url).status_code == 204
+        assert client.get(reviewed_url).status_code == 404
+
         with SessionLocal() as session:
             saved_analysis = session.scalar(
                 select(AnalysisRecord).where(AnalysisRecord.id == analysis_id)
@@ -82,6 +101,7 @@ def test_application_flow_uses_postgresql() -> None:
         assert second_registration.status_code == 201
         assert client.get("/api/analyses").json()["items"] == []
         assert client.get(f"/api/analyses/{analysis_id}").status_code == 404
+        assert client.delete(f"/api/analyses/{analysis_id}").status_code == 404
 
         assert engine.dialect.name == "postgresql"
         inspector = inspect(engine)
@@ -90,6 +110,8 @@ def test_application_flow_uses_postgresql() -> None:
             for column in inspector.get_columns("analyses")
         }
         assert isinstance(analysis_columns["user_skills"]["type"], JSONB)
+        assert isinstance(analysis_columns["matching_details"]["type"], JSONB)
+        assert isinstance(analysis_columns["extraction_details"]["type"], JSONB)
         assert analysis_columns["user_id"]["nullable"] is True
         assert any(
             foreign_key["name"] == "fk_analyses_user_id_users"

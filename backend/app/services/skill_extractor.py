@@ -5,6 +5,8 @@ SKILL_ALIASES: dict[str, tuple[str, ...]] = {
     "Docker": ("docker",),
     "FastAPI": ("fastapi", "fast api"),
     "Git": ("git",),
+    "HTML": ("html", "html5", "hypertext markup language"),
+    "CSS": ("css", "css3", "cascading style sheets"),
     "Java": ("java",),
     "JavaScript": ("javascript", "js", "ecmascript"),
     "Linux": ("linux",),
@@ -12,6 +14,12 @@ SKILL_ALIASES: dict[str, tuple[str, ...]] = {
     "Python": ("python",),
     "React": ("react", "react.js", "reactjs"),
     "SQL": ("sql",),
+    "TypeScript": ("typescript",),
+    "Node.js": ("node.js", "nodejs"),
+    "Django": ("django",),
+    "Kubernetes": ("kubernetes", "k8s"),
+    "Machine Learning": ("machine learning", "ml"),
+    "Natural Language Processing": ("natural language processing", "nlp"),
 }
 
 

@@ -1,4 +1,5 @@
 from functools import lru_cache
+from pathlib import Path
 from typing import Literal
 
 from pydantic import Field, field_validator, model_validator
@@ -19,6 +20,8 @@ class Settings(BaseSettings):
         min_length=32,
     )
     auth_token_expire_minutes: int = Field(default=60, ge=5, le=10_080)
+    semantic_model_path: Path = Path(".models/minilm")
+    extraction_model_path: Path = Path(".models/skillspan-distilbert")
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 

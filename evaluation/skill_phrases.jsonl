@@ -1,0 +1,72 @@
+{"id": "calibration-01", "split": "calibration", "phrase": "Python", "expected": "Python"}
+{"id": "calibration-02", "split": "calibration", "phrase": "postgres", "expected": "PostgreSQL"}
+{"id": "calibration-03", "split": "calibration", "phrase": "JS", "expected": "JavaScript"}
+{"id": "calibration-04", "split": "calibration", "phrase": "html5", "expected": "HTML"}
+{"id": "calibration-05", "split": "calibration", "phrase": "css3", "expected": "CSS"}
+{"id": "calibration-06", "split": "calibration", "phrase": "NLP", "expected": "Natural Language Processing"}
+{"id": "calibration-07", "split": "calibration", "phrase": "k8s", "expected": "Kubernetes"}
+{"id": "calibration-08", "split": "calibration", "phrase": "reactjs", "expected": "React"}
+{"id": "calibration-09", "split": "calibration", "phrase": "writing relational database queries", "expected": "SQL"}
+{"id": "calibration-10", "split": "calibration", "phrase": "styling web pages", "expected": "CSS"}
+{"id": "calibration-11", "split": "calibration", "phrase": "creating web page markup", "expected": "HTML"}
+{"id": "calibration-12", "split": "calibration", "phrase": "training predictive models", "expected": "Machine Learning"}
+{"id": "calibration-13", "split": "calibration", "phrase": "analyzing human language", "expected": "Natural Language Processing"}
+{"id": "calibration-14", "split": "calibration", "phrase": "Python programming", "expected": "Python"}
+{"id": "calibration-15", "split": "calibration", "phrase": "React hooks and components", "expected": "React"}
+{"id": "calibration-16", "split": "calibration", "phrase": "source code version control", "expected": "Git"}
+{"id": "calibration-17", "split": "calibration", "phrase": "building Docker containers", "expected": "Docker"}
+{"id": "calibration-18", "split": "calibration", "phrase": "administering Linux servers", "expected": "Linux"}
+{"id": "calibration-19", "split": "calibration", "phrase": "writing TypeScript applications", "expected": "TypeScript"}
+{"id": "calibration-20", "split": "calibration", "phrase": "Django web development", "expected": "Django"}
+{"id": "calibration-21", "split": "calibration", "phrase": "orchestrating containers", "expected": null}
+{"id": "calibration-22", "split": "calibration", "phrase": "building web applications", "expected": null}
+{"id": "calibration-23", "split": "calibration", "phrase": "excellent communication", "expected": null}
+{"id": "calibration-24", "split": "calibration", "phrase": "project planning", "expected": null}
+{"id": "calibration-25", "split": "calibration", "phrase": "no Python experience", "expected": null}
+{"id": "calibration-26", "split": "calibration", "phrase": "never written database queries", "expected": null}
+{"id": "calibration-27", "split": "calibration", "phrase": "graphic design", "expected": null}
+{"id": "calibration-28", "split": "calibration", "phrase": "Microsoft Excel", "expected": null}
+{"id": "calibration-29", "split": "calibration", "phrase": "Ruby", "expected": null}
+{"id": "calibration-30", "split": "calibration", "phrase": "C++", "expected": null}
+{"id": "calibration-31", "split": "calibration", "phrase": "Spring Boot", "expected": null}
+{"id": "calibration-32", "split": "calibration", "phrase": "Vue.js", "expected": null}
+{"id": "calibration-33", "split": "calibration", "phrase": "Flask", "expected": null}
+{"id": "calibration-34", "split": "calibration", "phrase": "MongoDB", "expected": null}
+{"id": "calibration-35", "split": "calibration", "phrase": "data entry", "expected": null}
+{"id": "calibration-36", "split": "calibration", "phrase": "retail sales", "expected": null}
+{"id": "evaluation-01", "split": "evaluation", "phrase": "Java", "expected": "Java"}
+{"id": "evaluation-02", "split": "evaluation", "phrase": "CSS", "expected": "CSS"}
+{"id": "evaluation-03", "split": "evaluation", "phrase": "SQL", "expected": "SQL"}
+{"id": "evaluation-04", "split": "evaluation", "phrase": "fast api", "expected": "FastAPI"}
+{"id": "evaluation-05", "split": "evaluation", "phrase": "Node.js", "expected": "Node.js"}
+{"id": "evaluation-06", "split": "evaluation", "phrase": "ML", "expected": "Machine Learning"}
+{"id": "evaluation-07", "split": "evaluation", "phrase": "Docker", "expected": "Docker"}
+{"id": "evaluation-08", "split": "evaluation", "phrase": "Linux", "expected": "Linux"}
+{"id": "evaluation-09", "split": "evaluation", "phrase": "designing page layouts with cascading stylesheets", "expected": "CSS"}
+{"id": "evaluation-10", "split": "evaluation", "phrase": "writing joins to retrieve relational data", "expected": "SQL"}
+{"id": "evaluation-11", "split": "evaluation", "phrase": "creating page structure with markup tags", "expected": "HTML"}
+{"id": "evaluation-12", "split": "evaluation", "phrase": "predictive modelling from training data", "expected": "Machine Learning"}
+{"id": "evaluation-13", "split": "evaluation", "phrase": "processing text and human language", "expected": "Natural Language Processing"}
+{"id": "evaluation-14", "split": "evaluation", "phrase": "automating tasks using Python scripts", "expected": "Python"}
+{"id": "evaluation-15", "split": "evaluation", "phrase": "managing source code branches and commits", "expected": "Git"}
+{"id": "evaluation-16", "split": "evaluation", "phrase": "developing interfaces with React hooks", "expected": "React"}
+{"id": "evaluation-17", "split": "evaluation", "phrase": "deploying applications inside Docker containers", "expected": "Docker"}
+{"id": "evaluation-18", "split": "evaluation", "phrase": "managing a PostgreSQL database", "expected": "PostgreSQL"}
+{"id": "evaluation-19", "split": "evaluation", "phrase": "developing APIs using FastAPI", "expected": "FastAPI"}
+{"id": "evaluation-20", "split": "evaluation", "phrase": "server development with the Node.js runtime", "expected": "Node.js"}
+{"id": "evaluation-21", "split": "evaluation", "phrase": "building web applications using Django", "expected": "Django"}
+{"id": "evaluation-22", "split": "evaluation", "phrase": "statically typed JavaScript development", "expected": "TypeScript"}
+{"id": "evaluation-23", "split": "evaluation", "phrase": "developing applications in Java", "expected": "Java"}
+{"id": "evaluation-24", "split": "evaluation", "phrase": "administering a Linux operating system", "expected": "Linux"}
+{"id": "evaluation-25", "split": "evaluation", "phrase": "never programmed in Python", "expected": null}
+{"id": "evaluation-26", "split": "evaluation", "phrase": "not familiar with CSS styling", "expected": null}
+{"id": "evaluation-27", "split": "evaluation", "phrase": "no experience writing SQL queries", "expected": null}
+{"id": "evaluation-28", "split": "evaluation", "phrase": "without knowledge of React hooks", "expected": null}
+{"id": "evaluation-29", "split": "evaluation", "phrase": "managing a team", "expected": null}
+{"id": "evaluation-30", "split": "evaluation", "phrase": "C#", "expected": null}
+{"id": "evaluation-31", "split": "evaluation", "phrase": "Go", "expected": null}
+{"id": "evaluation-32", "split": "evaluation", "phrase": "Angular", "expected": null}
+{"id": "evaluation-33", "split": "evaluation", "phrase": "Ruby on Rails", "expected": null}
+{"id": "evaluation-34", "split": "evaluation", "phrase": "MySQL", "expected": null}
+{"id": "evaluation-35", "split": "evaluation", "phrase": "Kotlin", "expected": null}
+{"id": "evaluation-36", "split": "evaluation", "phrase": "database administration", "expected": null}

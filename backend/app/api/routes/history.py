@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
 from sqlalchemy.orm import Session
 
 from backend.app.api.dependencies import get_current_user
@@ -78,3 +78,19 @@ def analysis_detail(
             detail="Analysis not found",
         )
     return record
+
+
+@router.delete("/{analysis_id}", status_code=204)
+def delete_analysis(
+    analysis_id: int,
+    session: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[User, Depends(get_current_user)],
+) -> Response:
+    record = analysis_detail(analysis_id, session, current_user)
+    session.delete(record)
+    try:
+        session.commit()
+    except Exception:
+        session.rollback()
+        raise
+    return Response(status_code=204)
