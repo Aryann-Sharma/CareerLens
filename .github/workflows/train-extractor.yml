@@ -1,0 +1,49 @@
+name: Train extraction model
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "backend/ml/**"
+      - "backend/tests/test_ml_training.py"
+      - "backend/tests/test_trained_extraction.py"
+      - "backend/requirements*.txt"
+      - ".github/workflows/train-extractor.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements*.txt
+      - name: Install dependencies
+        run: python -m pip install -r backend/requirements-dev.txt
+      - name: Download pinned training data
+        run: python -m backend.ml.data
+      - name: Train and evaluate
+        run: python -m backend.ml.train
+      - name: Check training and offline inference
+        env:
+          RUN_EXTRACTOR_TESTS: "1"
+        run: python -m pytest backend/tests/test_ml_training.py backend/tests/test_trained_extraction.py -q
+      - name: Upload model and report
+        uses: actions/upload-artifact@v5
+        with:
+          name: skillspan-crf
+          include-hidden-files: true
+          path: |
+            .models/skillspan-crf/skill.crfsuite
+            .models/skillspan-crf/knowledge.crfsuite
+            .models/skillspan-crf/manifest.json
+            .models/skillspan-crf/training-selection.json
+            .models/skillspan-crf/SKILLSPAN-LICENSE
+            evaluation/training-results.json
+          retention-days: 14

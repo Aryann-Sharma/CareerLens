@@ -17,6 +17,8 @@ COPY alembic.ini ./alembic.ini
 COPY backend ./backend
 COPY frontend ./frontend
 
+RUN python -m backend.scripts.download_model
+
 RUN chown -R careerlens:careerlens /app
 
 USER careerlens
