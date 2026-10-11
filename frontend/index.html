@@ -11,14 +11,14 @@
     <link rel="stylesheet" href="/static/style.css" />
     <script src="/static/script.js" defer></script>
   </head>
-  <body>
+  <body class="has-workspace">
     <header class="site-header">
       <a class="brand" href="/" aria-label="CareerLens home">
         <span class="brand-mark" aria-hidden="true">C</span>
         <span>CareerLens</span>
       </a>
       <div class="header-actions">
-        <span class="milestone">MVP · Skill analysis</span>
+        <span class="milestone">Skill analysis</span>
         <span id="auth-loading" class="auth-loading" role="status">
           Checking session…
         </span>
@@ -48,39 +48,16 @@
         <p class="eyebrow">Make your next application sharper</p>
         <h1>See how your skills line up.</h1>
         <p class="hero-copy">
-          Compare your skills with the technical skills found in a job
+          Compare your skills with the skills found in a job
           description, then review what you could learn next.
         </p>
       </section>
 
-      <section
-        id="auth-gate"
-        class="auth-gate"
-        aria-labelledby="auth-gate-title"
-        hidden
-      >
-        <div>
-          <p class="eyebrow">Your private workspace</p>
-          <h2 id="auth-gate-title">Sign in to analyze a role</h2>
-          <p id="signed-out-message">
-            Your analyses are saved to your account and are only visible to you.
-          </p>
-        </div>
-        <div class="auth-gate-actions">
-          <button class="secondary-button" type="button" id="gate-login">
-            Log in
-          </button>
-          <button
-            class="primary-button compact-button"
-            type="button"
-            id="gate-register"
-          >
-            <span>Create account</span><span aria-hidden="true">→</span>
-          </button>
-        </div>
-      </section>
+      <div id="auth-gate" class="guest-notice">
+        <p id="signed-out-message">No account needed. Sign in when you want to save an analysis.</p>
+      </div>
 
-      <div id="authenticated-app" hidden>
+      <div id="authenticated-app">
         <section class="workspace" aria-label="Job analysis workspace">
         <form id="analysis-form" class="input-panel">
           <div class="panel-heading">
@@ -111,6 +88,14 @@
           </div>
 
           <div class="skills-field">
+            <div class="matching-field">
+              <label for="extraction-method">Skill extraction</label>
+              <select id="extraction-method" aria-describedby="extraction-hint">
+                <option value="trained" selected>Trained model + technology catalog</option>
+                <option value="catalog">Technology catalog only</option>
+              </select>
+              <p class="field-hint" id="extraction-hint">Find skill phrases in context, then review and correct the suggestions.</p>
+            </div>
             <p class="step">02 · Add your profile</p>
             <label for="user-skills">Your skills</label>
             <input
@@ -121,7 +106,30 @@
               aria-describedby="skills-hint"
               autocomplete="off"
             />
-            <p class="field-hint" id="skills-hint">Separate skills with commas.</p>
+            <p class="field-hint" id="skills-hint">Separate skills or short skill descriptions with commas.</p>
+            <details class="resume-upload">
+              <summary>Import skills from a résumé</summary>
+              <label for="resume-file">Résumé PDF</label>
+              <input id="resume-file" type="file" accept="application/pdf,.pdf" aria-describedby="resume-hint" />
+              <p id="resume-hint" class="field-hint">Text-based PDF, up to 5 MB and 10 pages. The file is processed locally by this server and is not stored. Review suggestions before adding them.</p>
+              <p id="resume-status" role="status"></p>
+              <div id="resume-review" hidden>
+                <label for="resume-skills">Review résumé skills (one per line)</label>
+                <textarea id="resume-skills" rows="5" maxlength="20199"></textarea>
+                <button id="apply-resume" class="secondary-button" type="button">Add to my skills</button>
+              </div>
+            </details>
+          </div>
+
+          <div class="matching-field">
+            <label for="matching-method">Matching method</label>
+            <select id="matching-method" aria-describedby="matching-hint">
+              <option value="semantic" selected>Semantic matching</option>
+              <option value="exact">Exact matching</option>
+            </select>
+            <p class="field-hint" id="matching-hint">
+              Compare skill descriptions by meaning. Suggested matches may need review.
+            </p>
           </div>
 
           <button class="primary-button" type="submit" id="analyze-button">
@@ -145,7 +153,7 @@
 
           <div id="loading-state" class="loading-state" hidden>
             <div class="loader" aria-hidden="true"></div>
-            <p>Reading the role…</p>
+            <p>Comparing your skills…</p>
           </div>
 
           <div id="results-content" tabindex="-1" hidden>
@@ -159,6 +167,7 @@
               </div>
             </div>
             <p class="score-summary" id="score-summary"></p>
+            <div id="matching-evidence" class="matching-evidence" hidden></div>
 
             <div class="result-group">
               <div class="result-heading">
@@ -180,11 +189,39 @@
               <summary>All extracted skills</summary>
               <div class="chips neutral" id="extracted-skills"></div>
             </details>
+            <details class="skill-review" id="skill-review">
+              <summary>Review skills and source evidence</summary>
+              <p id="extraction-method-note" class="field-hint"></p>
+              <div id="source-evidence" class="source-evidence"></div>
+              <label for="reviewed-skills">Skills required by this role (one per line)</label>
+              <textarea id="reviewed-skills" rows="6" maxlength="20199"></textarea>
+              <p class="field-hint">Remove incorrect phrases, combine duplicates, or add missing skills. Each item has equal weight in the score.</p>
+              <button type="button" class="secondary-button" id="update-analysis">Update analysis</button>
+            </details>
+            <div class="save-analysis">
+              <button type="button" class="secondary-button" id="save-analysis">Save analysis</button>
+              <p id="save-status" class="field-hint" role="status">Not saved. This result stays here until you leave or refresh.</p>
+            </div>
           </div>
         </aside>
         </section>
 
-        <section class="history-section" aria-labelledby="history-title">
+        <details class="extraction-preview" id="extraction-preview">
+          <summary>Inspect extraction only <span class="preview-label">Experimental</span></summary>
+          <p>Find skill phrases beyond the supported catalog using a model trained on job postings.
+            It can miss or mislabel phrases. Review suggestions before using them; this preview does not change your fit score or save to history.</p>
+          <button type="button" class="secondary-button" id="extract-button">Extract from job description</button>
+          <p class="field-hint">Uses the description above, up to 50,000 characters.</p>
+          <p id="extraction-status" role="status"></p>
+          <div id="extraction-results" hidden>
+            <h3>Skills and activities</h3>
+            <div class="chips" id="extracted-activities"></div>
+            <h3>Knowledge and technologies</h3>
+            <div class="chips neutral" id="extracted-knowledge"></div>
+          </div>
+        </details>
+
+        <section id="history-section" class="history-section" aria-labelledby="history-title" hidden>
         <div class="history-heading">
           <div>
             <p class="eyebrow">Your progress</p>
@@ -296,6 +333,17 @@
         </button>
       </div>
       <div id="history-detail" class="history-detail"></div>
+    </dialog>
+
+    <dialog id="delete-dialog" class="auth-dialog" aria-labelledby="delete-title">
+      <h2 id="delete-title">Delete this analysis?</h2>
+      <p>This removes it from your saved history. This cannot be undone.</p>
+      <p id="delete-preview" class="field-hint"></p>
+      <p id="delete-error" role="alert" hidden></p>
+      <div class="dialog-actions">
+        <button type="button" id="cancel-delete" class="secondary-button" autofocus>Cancel</button>
+        <button type="button" id="confirm-delete" class="secondary-button danger-button">Delete analysis</button>
+      </div>
     </dialog>
 
     <footer>

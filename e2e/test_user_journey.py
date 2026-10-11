@@ -15,7 +15,7 @@ def test_new_user_can_analyze_a_role_and_restore_the_session(
 
     page.goto(app_url)
     expect(
-        page.get_by_role("heading", name="Sign in to analyze a role")
+        page.get_by_role("region", name="Job analysis workspace")
     ).to_be_visible()
 
     page.get_by_role("button", name="Create account", exact=True).first.click()
@@ -27,6 +27,7 @@ def test_new_user_can_analyze_a_role_and_restore_the_session(
     expect(page.get_by_role("region", name="Job analysis workspace")).to_be_visible()
 
     page.get_by_role("button", name="Use example").click()
+    page.locator("#extraction-method").select_option("catalog")
     page.get_by_role("button", name="Analyze my fit").click()
 
     results = page.locator("#results-content")
@@ -51,9 +52,10 @@ def test_new_user_can_analyze_a_role_and_restore_the_session(
 
     page.get_by_role("button", name="Log out").click()
     expect(
-        page.get_by_role("heading", name="Sign in to analyze a role")
+        page.locator("#signed-out-message")
     ).to_be_visible()
-    expect(page.get_by_role("region", name="Job analysis workspace")).to_be_hidden()
+    expect(page.get_by_role("region", name="Job analysis workspace")).to_be_visible()
+    expect(page.locator("#history-section")).to_be_hidden()
 
 
 def test_login_errors_and_expired_sessions_keep_the_draft(
@@ -89,6 +91,7 @@ def test_login_errors_and_expired_sessions_keep_the_draft(
     logout = page.request.post(f"{app_url}/api/auth/logout")
     assert logout.ok
 
+    page.locator("#extraction-method").select_option("catalog")
     page.get_by_role("button", name="Analyze my fit").click()
     expect(page.get_by_text("Your session ended. Log in again to continue.")).to_be_visible()
     expect(page.get_by_role("dialog", name="Log in to CareerLens")).to_be_visible()

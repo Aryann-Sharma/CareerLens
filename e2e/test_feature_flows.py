@@ -14,6 +14,7 @@ def register(page: Page, app_url: str) -> str:
     )
     assert response.status == 201
     page.goto(app_url)
+    expect(page.locator("#current-user-email")).to_have_text(email)
     expect(page.locator("#authenticated-app")).to_be_visible()
     return email
 
@@ -27,8 +28,10 @@ def create_analysis(page: Page, app_url: str, description: str) -> None:
 
 
 def submit(page: Page, description: str, skills: str = "") -> None:
+    page.locator("#extraction-method").select_option("catalog")
     page.get_by_label("Job description", exact=True).fill(description)
     page.get_by_label("Your skills", exact=True).fill(skills)
+    page.locator("#extraction-method").select_option("catalog")
     page.get_by_role("button", name="Analyze my fit").click()
 
 
@@ -211,23 +214,39 @@ def test_mobile_long_content_and_safe_text_rendering(page: Page, app_url: str) -
 def test_session_check_failure_keeps_login_available(page: Page, app_url: str) -> None:
     page.route("**/api/auth/me", lambda route: route.fulfill(status=503))
     page.goto(app_url)
-    expect(page.locator("#signed-out-message")).to_contain_text("couldn't check your session")
+    expect(page.locator("#signed-out-message")).to_contain_text("session could not be checked")
     page.locator("#open-login").click()
     expect(page.get_by_role("dialog", name="Log in to CareerLens")).to_be_visible()
 
 
-@pytest.mark.parametrize("width", [320, 375, 820, 1440])
+@pytest.mark.parametrize("width", [320, 375, 614, 820, 960, 1024, 1440])
 def test_responsive_account_and_workspace_layout(page: Page, app_url: str, width: int) -> None:
     page.set_viewport_size({"width": width, "height": 900})
     page.goto(app_url)
     expect(page.locator("#auth-gate")).to_be_visible()
     assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
+    expect(page.locator("#signed-out-actions")).to_be_visible()
+    buttons = page.locator("#signed-out-actions button")
+    sizes = buttons.evaluate_all("""buttons => buttons.map(button => {
+        const rect = button.getBoundingClientRect();
+        const style = getComputedStyle(button);
+        return {x: rect.x, y: rect.y, height: rect.height,
+            wraps: style.whiteSpace !== 'nowrap', width: rect.width};
+    })""")
+    assert all(not size["wraps"] and size["height"] >= 44 for size in sizes)
+    if width >= 614:
+        assert abs(sizes[0]["y"] - sizes[1]["y"]) < 2
+    if abs(sizes[0]["y"] - sizes[1]["y"]) < 2:
+        assert abs(sizes[0]["height"] - sizes[1]["height"]) < 2
+    page.screenshot(path=f"test-results/signed-out-{width}.png", full_page=True)
     page.locator("#open-register").click()
     expect(page.locator("#auth-dialog")).to_be_visible()
     assert page.locator("#auth-dialog").evaluate("dialog => dialog.scrollWidth <= dialog.clientWidth")
+    page.screenshot(path=f"test-results/register-{width}.png")
     page.keyboard.press("Escape")
     register(page, app_url)
     page.get_by_role("button", name="Use example").click()
+    page.locator("#extraction-method").select_option("catalog")
     page.get_by_role("button", name="Analyze my fit").click()
     expect(page.locator(".history-card")).to_have_count(1)
     assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
@@ -258,7 +277,8 @@ def test_history_session_expiry_prompts_login(page: Page, app_url: str, endpoint
     else:
         page.get_by_role("button", name="View details").click()
     expect(page.get_by_role("dialog", name="Log in to CareerLens")).to_be_visible()
-    expect(page.locator("#authenticated-app")).not_to_be_visible()
+    expect(page.locator("#authenticated-app")).to_be_visible()
+    expect(page.locator("#history-section")).not_to_be_visible()
     expect(page.locator("#history-dialog")).not_to_be_visible()
 
 
@@ -309,3 +329,40 @@ def test_closed_detail_response_cannot_replace_another_detail(page: Page, app_ur
     route.fulfill(response=response)
     page.wait_for_load_state("networkidle")
     expect(page.locator(".saved-description")).to_have_text("First Python role")
+
+
+def test_semantic_matching_and_exact_baseline_are_visible_and_saved(page: Page, app_url: str) -> None:
+    register(page, app_url)
+    submit(page, "SQL, CSS and Python are required.",
+           "writing relational database queries, styling web pages, Python")
+    expect(page.locator("#match-score")).to_have_text("100%")
+    expect(page.locator("#matching-evidence")).to_contain_text("Exact-match baseline: 33%")
+    expect(page.locator("#matching-evidence li")).to_have_count(2)
+    expect(page.locator(".history-card")).to_have_count(1)
+    page.get_by_role("button", name="View details").click()
+    expect(page.locator("#history-detail .matching-evidence")).to_contain_text("styling web pages")
+    page.keyboard.press("Escape")
+    page.locator("#matching-method").select_option("exact")
+    page.locator("#extraction-method").select_option("catalog")
+    page.get_by_role("button", name="Analyze my fit").click()
+    expect(page.locator("#match-score")).to_have_text("33%")
+    expect(page.locator("#matching-evidence")).to_contain_text("Exact matching")
+    page.reload()
+    expect(page.locator(".history-card")).to_have_count(2)
+    page.get_by_role("button", name="View details").last.click()
+    expect(page.locator("#history-detail .matching-evidence li")).to_have_count(2)
+
+
+def test_unavailable_semantic_matching_can_be_retried_in_exact_mode(page: Page, app_url: str) -> None:
+    register(page, app_url)
+    page.route("**/api/analyze", lambda route: route.fulfill(status=503, json={
+        "detail": "Semantic matching is unavailable. Choose Exact matching or try again later.",
+    }))
+    submit(page, "SQL", "SQL")
+    expect(page.locator("#form-error")).to_contain_text("Choose Exact matching")
+    page.unroute("**/api/analyze")
+    page.locator("#matching-method").select_option("exact")
+    page.locator("#extraction-method").select_option("catalog")
+    page.get_by_role("button", name="Analyze my fit").click()
+    expect(page.locator("#match-score")).to_have_text("100%")
+    expect(page.locator("#matching-evidence")).to_contain_text("Exact matching")
