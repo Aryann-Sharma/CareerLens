@@ -200,20 +200,30 @@ group `diligent team worker` as one phrase. These are reasons to retain the revi
 step; the context pass is not a complete language parser. The varied regression
 inputs are software checks, not a new independently labelled accuracy benchmark.
 
-## Technical-skill spelling
+## Spelling suggestions
 
 The application also has a small explicit map of common technical-skill typos
 in `backend/app/services/skill_spelling.py`. It normalizes those spellings for
 scoring and records the original token and correction alongside the result.
 Other tokens of 5–24 letters can produce review suggestions when they differ
-from a catalog alias by one insertion, deletion, substitution, or adjacent
+from a catalog alias or one of 32 workplace terms by one insertion, deletion, substitution, or adjacent
 transposition. Several aliases for the same skill yield one candidate. Exact
 known names are excluded from guessing. Suggestions are limited to 200 distinct
 spellings per document; they do not silently become score requirements.
 
 Users must confirm general suggestions through the skill review controls.
 A nearby spelling may be an ordinary word or a different tool, so edit distance
-alone is not enough for automatic correction. Free-form soft skills and arbitrary
-spelling mistakes are not corrected. The original text and model spans remain
+alone is not enough for automatic correction. For example, `pasionate about work`
+can offer `passionate` even when no span was detected. All workplace suggestions
+require confirmation, including `communication`, `diligent`, and `teamwork`.
+Correct British/American spellings in the vocabulary and case-only variations
+produce no suggestion. This vocabulary is a review aid, not another extraction
+model or a general English dictionary; arbitrary spelling mistakes remain unsupported.
+
+The interface offers **Use …** and **Keep original**. Acceptance changes the
+editable review list; **Update analysis** explicitly recalculates the job score,
+or **Add to my skills** imports reviewed résumé skills. A corrected word inside an
+existing phrase is not also appended as a separate requirement. Dismissal leaves
+the result unchanged and lasts for the displayed result only. The original text and model spans remain
 unchanged, and raw extraction and benchmark evaluation still use the original
 predictions. These application rules do not retrain either model.

@@ -6,8 +6,8 @@ Run commands from the repository root with the virtual environment activated.
 
 | Date | Check | Result |
 | --- | --- | --- |
-| 2026-10-13 | Complete backend and Chromium suites, with MiniLM, CRF, and contextual checks enabled, including requirement clauses, seeded inputs, and varied document imports | 594 passed; one PostgreSQL-only test skipped |
-| 2026-10-13 | Separate PostgreSQL 18 integration, saved-résumé, job-PDF, varied-document, and requirement-sentence browser checks | 33 passed; migrations and migration consistency check passed |
+| 2026-10-13 | Complete backend and Chromium suites, with MiniLM, CRF, and contextual checks enabled, including workplace spelling review, requirement clauses, seeded inputs, and varied document imports | 612 passed; one PostgreSQL-only test skipped |
+| 2026-10-13 | Separate PostgreSQL 18 integration, saved-résumé, job-PDF, varied-document, and requirement-sentence browser checks, before the workplace-spelling follow-up | 33 passed; migrations and migration consistency check passed |
 | 2026-10-08 | Separate PostgreSQL integration test and Chromium suite against a disposable PostgreSQL 18 database | 54 passed; migration consistency check passed |
 | 2026-10-13 | Installed application dependencies, frontend JavaScript syntax, documentation links, and whitespace | Passed |
 
@@ -72,7 +72,7 @@ The browser fixture applies migrations to a temporary SQLite database and starts
 | Feature | Checks |
 | --- | --- |
 | Extraction | Every supported skill and alias, case, duplicates, punctuation, overlapping names, word boundaries, repeated input |
-| Spelling | Every supported name and alias in multiple casings, multiword aliases, known technical typos, uncertain suggestions that require review, exact-name protection, short names and compounds, original offsets/text/PDF preservation, deduplication, scores and history, résumé reuse, review overrides, real contextual inference, mobile layout |
+| Spelling | Every supported name and alias in multiple casings, multiword aliases, known technical typos, 32 workplace terms with review-only suggestions, uncertain suggestions even when extraction is empty, accept/dismiss keyboard controls, exact-name protection, short names and compounds, original offsets/text/PDF preservation, phrase corrections without duplicate requirements, scores and history, résumé reuse, review overrides, real contextual inference, mobile layout |
 | Scoring | Partial and full matches, empty profiles, unknown skills, rounding, preserved ordering |
 | Semantic matching | Real local inference, repeatability, explicit denials, ambiguity, similarity thresholds, exact baseline, saved explanations, unavailable-model recovery |
 | Trained extraction | Split deduplication, label validation, span metrics, miniature CRF training, artifact integrity, offline prediction, Unicode offsets, contextual word alignment and long inputs, public preview, failure recovery |

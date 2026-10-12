@@ -18,6 +18,18 @@ COMMON_TYPOS = {
 }
 TOKEN = re.compile(r"(?<![\w.+#-])[A-Za-z]+(?:\.[A-Za-z]+)?(?![\w+#-])")
 FUZZY_ALIASES = {alias: name for alias, name in ALIAS_NAMES.items() if alias.isalpha() and len(alias) >= 5}
+# A small review vocabulary, not a general English dictionary or skill detector.
+# These words are never automatically added to the scored requirements.
+WORKPLACE_TERMS = frozenset({
+    "passionate", "diligent", "curious", "reliable", "adaptable", "creative",
+    "analytical", "collaborative", "communicative", "empathetic", "proactive",
+    "resourceful", "responsible", "resilient", "organised", "organized",
+    "communication", "collaboration", "teamwork", "leadership", "creativity",
+    "adaptability", "reliability", "initiative", "negotiation", "presentation",
+    "planning", "punctuality", "organisation", "organization",
+    "prioritisation", "prioritization",
+})
+REVIEW_VOCABULARY = {**FUZZY_ALIASES, **{word: word for word in WORKPLACE_TERMS}}
 
 
 def one_edit_apart(left: str, right: str) -> bool:
@@ -39,9 +51,9 @@ def one_edit_apart(left: str, right: str) -> bool:
 @lru_cache(maxsize=4096)
 def candidates(word: str) -> tuple[str, ...]:
     word = word.casefold()
-    if word in ALIAS_NAMES or not word.isalpha() or not 5 <= len(word) <= 24:
+    if word in ALIAS_NAMES or word in WORKPLACE_TERMS or not word.isalpha() or not 5 <= len(word) <= 24:
         return ()
-    return tuple(sorted({name for alias, name in FUZZY_ALIASES.items() if one_edit_apart(word, alias)}))
+    return tuple(sorted({name for alias, name in REVIEW_VOCABULARY.items() if one_edit_apart(word, alias)}))
 
 
 def spelling_checks(text: str) -> list[dict]:

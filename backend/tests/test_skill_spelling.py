@@ -7,7 +7,7 @@ from backend.app.services.skill_spelling import COMMON_TYPOS, correct_known_typo
 from backend.app.services.trained_extractor import suggested_skills
 from backend.tests.pdf_fixtures import make_pdf
 from backend.app.services.skill_extractor import SKILL_ALIASES
-from backend.app.services.skill_spelling import candidates
+from backend.app.services.skill_spelling import candidates, WORKPLACE_TERMS
 
 
 @pytest.mark.parametrize("skill,aliases", list(SKILL_ALIASES.items()))
@@ -72,7 +72,47 @@ def test_known_skills_short_names_versions_and_compounds_are_not_guessed():
 def test_soft_skill_spelling_is_left_for_manual_review():
     text = "comunication skills and team wokrer"
     assert correct_known_typos(text) == text
-    assert spelling_checks(text) == []
+    assert spelling_checks(text) == [{"original": "comunication", "candidates": ["communication"],
+                                     "applied": False, "start": 0, "end": 12}]
+
+
+@pytest.mark.parametrize("typo,word", [
+    ("pasionate", "passionate"), ("passoinate", "passionate"), ("dilligent", "diligent"),
+    ("curous", "curious"), ("comunication", "communication"), ("colaboration", "collaboration"),
+    ("realiable", "reliable"), ("creatve", "creative"), ("teamwrok", "teamwork"),
+])
+def test_workplace_spelling_is_review_only_and_keeps_source_offsets(typo, word):
+    text = f"🧭 {typo.upper()} about work; {typo}"
+    checks = spelling_checks(text)
+    assert len(checks) == 1
+    assert checks[0]["candidates"] == [word]
+    assert checks[0]["applied"] is False
+    assert text[checks[0]["start"]:checks[0]["end"]] == typo.upper()
+    assert correct_known_typos(text) == text
+
+
+def test_correct_workplace_words_and_case_variations_are_not_typos():
+    for word in WORKPLACE_TERMS:
+        for variant in (word, word.upper(), word.swapcase()):
+            assert spelling_checks(variant) == []
+            assert candidates(variant) == ()
+    assert spelling_checks("goodlooking work worker company office holiday") == []
+
+
+@pytest.mark.skipif(os.getenv("RUN_CONTEXTUAL_TESTS") != "1", reason="Requires contextual weights")
+def test_missed_word_still_has_a_suggestion_without_inventing_a_requirement(authenticated_client):
+    request = {"job_description": "pasionate about work", "user_skills": ["passionate"],
+               "extraction_method": "trained", "matching_method": "exact"}
+    response = authenticated_client.post("/api/analyze", json=request)
+    assert response.status_code == 200
+    result = response.json()
+    assert result["extracted_skills"] == [] and result["match_score"] == 0
+    assert result["extraction_details"]["spelling"][0]["candidates"] == ["passionate"]
+    saved = authenticated_client.get(response.headers["Location"]).json()
+    assert saved["extraction_details"]["spelling"] == result["extraction_details"]["spelling"]
+    assert saved["job_description"] == request["job_description"]
+    reviewed = authenticated_client.post("/api/analyze", json={**request, "reviewed_job_skills": ["passionate"]}).json()
+    assert reviewed["match_score"] == 100 and reviewed["extraction_details"]["spelling"] == []
 
 
 def test_repeated_corrected_skills_do_not_inflate_score():

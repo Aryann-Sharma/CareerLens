@@ -861,8 +861,12 @@ function extractionExplanation(details) {
 function applySpellingChoice(input, original, candidate) {
   const escaped = original.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const pattern = new RegExp(`\\b${escaped}\\b`, "gi");
-  const lines = input.value.split("\n").map((line) => line.replace(pattern, () => candidate).trim()).filter(Boolean);
-  lines.push(candidate);
+  let replaced = false;
+  const lines = input.value.split("\n").map((line) => line.replace(pattern, () => {
+    replaced = true;
+    return candidate;
+  }).trim()).filter(Boolean);
+  if (!replaced) lines.push(candidate);
   const seen = new Set();
   input.value = lines.filter((line) => {
     const key = line.toLocaleLowerCase();
@@ -884,7 +888,7 @@ function renderSpellingChecks(container, checks, onChoose) {
     const note = document.createElement("p");
     note.textContent = check.applied
       ? `Read “${check.original}” as ${check.candidates[0]}.`
-      : `“${check.original}” might mean ${check.candidates.join(" or ")}. No correction has been applied.`;
+      : `Did you mean ${check.candidates.map((candidate) => `“${candidate}”`).join(" or ")} instead of “${check.original}”? No correction has been applied.`;
     row.append(note);
     if (!check.applied && onChoose) {
       const actions = document.createElement("div");
@@ -900,6 +904,17 @@ function renderSpellingChecks(container, checks, onChoose) {
         });
         actions.append(button);
       }
+      const keepButton = document.createElement("button");
+      keepButton.type = "button";
+      keepButton.className = "text-button";
+      keepButton.textContent = "Keep original";
+      keepButton.addEventListener("click", () => {
+        note.textContent = `Kept “${check.original}”. No correction has been applied.`;
+        actions.remove();
+        note.tabIndex = -1;
+        note.focus();
+      });
+      actions.append(keepButton);
       row.append(actions);
     }
     container.append(row);

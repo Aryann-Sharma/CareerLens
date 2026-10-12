@@ -63,12 +63,21 @@ correction. Other close spellings, such as `Pythom`, are suggestions only: choos
 **Use Python**, review the skill list, then select **Update analysis** to apply it.
 General suggestions never change the score automatically.
 
+A small workplace vocabulary also offers review suggestions such as `pasionate`
+→ `passionate`, `comunication` → `communication`, and `dilligent` → `diligent`.
+These appear even when the extractor finds no skills. Choose **Use passionate**
+to add or correct the reviewed skill, or **Keep original** to dismiss the suggestion
+without changing the result. Recalculation still requires **Update analysis**.
+Correcting a word inside a longer phrase preserves that phrase without adding the
+corrected word again as a separate requirement.
+
 The same checks run when importing or reusing a résumé. Choose **Add to my skills**
 after reviewing the list. The original job description, source offsets, and saved
 PDF stay unchanged. Letter casing alone never triggers a spelling suggestion, including supported aliases such as `POSTGRE SQL`. Known skill names are never changed into another technology;
-short names such as SQL, C, and R are not guessed. This is limited technical-skill
-spelling support, not general spellchecking: phrases such as `comunication skills`
-still need manual review. Explicitly reviewed lists take precedence over automatic
+short names such as SQL, C, and R are not guessed. This is limited spelling support
+for named technologies and 32 workplace terms, not a general English spellchecker.
+Workplace suggestions are always subject to review and do not make the suggested
+word a detected skill by themselves. Explicitly reviewed lists take precedence over automatic
 corrections, and existing saved analyses keep their original results.
 
 ### Skill lists and requirement sentences
