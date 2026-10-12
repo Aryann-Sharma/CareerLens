@@ -9,6 +9,27 @@ from e2e.test_feature_flows import register, create_analysis
 
 
 @pytest.mark.skipif(os.getenv("RUN_CONTEXTUAL_TESTS") != "1", reason="Requires contextual weights")
+@pytest.mark.parametrize("text,expected", [
+    ("Skills to build\na\nteam worker\ndiligent", ["team worker", "diligent"]),
+    ("a diligent team worker", ["diligent", "team worker"]),
+])
+def test_complete_short_skill_phrases_are_shown_and_scored(page: Page, app_url: str, text, expected):
+    page.goto(app_url)
+    page.locator("#job-description").fill(text)
+    page.locator("#analyze-button").click()
+    expect(page.locator("#missing-skills .chip")).to_have_text(expected, timeout=30000)
+    expect(page.locator("#missing-count")).to_have_text("2")
+    page.locator("#skill-review summary").click()
+    expect(page.locator("#source-evidence mark")).to_have_text(expected)
+    expect(page.locator("#reviewed-skills")).to_have_value("\n".join(expected))
+    page.locator("#user-skills").fill("team worker")
+    page.locator("#analyze-button").click()
+    expect(page.locator("#match-score")).to_have_text("50%")
+    expect(page.locator("#matched-skills .chip")).to_have_text(["team worker"])
+    expect(page.locator("#missing-skills .chip")).to_have_text(["diligent"])
+
+
+@pytest.mark.skipif(os.getenv("RUN_CONTEXTUAL_TESTS") != "1", reason="Requires contextual weights")
 def test_filler_prediction_is_not_displayed_or_scored(page: Page, app_url: str):
     page.goto(app_url)
     page.locator("#job-description").fill("be a team worker, and be diligent")

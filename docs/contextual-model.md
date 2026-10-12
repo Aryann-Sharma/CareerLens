@@ -160,6 +160,32 @@ The raw `/api/extract` response and the training/evaluation code retain the mode
 original spans; the reported benchmark scores have not changed. Existing saved
 analyses retain their original results. Run the analysis again to use the filter.
 
+## Short phrases and skill lists
+
+Short fragments can lose useful context. The raw model missed `team worker` on
+its own and clipped it to `team` in `a diligent team worker`. The application now
+uses a second, batched inference pass with a `Skills:` prefix for brief items
+under recognised skill headings, and for brief fragments with a possible clipped
+prediction. This uses the existing contextual weights; it is not a retraining run
+or a lookup that maps particular words to longer phrases.
+
+New spans are accepted only inside explicit skill lists, such as `Required skills`
+or `Skills to build`. Outside those lists, the pass can only extend an existing
+phrase from the same starting position. It cannot merge two predicted requirements,
+cross list punctuation or conjunctions, or replace a longer prediction with a
+shorter one. Prefix words are excluded, and every returned span refers to the
+original text and character offsets. The article `a` still fails the fragment
+filter. Blank lines and recognised non-skill headings end the list context.
+
+The pass covers at most 200 fragments, each at most 100 characters and 16 tokens;
+full sentences are left to the original inference. It is used by trained job
+analysis, résumé import, and saved-résumé reuse. Catalog extraction, manual skill
+overrides, raw extraction, and benchmark evaluation retain their existing behavior.
+The reported model scores therefore do not measure this application-level context
+pass. These corrections improve the covered short-input cases, but do not guarantee
+complete extraction from other wording or layouts. Existing saved results are not
+rewritten; run a new analysis to apply the change.
+
 ## Technical-skill spelling
 
 The application also has a small explicit map of common technical-skill typos

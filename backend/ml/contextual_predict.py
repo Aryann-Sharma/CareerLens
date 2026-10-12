@@ -15,7 +15,7 @@ from backend.ml.contextual import (
 )
 from backend.ml.data import HEADS, digest
 from backend.ml.features import bio_spans
-from backend.ml.predict import ExtractorUnavailableError, token_sentences
+from backend.ml.predict import ExtractorUnavailableError, TOKEN_PATTERN, token_sentences
 
 
 @lru_cache(maxsize=2)
@@ -44,9 +44,19 @@ def load_assets(path: Path):
 def extract(text: str, model_path: Path) -> dict:
     if not text.strip() or len(text) > 50_000:
         raise ValueError("Enter between 1 and 50,000 characters")
+    return _extract_rows(text, token_sentences(text), model_path)
+
+
+def extract_fragments(text: str, fragments: list[dict], model_path: Path) -> dict:
+    """Recheck bounded fragments with skill context; synthetic words never become spans."""
+    sentences = [list(TOKEN_PATTERN.finditer(text, item["start"], item["end"])) for item in fragments]
+    return _extract_rows(text, sentences, model_path, prefix=["Skills", ":"])
+
+
+def _extract_rows(text: str, sentences: list, model_path: Path, prefix: list[str] | None = None) -> dict:
     manifest, revision, tokenizer, session, lock = load_assets(model_path.resolve())
-    sentences = token_sentences(text)
-    rows = [{"tokens": [token.group() for token in sentence]} for sentence in sentences]
+    prefix = prefix or []
+    rows = [{"tokens": [*prefix, *(token.group() for token in sentence)]} for sentence in sentences]
     predictions = empty_predictions(rows)
     try:
         # Limit concurrent CPU/memory use and avoid sharing mutable tokenizer state.
@@ -61,6 +71,9 @@ def extract(text: str, model_path: Path) -> dict:
         for head in HEADS:
             for sentence, tags in zip(sentences, predictions[head], strict=True):
                 for start, end in sorted(bio_spans(tags)):
+                    if start < len(prefix):
+                        continue
+                    start, end = start - len(prefix), end - len(prefix)
                     left, right = sentence[start].start(), sentence[end - 1].end()
                     spans.append({"text": text[left:right], "label": head, "start": left, "end": right})
         return {"model": manifest["model"], "revision": revision, "experimental": True,

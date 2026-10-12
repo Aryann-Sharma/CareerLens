@@ -6,8 +6,8 @@ Run commands from the repository root with the virtual environment activated.
 
 | Date | Check | Result |
 | --- | --- | --- |
-| 2026-10-12 | Complete backend and Chromium suites, with MiniLM, CRF, and contextual integration checks enabled, including PDF/photo job imports and section selection | 444 passed; one PostgreSQL-only test skipped |
-| 2026-10-12 | Separate PostgreSQL 18 integration test, saved-résumé browser checks, and job-PDF browser checks | 22 passed; fresh migrations and migration consistency check passed |
+| 2026-10-12 | Complete backend and Chromium suites, with MiniLM, CRF, and contextual integration checks enabled, including short-phrase context and boundary regressions | 471 passed; one PostgreSQL-only test skipped |
+| 2026-10-12 | Separate PostgreSQL 18 integration test, saved-résumé browser checks, and job-PDF browser checks, before the short-phrase extraction update | 22 passed; fresh migrations and migration consistency check passed |
 | 2026-10-08 | Separate PostgreSQL integration test and Chromium suite against a disposable PostgreSQL 18 database | 54 passed; migration consistency check passed |
 | 2026-10-12 | Installed application dependencies, frontend JavaScript syntax, documentation links, and whitespace | Passed |
 
@@ -75,6 +75,7 @@ The browser fixture applies migrations to a temporary SQLite database and starts
 | Semantic matching | Real local inference, repeatability, explicit denials, ambiguity, similarity thresholds, exact baseline, saved explanations, unavailable-model recovery |
 | Trained extraction | Split deduplication, label validation, span metrics, miniature CRF training, artifact integrity, offline prediction, Unicode offsets, contextual word alignment and long inputs, public preview, failure recovery |
 | Skill review | Screenshot regression for standalone “a”, grammar-only/punctuation/numeric fragment filtering, preservation of short skills and meaningful phrases, shared PDF/reuse filtering, trained phrases affect scoring, corrected lists override predictions, input limits, source highlighting, original input snapshots, saved extraction evidence |
+| Short skill phrases | Both screenshot regressions, skill-list heading variants, bullets and numbered items, complete team-worker/team-player phrases, generic communication/problem-solving items, original offsets, bounded context batches, prevention of merged requirements or invented source text, exact/semantic scoring, saved history and résumé reuse, unchanged raw extraction and manual overrides |
 | Job image import | Real offline PNG/JPEG/WebP recognition, unsaved guest uploads, byte/pixel/dimension limits, EXIF rotation, transparent backgrounds, animation and blank-image rejection, timeout and busy recovery, camera-button file picker and keyboard access, editable preview, multiple photos appended without overwriting typed text, editing the combined description, text limits, discard during reading and restored focus, logout and upload races, literal text rendering, mobile/tablet/desktop layout |
 | Job PDF and section selection | Real PDF and photo extraction from full postings, required/preferred skills retained, clearly labelled unrelated sections omitted, original text available, unclear headings keep full text, unknown headings retained, PDF limits and retry, private review cleared on logout, PDF/photo switching races, mixed-source appends, editable combined text, literal original-text preview, responsive attachment controls |
 | Résumé import | PDF validation, byte/page/text limits, encrypted and image-only documents, parser timeout, reviewed profile import, no database writes, ignored upload responses after logout |

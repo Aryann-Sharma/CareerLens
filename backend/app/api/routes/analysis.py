@@ -13,7 +13,7 @@ from backend.app.services.skill_extractor import extract_skills
 from backend.app.services.semantic_matcher import ModelUnavailableError, analyze_semantic_match
 from backend.app.core.config import get_settings
 from backend.app.schemas.extraction import ExtractionDetails
-from backend.app.services.trained_extractor import extract, suggested_skills, usable_skill_spans, ExtractorUnavailableError
+from backend.app.services.trained_extractor import extract_for_review as extract, suggested_skills, usable_skill_spans, ExtractorUnavailableError
 from backend.app.services.skill_extractor import canonicalize_skill
 from backend.app.services.skill_spelling import correct_known_typos, spelling_checks
 

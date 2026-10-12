@@ -34,17 +34,29 @@ def usable_skill_spans(spans: list[dict]) -> list[dict]:
     return usable
 
 
-def extract(text: str, model_path: Path) -> dict:
+def extract(text: str, model_path: Path, *, review_context: bool = False) -> dict:
     try:
         version = json.loads((model_path / "manifest.json").read_text())["format_version"]
     except (OSError, ValueError, KeyError, TypeError) as error:
         raise ExtractorUnavailableError("The extraction model is unavailable") from error
     if version == 2:
-        from backend.ml.contextual_predict import extract as extract_contextual
-        return extract_contextual(text, model_path)
+        from backend.ml.contextual_predict import extract as extract_contextual, extract_fragments
+        prediction = extract_contextual(text, model_path)
+        if review_context:
+            from backend.app.services.span_context import merge_context_spans, review_fragments
+            original = usable_skill_spans(prediction["spans"])
+            fragments = review_fragments(text, original)
+            if fragments:
+                contextual = extract_fragments(text, fragments, model_path)
+                prediction["spans"] = merge_context_spans(text, original, usable_skill_spans(contextual["spans"]), fragments)
+        return prediction
     if version == 1:
         return extract_crf(text, model_path)
     raise ExtractorUnavailableError("Unsupported extraction model format")
+
+
+def extract_for_review(text: str, model_path: Path) -> dict:
+    return extract(text, model_path, review_context=True)
 
 
 def suggested_skills(text: str, spans: list[dict]) -> list[str]:

@@ -12,7 +12,7 @@ from starlette.concurrency import run_in_threadpool
 from backend.app.core.config import get_settings
 from backend.app.api.pdf_upload import parse_upload, read_upload
 from backend.app.services.skill_extractor import extract_skills
-from backend.app.services.trained_extractor import ExtractorUnavailableError, extract, suggested_skills, usable_skill_spans
+from backend.app.services.trained_extractor import ExtractorUnavailableError, extract_for_review as extract, suggested_skills, usable_skill_spans
 from backend.app.api.routes.extraction import ExtractionResponse
 from backend.app.api.dependencies import get_current_user
 from backend.app.db.session import get_db

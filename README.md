@@ -71,6 +71,15 @@ spelling support, not general spellchecking: phrases such as `comunication skill
 still need manual review. Explicitly reviewed lists take precedence over automatic
 corrections, and existing saved analyses keep their original results.
 
+### Short skill lists
+
+With the contextual extractor, short items under skill headings receive an additional
+context pass, and clipped phrases can be extended without changing the source
+text. For example, `team worker` is retained in a labelled skill list and in
+`a diligent team worker`. Review is still available for missed or incorrect
+phrases; this does not retrain the model. See the
+[contextual model guide](docs/contextual-model.md#short-phrases-and-skill-lists).
+
 ### Job-description PDFs, photos, and screenshots
 
 Use **Add photo** (camera) or **Attach PDF** (paperclip) inside the description box.
