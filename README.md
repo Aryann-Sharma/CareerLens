@@ -71,12 +71,13 @@ spelling support, not general spellchecking: phrases such as `comunication skill
 still need manual review. Explicitly reviewed lists take precedence over automatic
 corrections, and existing saved analyses keep their original results.
 
-### Short skill lists
+### Skill lists and requirement sentences
 
-With the contextual extractor, short items under skill headings receive an additional
-context pass, and clipped phrases can be extended without changing the source
-text. For example, `team worker` is retained in a labelled skill list and in
-`a diligent team worker`. Review is still available for missed or incorrect
+With the contextual extractor, short items under skill headings and explicit
+requirement clauses receive an additional context pass. Clipped phrases can also
+be extended without changing the source text. For example, `team worker` is
+retained in a labelled list, `a diligent team worker`, and `We need a diligent
+team worker.` Review is still available for missed or incorrect
 phrases; this does not retrain the model. See the
 [contextual model guide](docs/contextual-model.md#short-phrases-and-skill-lists).
 
@@ -119,6 +120,10 @@ blurred photos, handwriting, unusual fonts, and multi-column layouts. The app
 uses pretrained [RapidOCR](https://pypi.org/project/rapidocr-onnxruntime/1.4.4/)
 models bundled with the installed package. Inference needs no external service
 or API key. These models have not been trained or fine-tuned for this project.
+When a reading contains a long run of joined letters, a single high-contrast retry
+can recover spaces. The retry is accepted only if every non-whitespace character
+agrees with the first reading. Shorter joined words, missing headings, and other
+recognition errors still need correction in the preview.
 
 Image uploads are limited to 5 MB, 12 megapixels, and 8,000 pixels on either side.
 Animated images are rejected. Recognition runs in a separate process with a

@@ -6,12 +6,14 @@ Run commands from the repository root with the virtual environment activated.
 
 | Date | Check | Result |
 | --- | --- | --- |
-| 2026-10-12 | Complete backend and Chromium suites, with MiniLM, CRF, and contextual integration checks enabled, including short-phrase context and boundary regressions | 471 passed; one PostgreSQL-only test skipped |
-| 2026-10-12 | Separate PostgreSQL 18 integration test, saved-résumé browser checks, and job-PDF browser checks, before the short-phrase extraction update | 22 passed; fresh migrations and migration consistency check passed |
+| 2026-10-13 | Complete backend and Chromium suites, with MiniLM, CRF, and contextual checks enabled, including requirement clauses, seeded inputs, and varied document imports | 594 passed; one PostgreSQL-only test skipped |
+| 2026-10-13 | Separate PostgreSQL 18 integration, saved-résumé, job-PDF, varied-document, and requirement-sentence browser checks | 33 passed; migrations and migration consistency check passed |
 | 2026-10-08 | Separate PostgreSQL integration test and Chromium suite against a disposable PostgreSQL 18 database | 54 passed; migration consistency check passed |
-| 2026-10-12 | Installed application dependencies, frontend JavaScript syntax, documentation links, and whitespace | Passed |
+| 2026-10-13 | Installed application dependencies, frontend JavaScript syntax, documentation links, and whitespace | Passed |
 
-The latest photo-upload checks use clear generated text fixtures; they do not measure accuracy on arbitrary photos. The OCR models are supplied by the pinned dependency and do not need a test download.
+The latest photo-upload checks use generated text fixtures, including compressed
+JPEG and WebP files; they do not measure accuracy on arbitrary photos. The OCR
+models are supplied by the pinned dependency and do not need a test download.
 
 The PDF/photo toolbar and document review were also visually reviewed at 320,
 768, and 1,440 pixels. Both attachment buttons fit side by side at 320 pixels.
@@ -90,6 +92,37 @@ The browser fixture applies migrations to a temporary SQLite database and starts
 | Interface | Example input, score and skill displays, keyboard dismissal, dialog padding, button alignment and touch targets, seven viewport widths from 320 to 1,440 pixels, mobile long content, literal text rendering |
 | Database | Migrations, schema consistency, write rollback, uniqueness, foreign keys, PostgreSQL JSONB |
 | Operations | Liveness, database readiness, missing schema, production configuration |
+
+## Varied-input checks
+
+`test_varied_inputs.py` uses seed `20261012` to generate 32 repeatable descriptions
+with different technical-skill combinations, casing, list/prose formats, and line
+endings. Each runs through catalog and trained extraction, checks expected named
+skills, source offsets, deduplication, score arithmetic, and matched/missing lists.
+Separate real-model regressions cover requirement sentences, soft skills, irrelevant
+text, numbered items with and without spaces, and the reported screenshot examples.
+
+Four documents cover soft-skill prose, full postings with unrelated sections,
+technical typos/casing, and numbered skill lists. Each is uploaded as a PDF, PNG,
+compressed JPEG, and WebP: 16 document cases. PDFs use separate positioned text
+lines. Image tests run the actual local reader. Thirteen cases feed the imported
+text directly into trained analysis. Three compressed-image cases explicitly
+correct the preview first: JPEG full postings and numbered lists, and a WebP full
+posting. They lose shorter spaces or a heading in recognition. These are successful
+review workflows, not examples of flawless automatic extraction.
+
+Eight Chromium cases repeat the soft-skill and full-posting documents across all
+four formats, including warning visibility, switching between full and selected
+text, manual correction where needed, profile matching, and editable skill review.
+The screenshot sentence must produce all four phrases and a 25% score when the
+profile contains exactly one of them. The high-contrast OCR retry must preserve
+every non-whitespace character and fall back when a second reading disagrees.
+
+This collection is a regression suite, not a representative accuracy benchmark.
+Exploratory checks still found negation and compound-phrase grouping errors; see
+the [model limitations](contextual-model.md#short-phrases-and-skill-lists). Real
+handwriting, poor lighting, complex layouts, and arbitrary résumé formats need
+broader independent evaluation.
 
 ## Trained extraction checks
 

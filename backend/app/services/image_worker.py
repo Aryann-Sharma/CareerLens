@@ -3,6 +3,7 @@
 from contextlib import redirect_stdout
 from io import BytesIO
 import json
+import re
 import sys
 import warnings
 
@@ -13,6 +14,19 @@ MAX_PIXELS = 12_000_000
 MAX_SIDE = 8000
 MAX_TEXT = 50_000
 Image.MAX_IMAGE_PIXELS = MAX_PIXELS
+JOINED_WORDS = re.compile(r"[A-Za-z]{30,}")
+
+
+def read_rows(rows) -> str:
+    return "\n".join(str(row[1]).strip() for row in (rows or []) if str(row[1]).strip())
+
+
+def restore_spacing(original: str, retry: str) -> str:
+    """Accept a spacing retry only when every non-whitespace character agrees."""
+    if (re.sub(r"\s", "", original) == re.sub(r"\s", "", retry)
+            and len(JOINED_WORDS.findall(retry)) < len(JOINED_WORDS.findall(original))):
+        return retry
+    return original
 
 
 def load_image(content: bytes) -> Image.Image:
@@ -50,7 +64,16 @@ def recognize(image: Image.Image) -> str:
                       det_use_cuda=False, cls_use_cuda=False, rec_use_cuda=False,
                       max_side_len=3200, det_limit_side_len=1536, det_limit_type="max")
     rows, _ = engine(np.asarray(image)[:, :, ::-1].copy())
-    text = "\n".join(str(row[1]).strip() for row in (rows or []) if str(row[1]).strip())
+    text = read_rows(rows)
+    if JOINED_WORDS.search(text):
+        # Compression can erase spaces even when all letters are recognised.
+        # A single high-contrast retry may recover them without guessing words.
+        contrast = ImageOps.grayscale(image).point(lambda pixel: 0 if pixel < 150 else 255).convert("RGB")
+        try:
+            retry_rows, _ = engine(np.asarray(contrast)[:, :, ::-1].copy())
+        except Exception:
+            retry_rows = None  # Keep the successful first reading if the retry fails.
+        text = restore_spacing(text, read_rows(retry_rows))
     if not text:
         raise ValueError("No readable text was found. Try a sharper image or paste the description instead.")
     if len(text) > MAX_TEXT:

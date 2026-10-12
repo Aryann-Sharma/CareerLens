@@ -165,12 +165,20 @@ analyses retain their original results. Run the analysis again to use the filter
 Short fragments can lose useful context. The raw model missed `team worker` on
 its own and clipped it to `team` in `a diligent team worker`. The application now
 uses a second, batched inference pass with a `Skills:` prefix for brief items
-under recognised skill headings, and for brief fragments with a possible clipped
-prediction. This uses the existing contextual weights; it is not a retraining run
+under recognised skill headings, explicit requirement clauses, and brief fragments
+with a possible clipped prediction. This uses the existing contextual weights; it is not a retraining run
 or a lookup that maps particular words to longer phrases.
 
-New spans are accepted only inside explicit skill lists, such as `Required skills`
-or `Skills to build`. Outside those lists, the pass can only extend an existing
+New spans are accepted inside explicit skill lists, such as `Required skills`
+or `Skills to build`, and short affirmative requirements introduced by wording
+such as `We need`, `We are looking for`, or `You must have`. The generic introducer
+is removed for that pass, so `We need a diligent team worker.` is checked as
+`Skills: a diligent team worker`. Clause boundaries keep neighbouring sentences
+separate; names containing punctuation, such as `Node.js`, stay intact. Negated
+clauses and known company/benefits sections are excluded from this extra check.
+This exclusion does not remove negated skills already predicted by the raw model.
+
+Outside these contexts, the pass can only extend an existing
 phrase from the same starting position. It cannot merge two predicted requirements,
 cross list punctuation or conjunctions, or replace a longer prediction with a
 shorter one. Prefix words are excluded, and every returned span refers to the
@@ -178,13 +186,19 @@ original text and character offsets. The article `a` still fails the fragment
 filter. Blank lines and recognised non-skill headings end the list context.
 
 The pass covers at most 200 fragments, each at most 100 characters and 16 tokens;
-full sentences are left to the original inference. It is used by trained job
+other full sentences are left to the original inference. It is used by trained job
 analysis, résumé import, and saved-résumé reuse. Catalog extraction, manual skill
 overrides, raw extraction, and benchmark evaluation retain their existing behavior.
 The reported model scores therefore do not measure this application-level context
 pass. These corrections improve the covered short-input cases, but do not guarantee
 complete extraction from other wording or layouts. Existing saved results are not
 rewritten; run a new analysis to apply the change.
+
+Exploratory checks still found limitations: `You must not be a team worker.` can
+return `team worker`, and `We need a passionate and diligent team worker.` can
+group `diligent team worker` as one phrase. These are reasons to retain the review
+step; the context pass is not a complete language parser. The varied regression
+inputs are software checks, not a new independently labelled accuracy benchmark.
 
 ## Technical-skill spelling
 

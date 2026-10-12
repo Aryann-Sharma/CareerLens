@@ -13,6 +13,17 @@ from backend.app.services import image_worker, job_image
 from backend.tests.image_fixtures import make_image
 
 
+@pytest.mark.parametrize("retry,accepted", [
+    ("we want a diligent team worker who is also passionate", True),
+    ("we want a different team worker who is also passionate", False),
+    ("we want a diligent team worker", False),
+    ("", False),
+])
+def test_spacing_retry_cannot_change_letters_or_drop_text(retry, accepted):
+    original = "wewantadiligentteamworkerwhoisalsopassionate"
+    assert image_worker.restore_spacing(original, retry) == (retry if accepted else original)
+
+
 @pytest.mark.parametrize("format,media", [("PNG", "image/png"), ("JPEG", "image/jpeg"), ("WEBP", "image/webp")])
 def test_real_image_import_is_public_unsaved_and_readable(client, db_session, format, media):
     result = client.post("/api/job-image", content=make_image(format=format), headers={"Content-Type": media})

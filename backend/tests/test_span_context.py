@@ -39,6 +39,37 @@ def test_context_pass_is_bounded_and_skips_sentences_or_long_lines():
     assert review_fragments("Skills:\ncommunication\n\noffice building", [])[-1]["end"] == len("Skills:\ncommunication")
 
 
+@pytest.mark.parametrize("lead", [
+    "We want", "We need", "We require", "We seek", "We are looking for", "We are seeking",
+    "You must be", "You should be", "Candidates need to be", "An applicant",
+])
+def test_requirement_leads_retain_source_offsets(lead):
+    text = f"🧭\n{lead} a diligent team worker, who is passionate."
+    regions = review_fragments(text, [])
+    if lead == "An applicant":
+        assert regions == []  # No affirmative requirement verb.
+    else:
+        assert [text[r["start"]:r["end"]] for r in regions] == ["a diligent team worker"]
+        assert regions[0]["allow_new"]
+
+
+@pytest.mark.parametrize("text", [
+    "We do not need a team worker.", "We need no prior experience.",
+    "You must not be a team worker.", "We want someone without experience.",
+    "We need someone who isn't a team worker.", "Our team worker mentors new starters.",
+    "Benefits:\nWe want a new office building.",
+])
+def test_context_pass_does_not_add_candidates_in_negated_or_unrelated_text(text):
+    assert review_fragments(text, []) == []
+
+
+def test_requirement_clauses_keep_technology_punctuation_and_batch_limit():
+    text = "We require Node.js; you must have Python."
+    assert [text[r["start"]:r["end"]] for r in review_fragments(text, [])] == ["Node.js", "Python"]
+    assert len(review_fragments("We want a team worker. " * 250, [])) == 200
+    assert review_fragments("We want " + "long " * 17 + ".", []) == []
+
+
 def test_only_extends_one_existing_phrase_outside_a_skill_list():
     text = "a diligent team worker"
     original = [span(text, "diligent"), span(text, "team")]
@@ -76,9 +107,23 @@ def test_context_cannot_shrink_or_invent_spans():
     ("team worker and diligent", ["team worker", "diligent"]),
     ("Skills:\n- communication\n- problem solving", ["communication", "problem solving"]),
     ("Required skills:\n1. team worker\n2. diligent", ["team worker", "diligent"]),
+    ("Required skills:\n1.team worker\n2.diligent", ["team worker", "diligent"]),
     ("Skills:\nteam worker\nBenefits:\nPaid holidays", ["team worker"]),
     ("office building", []),
     ("team meetings", []),
+    ("we want a diligent team worker, who is also very passionate and a hard-worker.",
+     ["diligent", "team worker", "passionate", "hard-worker"]),
+    ("We need a diligent team worker.", ["diligent", "team worker"]),
+    ("We are looking for a reliable team player.", ["reliable", "team player"]),
+    ("You must be a diligent team worker.", ["diligent", "team worker"]),
+    ("Candidates should have attention to detail.", ["attention to detail"]),
+    ("Applicants need to demonstrate problem solving.", ["problem solving"]),
+    ("We are seeking a diligent team worker; you must have attention to detail.",
+     ["diligent", "team worker", "attention to detail"]),
+    ("WE WANT A DILIGENT TEAM WORKER.", ["DILIGENT", "TEAM WORKER"]),
+    ("We need a new office building.", []),
+    ("Our team worker mentors new starters.", []),
+    ("We offer paid holidays and free lunches.", []),
 ])
 def test_real_model_short_phrase_regressions(client, text, expected):
     result = client.post("/api/preview", json={"job_description": text, "extraction_method": "trained", "user_skills": []})
