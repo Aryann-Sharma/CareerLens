@@ -6,6 +6,8 @@ Run commands from the repository root with the virtual environment activated.
 
 | Date | Check | Result |
 | --- | --- | --- |
+| 2026-10-13 | Complete backend and Chromium suites after learning roadmaps and editor placement changes; MiniLM, CRF, contextual, and occupation experiment checks enabled | 678 passed; one PostgreSQL-only test skipped |
+| 2026-10-13 | Separate PostgreSQL 18 integration plus learning-roadmap and spelling-review browser suites | 25 passed; migrations and schema consistency check passed |
 | 2026-10-13 | Complete backend and Chromium suites, with MiniLM, CRF, and contextual checks enabled, including workplace spelling review, requirement clauses, seeded inputs, and varied document imports | 612 passed; one PostgreSQL-only test skipped |
 | 2026-10-13 | Separate PostgreSQL 18 integration, saved-résumé, job-PDF, varied-document, and requirement-sentence browser checks, before the workplace-spelling follow-up | 33 passed; migrations and migration consistency check passed |
 | 2026-10-08 | Separate PostgreSQL integration test and Chromium suite against a disposable PostgreSQL 18 database | 54 passed; migration consistency check passed |
@@ -21,8 +23,9 @@ A delayed session response check confirmed that the upload button stays in place
 when the guest account controls appear at all three widths.
 
 The PostgreSQL runs repeat browser coverage against a different database; these
-counts should not be added together as unique tests. Model weights were reused
-for the latest checks, not retrained. The latest suite reported one upstream
+counts should not be added together as unique tests. Extraction and semantic
+weights were reused. A separate occupation classifier was trained and evaluated
+offline; it is not used in the app (see [experiment](role-experiment.md)). The latest suite reported one upstream
 Starlette/AnyIO deprecation warning and no test failures.
 
 These checks support the implemented local workflows. They do not establish
@@ -77,6 +80,9 @@ The browser fixture applies migrations to a temporary SQLite database and starts
 | Semantic matching | Real local inference, repeatability, explicit denials, ambiguity, similarity thresholds, exact baseline, saved explanations, unavailable-model recovery |
 | Trained extraction | Split deduplication, label validation, span metrics, miniature CRF training, artifact integrity, offline prediction, Unicode offsets, contextual word alignment and long inputs, public preview, failure recovery |
 | Skill review | Screenshot regression for standalone “a”, grammar-only/punctuation/numeric fragment filtering, preservation of short skills and meaningful phrases, shared PDF/reuse filtering, trained phrases affect scoring, corrected lists override predictions, input limits, source highlighting, original input snapshots, saved extraction evidence |
+| Learning plans | All 18 guides, alias and case handling, prerequisite ordering, 80 seeded mixed-skill plans, unknown phrases, reviewed typo choices, six directions, unchanged fit scores, downloadable checked milestones, snapshot preservation, empty plans, errors/retries, logout clearing, late responses, literal text rendering, keyboard dialogs, 320/768/1440-pixel layouts |
+| Editor placement | Edit shortcut beside the result heading, editor before matched skills, accepted spelling correction focuses the text box with Update analysis in view on phone and desktop |
+| Occupation experiment | Source checksums, conflicting-label removal, split isolation, feature case/typo behavior, acceptance gates, artifact validation, reproduced held-out metrics from actual trained weights; experiment excluded from app recommendations |
 | Short skill phrases | Both screenshot regressions, skill-list heading variants, bullets and numbered items, complete team-worker/team-player phrases, generic communication/problem-solving items, original offsets, bounded context batches, prevention of merged requirements or invented source text, exact/semantic scoring, saved history and résumé reuse, unchanged raw extraction and manual overrides |
 | Job image import | Real offline PNG/JPEG/WebP recognition, unsaved guest uploads, byte/pixel/dimension limits, EXIF rotation, transparent backgrounds, animation and blank-image rejection, timeout and busy recovery, camera-button file picker and keyboard access, editable preview, multiple photos appended without overwriting typed text, editing the combined description, text limits, discard during reading and restored focus, logout and upload races, literal text rendering, mobile/tablet/desktop layout |
 | Job PDF and section selection | Real PDF and photo extraction from full postings, required/preferred skills retained, clearly labelled unrelated sections omitted, original text available, unclear headings keep full text, unknown headings retained, PDF limits and retry, private review cleared on logout, PDF/photo switching races, mixed-source appends, editable combined text, literal original-text preview, responsive attachment controls |

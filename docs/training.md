@@ -1,5 +1,9 @@
 # Training the skill extractor
 
+The separate [occupation classification experiment](role-experiment.md) records
+training on public occupation labels. It is not connected to the application;
+its held-out results did not justify automatic learning-direction suggestions.
+
 This guide records the CRF baseline. The app now defaults to the
 [contextual extractor](contextual-model.md), which uses the same SkillSpan split
 policy and has separate held-out and external evaluation reports.

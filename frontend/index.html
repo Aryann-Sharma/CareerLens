@@ -8,8 +8,9 @@
       content="Compare your skills with a job description using CareerLens."
     />
     <title>CareerLens — See your fit clearly</title>
-    <link rel="stylesheet" href="/static/style.css?v=20261012-3" />
-    <script src="/static/script.js?v=20261013-1" defer></script>
+    <link rel="stylesheet" href="/static/style.css?v=20261013-2" />
+    <script src="/static/learning.js?v=20261013-2" defer></script>
+    <script src="/static/script.js?v=20261013-2" defer></script>
   </head>
   <body class="has-workspace">
     <header class="site-header">
@@ -207,7 +208,10 @@
           </div>
 
           <div id="results-content" tabindex="-1" hidden>
-            <p class="step">Your fit</p>
+            <div class="result-heading">
+              <p class="step">Your fit</p>
+              <button type="button" class="text-button" id="edit-result-skills">Edit skills</button>
+            </div>
             <div class="score-row">
               <div>
                 <strong id="match-score">0%</strong><span>skill match</span>
@@ -219,6 +223,19 @@
             <p class="score-summary" id="score-summary"></p>
             <div id="matching-evidence" class="matching-evidence" hidden></div>
             <div id="spelling-checks" class="spelling-checks" hidden></div>
+
+            <details class="skill-review" id="skill-review">
+              <summary>Review the skills found</summary>
+              <p id="extraction-method-note" class="field-hint"></p>
+              <label for="reviewed-skills">Skills required by this role (one per line)</label>
+              <textarea id="reviewed-skills" rows="4" maxlength="20199"></textarea>
+              <p class="field-hint">Remove incorrect phrases, combine duplicates, or add missing skills. Each item has equal weight in the score.</p>
+              <button type="button" class="secondary-button" id="update-analysis">Update analysis</button>
+              <div class="review-source">
+                <p class="field-hint">Check against the description</p>
+                <div id="source-evidence" class="source-evidence"></div>
+              </div>
+            </details>
 
             <div class="result-group">
               <div class="result-heading">
@@ -234,20 +251,12 @@
                 <span class="count missing-count" id="missing-count">0</span>
               </div>
               <div class="chips" id="missing-skills"></div>
+              <p class="field-hint" id="learning-chip-hint">Select a skill for learning steps and resources.</p>
             </div>
 
             <details class="extracted-details">
               <summary>All skills found</summary>
               <div class="chips neutral" id="extracted-skills"></div>
-            </details>
-            <details class="skill-review" id="skill-review">
-              <summary>Review the skills found</summary>
-              <p id="extraction-method-note" class="field-hint"></p>
-              <div id="source-evidence" class="source-evidence"></div>
-              <label for="reviewed-skills">Skills required by this role (one per line)</label>
-              <textarea id="reviewed-skills" rows="6" maxlength="20199"></textarea>
-              <p class="field-hint">Remove incorrect phrases, combine duplicates, or add missing skills. Each item has equal weight in the score.</p>
-              <button type="button" class="secondary-button" id="update-analysis">Update analysis</button>
             </details>
             <div class="save-analysis">
               <button type="button" class="secondary-button" id="save-analysis">Save analysis</button>
@@ -257,6 +266,28 @@
         </aside>
         </section>
 
+        <section id="learning-workspace" class="learning-workspace" aria-labelledby="learning-title" hidden>
+          <p class="step">03 · Put it into practice</p>
+          <h2 id="learning-title">Your learning roadmap</h2>
+          <p>Start with the skills from your analysis. If the description is vague, choose a direction to add a suggested starter path.</p>
+          <div class="learning-controls">
+            <div>
+              <label for="learning-direction">Add a learning direction (optional)</label>
+              <select id="learning-direction"><option value="">Only skills from my analysis</option></select>
+            </div>
+            <button id="build-learning-plan" type="button" class="secondary-button">Build roadmap</button>
+          </div>
+          <p class="field-hint">Directions are curated starting points, not inferred job requirements. Suggestions and practice progress never change your fit score.</p>
+          <p id="learning-status" role="status"></p>
+          <div id="learning-plan" hidden>
+            <h3 id="learning-plan-title"></h3>
+            <p id="learning-notice" class="field-hint"></p>
+            <p id="learning-progress" role="status"></p>
+            <ol id="learning-steps" class="learning-steps"></ol>
+            <button id="download-learning-plan" type="button" class="secondary-button">Download checklist</button>
+            <p class="field-hint">Progress stays on this page only. Download it before refreshing, logging out, or starting a new analysis. A new roadmap resets the checklist.</p>
+          </div>
+        </section>
 
         <section id="history-section" class="history-section" aria-labelledby="history-title" hidden>
         <div class="history-heading">
@@ -285,6 +316,14 @@
         </section>
       </div>
     </main>
+
+    <dialog id="learning-dialog" class="history-dialog learning-dialog" aria-labelledby="learning-dialog-title">
+      <div class="dialog-heading">
+        <h2 id="learning-dialog-title">Learning guide</h2>
+        <button type="button" class="dialog-close" id="close-learning-dialog" aria-label="Close learning guide">×</button>
+      </div>
+      <div id="learning-guide-content" aria-live="polite"></div>
+    </dialog>
 
     <dialog
       id="auth-dialog"

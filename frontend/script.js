@@ -220,6 +220,7 @@ form.addEventListener("submit", async (event) => {
 });
 
 async function runAnalysis(request) {
+  learning.pause();
   const revision = sessionRevision;
   const operation = ++analysisRevision;
   const previous = lastAnalysis;
@@ -248,6 +249,7 @@ async function runAnalysis(request) {
 
     lastAnalysis = { request, result: body, saved: ownerId !== null, ownerId,
       savedId: response.headers.get("Location")?.split("/").pop() };
+    learning.setAnalysis(lastAnalysis);
     renderResults(body);
     updateSaveControl();
     setView("results");
@@ -262,6 +264,7 @@ async function runAnalysis(request) {
     formError.hidden = false;
     if (previous && request.reviewed_job_skills) {
       lastAnalysis = previous;
+      learning.panel.hidden = false;
       updateSaveControl();
       setView("results");
     } else setView("empty");
@@ -460,6 +463,7 @@ function clearDraft() {
 }
 
 function clearPrivateViews() {
+  learning.clear();
   lastAnalysis = null;
   pendingSave = null;
   analysisRevision += 1;
@@ -564,11 +568,11 @@ function setView(view) {
 }
 
 function renderResults(result) {
+  document.querySelector("#learning-chip-hint").hidden = !result.missing_skills.length;
   reviewInput.value = result.extracted_skills.join("\n");
   renderSpellingChecks(document.querySelector("#spelling-checks"), result.extraction_details?.spelling, (original, candidate) => {
     applySpellingChoice(reviewInput, original, candidate);
-    document.querySelector("#skill-review").open = true;
-    reviewInput.focus();
+    openSkillsReview();
     return "Added to your review. Choose Update analysis to recalculate the score.";
   });
   renderSourceEvidence(document.querySelector("#source-evidence"), lastAnalysis?.request.job_description || "", result.extraction_details);
@@ -649,12 +653,28 @@ function appendSkills(container, skills, variant, emptyMessage) {
     return;
   }
   skills.forEach((skill) => {
-    const chip = document.createElement("span");
+    const chip = document.createElement(variant === "missing" ? "button" : "span");
     chip.className = `chip ${variant}`;
     chip.textContent = skill;
+    if (variant === "missing") {
+      chip.type = "button";
+      chip.classList.add("learning-chip");
+      chip.setAttribute("aria-label", `Learning guide for ${skill}`);
+      chip.addEventListener("click", () => void learning.openGuide(skill));
+    }
     container.append(chip);
   });
 }
+
+function openSkillsReview() {
+  const review = document.querySelector("#skill-review");
+  review.open = true;
+  reviewInput.focus({ preventScroll: true });
+  reviewInput.scrollIntoView({ block: "center" });
+}
+
+const learning = new LearningWorkspace();
+document.querySelector("#edit-result-skills").addEventListener("click", openSkillsReview);
 
 async function loadHistory(page) {
   if (!currentUser) return;

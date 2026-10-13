@@ -2,14 +2,14 @@
 
 ![CI](https://github.com/Aryann-Sharma/CareerLens/actions/workflows/ci.yml/badge.svg)
 
-CareerLens extracts skills from job descriptions and compares them with a user's profile. Anyone can analyze a role, import skills from a résumé PDF, and correct the extracted list. An account is needed to save analyses, return to private history, or keep a résumé for later.
+CareerLens compares job descriptions with a user's skills and turns gaps into a practical learning plan. Anyone can analyze a role, import skills from a résumé PDF, correct the extracted list, and download a learning checklist. An account is needed to save analyses, return to private history, or keep a résumé for later.
 
 The project connects a browser interface to a Python API and a relational database. The interface uses HTML, CSS, and JavaScript; the backend uses FastAPI and SQLAlchemy.
 
 ## Project status
 
 The main workflows are implemented and tested for local use: guest analysis,
-résumé import, skill review, accounts, and private history. The project includes
+résumé import, skill review, learning roadmaps, accounts, and private history. The project includes
 reproducible training code and measured model comparisons. See the
 [testing guide](docs/testing.md) for the latest verification record.
 
@@ -30,10 +30,30 @@ the end of this page describe the current scope.
 - Import a full job posting from a PDF, photo, or screenshot, review the suggested role sections, and add them to the form.
 - Import a text-based résumé PDF and review suggested profile skills. Signed-in users can save one private PDF, reuse it later, download it, replace it, or delete it.
 - View matched skills, missing skills, and a percentage score.
+- Select a missing skill for practice steps, a project idea, and reviewed learning resources.
+- Build an ordered roadmap with suggested foundations, optional learning directions, and a downloadable practice checklist.
 - Browse paginated history, open saved evidence, and delete individual analyses.
 - Keep each user's history separate, including when switching accounts.
 - Use the interface on desktop or mobile, with keyboard-accessible dialogs.
 - Run locally with SQLite or use PostgreSQL with versioned Alembic migrations.
+
+## Learning next steps
+
+Select a missing skill to see a learning guide, or build a roadmap below the
+results. Guides cover the 18 catalog technologies, with reviewed resources,
+practice milestones, and project ideas. An optional direction such as web
+development adds a starter path when the description is vague. These additions
+are labelled as suggestions and never change the fit score.
+
+Track practice on the page and download a checklist to keep it. Roadmap progress
+is not saved to accounts; refreshing, rebuilding, or starting another analysis
+clears it. Unknown phrases get a practice template without invented course
+links. See the [learning guide](docs/learning.md) for scope and API examples.
+
+The [occupation classification experiment](docs/role-experiment.md) trains real
+weights from public occupation labels, but its held-out results were too weak
+for automatic role suggestions. It remains an offline experiment. The app's
+learning directions and resources are curated and user-selected.
 
 ## How matching works
 
@@ -268,6 +288,9 @@ inputs and weights; the trained parameters are learned from data.
 | POST | `/api/extract` | Preview trained extraction from up to 50,000 characters; no account needed |
 | POST | `/api/job-image` | Read a raw PNG/JPEG/WebP image body into editable text; no account needed, no image storage |
 | POST | `/api/job-pdf` | Read a raw PDF body into editable job text; no account needed, no PDF storage |
+| GET | `/api/learning/directions` | List curated learning directions |
+| GET | `/api/learning/guide?skill=Java` | Read a learning guide or unsupported-phrase fallback |
+| POST | `/api/learning/plan` | Build a roadmap from missing skills and an optional direction; no storage |
 | POST | `/api/resume?method=trained` | Read a raw PDF body and suggest profile skills; no account needed |
 | GET | `/api/resume/saved` | Get the signed-in user's saved PDF metadata |
 | PUT | `/api/resume/saved?filename=resume.pdf` | Save or replace the signed-in user's PDF; raw `application/pdf` body |

@@ -511,6 +511,34 @@ footer a { color: var(--green); font-weight: 700; }
 .skills-field > .matching-field { margin-top: 0; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--line); }
 .skills-field .matching-field label { font-size: .9rem; }
 .skill-review > button, #resume-review > button { margin-top: .75rem; }
+.review-source { margin-top: 1rem; }
+.learning-chip { border: 1px solid transparent; cursor: pointer; text-align: left; }
+.learning-chip:hover { border-color: var(--amber); text-decoration: underline; }
+.learning-workspace { margin-top: 28px; padding: 32px; border: 1px solid var(--line); border-radius: 20px; background: var(--card); }
+.learning-workspace > p { max-width: 80ch; line-height: 1.65; }
+.learning-controls { display: flex; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-top: 24px; }
+.learning-controls > div { flex: 1 1 300px; }
+.learning-controls label { display: block; margin-bottom: 8px; font-weight: 650; }
+.learning-controls select { width: 100%; }
+.learning-workspace button, .learning-dialog button { white-space: normal; }
+.learning-steps { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding: 0; counter-reset: learning; }
+.learning-card { padding: 20px; border: 1px solid var(--line); border-radius: 12px; overflow-wrap: anywhere; counter-increment: learning; }
+.learning-card h4 { margin: 6px 0; font-size: 1.1rem; }
+.learning-card h4::before { content: counter(learning) ". "; color: var(--green); }
+.learning-card p { font-size: .9rem; line-height: 1.6; }
+.learning-card .learning-reason { font-size: .75rem; color: var(--green); margin: 0; font-weight: 650; }
+.learning-skill { padding: 4px 0; font-size: inherit; text-align: left; }
+.milestone-check { display: flex; align-items: flex-start; gap: 10px; margin: 12px 0; font-size: .85rem; line-height: 1.6; cursor: pointer; }
+.milestone-check input { width: 18px; height: 18px; flex: 0 0 18px; margin: 4px 0 0; accent-color: var(--green); }
+.learning-project { border-top: 1px solid var(--line); padding-top: 12px; }
+.learning-dialog { overflow-wrap: anywhere; }
+.learning-dialog h3 { margin-top: 24px; font-size: 1rem; }
+.learning-dialog li { margin: 12px 0; line-height: 1.65; }
+.learning-dialog a { display: block; margin: 12px 0; color: var(--green); }
+@media (max-width: 700px) {
+  .learning-workspace { padding: 24px 20px; }
+  .learning-steps { grid-template-columns: 1fr; }
+}
 .source-evidence { max-height: 14rem; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font-size: .9rem; line-height: 1.7; margin: 1rem 0; }
 .source-evidence mark, .saved-description mark { background: #dcecd1; color: #183c29; border-radius: 3px; }
 .history-card-actions, .dialog-actions { display: flex; align-items: center; flex-wrap: wrap; gap: .75rem; }

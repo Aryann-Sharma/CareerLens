@@ -111,7 +111,9 @@ jobs:
         run: python -m compileall -q backend e2e
 
       - name: Check frontend JavaScript
-        run: node --check frontend/script.js
+        run: |
+          node --check frontend/script.js
+          node --check frontend/learning.js
 
       - name: Validate deployment configuration
         env:
