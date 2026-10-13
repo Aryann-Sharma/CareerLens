@@ -13,6 +13,7 @@ class AnalysisRequest(BaseModel):
     user_skills: list[str] = Field(max_length=200)
     matching_method: Literal["exact", "semantic"] = "exact"
     extraction_method: Literal["catalog", "trained"] = "catalog"
+    interpret_duties: bool = False
     reviewed_job_skills: list[str] | None = Field(default=None, max_length=200)
 
     @field_validator("reviewed_job_skills")

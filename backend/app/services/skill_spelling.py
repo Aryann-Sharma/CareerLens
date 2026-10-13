@@ -4,6 +4,7 @@ from functools import lru_cache
 import re
 
 from backend.app.services.skill_extractor import ALIAS_NAMES, EXTRACTION_PATTERN
+from backend.app.services.workplace_phrases import PHRASES
 
 
 # Explicit misspellings only. General edit-distance matches require confirmation.
@@ -30,6 +31,9 @@ WORKPLACE_TERMS = frozenset({
     "prioritisation", "prioritization",
 })
 REVIEW_VOCABULARY = {**FUZZY_ALIASES, **{word: word for word in WORKPLACE_TERMS}}
+COMPOUNDS = {phrase.replace(" ", ""): phrase for phrase in PHRASES}
+# Established single-word forms are valid spellings, including teamwork.
+VALID_JOINED = {"teamwork", "hardworking"}
 
 
 def one_edit_apart(left: str, right: str) -> bool:
@@ -53,15 +57,44 @@ def candidates(word: str) -> tuple[str, ...]:
     word = word.casefold()
     if word in ALIAS_NAMES or word in WORKPLACE_TERMS or not word.isalpha() or not 5 <= len(word) <= 24:
         return ()
-    return tuple(sorted({name for alias, name in REVIEW_VOCABULARY.items() if one_edit_apart(word, alias)}))
+    if word in VALID_JOINED:
+        return ()
+    if word in COMPOUNDS:
+        return (COMPOUNDS[word],)
+    return tuple(sorted({name for alias, name in {**REVIEW_VOCABULARY, **COMPOUNDS}.items() if one_edit_apart(word, alias)}))
 
 
 def spelling_checks(text: str) -> list[dict]:
     checks = []
     seen = set()
+    # Sliding word windows catch a misspelling inside a compound, rather than
+    # treating every short word as a possible skill on its own.
+    words = list(re.finditer(r"(?<!\w)[A-Za-z]+(?!\w)", text))
+    protected = []
+    for i, word in enumerate(words):
+        for size in (3, 2):
+            group = words[i:i + size]
+            if len(group) != size or any(not re.fullmatch(r"[ -]+", text[a.end():b.start()]) for a, b in zip(group, group[1:])):
+                continue
+            value = " ".join(w.group().casefold() for w in group)
+            if value in PHRASES or (value.endswith("s") and value[:-1] in PHRASES):
+                protected.append((word.start(), group[-1].end()))
+                continue
+            options = [p for p in PHRASES if len(p.split()) == size and one_edit_apart(value, p)]
+            if options:
+                original = text[word.start():group[-1].end()]
+                if original.casefold() not in seen:
+                    checks.append({"original": original, "candidates": sorted(options), "applied": False,
+                                   "start": word.start(), "end": group[-1].end()})
+                    seen.add(original.casefold())
+                    protected.append((word.start(), group[-1].end()))
+                if len(checks) == 200:
+                    return checks
     known_names = iter(EXTRACTION_PATTERN.finditer(text))
     known = next(known_names, None)
     for match in TOKEN.finditer(text):
+        if any(start <= match.start() and match.end() <= end for start, end in protected):
+            continue
         while known is not None and known.end() <= match.start():
             known = next(known_names, None)
         # A word inside a valid alias such as "POSTGRE SQL" is not a typo.
@@ -79,7 +112,7 @@ def spelling_checks(text: str) -> list[dict]:
                            "start": match.start(), "end": match.end()})
         if len(checks) == 200:
             break
-    return checks
+    return sorted(checks, key=lambda check: check["start"])
 
 
 def correct_known_typos(text: str) -> str:

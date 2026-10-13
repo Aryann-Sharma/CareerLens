@@ -26,6 +26,9 @@ def usable_skill_spans(spans: list[dict]) -> list[dict]:
     for span in spans:
         value = " ".join(span["text"].split())
         words = re.findall(r"[^\W_]+", value, flags=re.UNICODE)
+        # An isolated action on an unspecified object is not a useful skill.
+        if len(words) == 2 and words[-1].casefold() in {"it", "them", "this", "that", "these", "those"}:
+            continue
         if len(value) <= 100 and any(
             any(char.isalpha() for char in word) and word.casefold() not in FUNCTION_WORDS
             for word in words
@@ -49,6 +52,8 @@ def extract(text: str, model_path: Path, *, review_context: bool = False) -> dic
             if fragments:
                 contextual = extract_fragments(text, fragments, model_path)
                 prediction["spans"] = merge_context_spans(text, original, usable_skill_spans(contextual["spans"]), fragments)
+            from backend.app.services.workplace_phrases import preserve_phrases
+            prediction["spans"] = preserve_phrases(text, prediction["spans"])
         return prediction
     if version == 1:
         return extract_crf(text, model_path)

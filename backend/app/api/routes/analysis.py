@@ -12,10 +12,11 @@ from backend.app.services.scorer import analyze_skill_match
 from backend.app.services.skill_extractor import extract_skills
 from backend.app.services.semantic_matcher import ModelUnavailableError, analyze_semantic_match
 from backend.app.core.config import get_settings
-from backend.app.schemas.extraction import ExtractionDetails
+from backend.app.schemas.extraction import ContextSuggestion, ExtractionDetails
 from backend.app.services.trained_extractor import extract_for_review as extract, suggested_skills, usable_skill_spans, ExtractorUnavailableError
 from backend.app.services.skill_extractor import canonicalize_skill
 from backend.app.services.skill_spelling import correct_known_typos, spelling_checks
+from backend.app.services.context_suggestions import suggest_from_context
 
 router = APIRouter(prefix="/api", tags=["analysis"])
 
@@ -38,6 +39,14 @@ def calculate_analysis(request: AnalysisRequest) -> AnalysisResponse:
         extracted_skills = suggested_skills(request.job_description, spans)
         extraction_details = ExtractionDetails(method="trained", model=prediction["model"],
                                                 revision=prediction["revision"], spans=spans, spelling=checks)
+        if request.interpret_duties:
+            try:
+                suggestions, notice = suggest_from_context(request.job_description, extracted_skills)
+                extraction_details = extraction_details.model_copy(update={
+                    "context_suggestions": [ContextSuggestion(**item) for item in suggestions], "context_notice": notice,
+                })
+            except ModelUnavailableError:
+                extraction_details.context_notice = "Suggestions from the wider context are unavailable. You can still review the skills found."
     matching_details = None
     if request.matching_method == "semantic":
         try:

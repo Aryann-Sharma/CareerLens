@@ -227,3 +227,11 @@ existing phrase is not also appended as a separate requirement. Dismissal leaves
 the result unchanged and lasts for the displayed result only. The original text and model spans remain
 unchanged, and raw extraction and benchmark evaluation still use the original
 predictions. These application rules do not retrain either model.
+
+## Wider context and compound follow-up
+
+The application also preserves a small set of explicit compound qualities and
+offers separate, review-only interpretations from MiniLM. These changes do not
+replace the trained extractor or alter its raw benchmark results. See the
+[context review guide](context-review.md) for the compound rules, spelling
+coverage, evaluation cases, and remaining errors.

@@ -107,6 +107,7 @@ def test_delayed_private_response_is_ignored_after_logout(
 
     def hold(route: Route) -> None:
         pending.append((route, route.fetch()))
+        page.evaluate("window.privateResponseHeld = true")
 
     page.route(f"**{endpoint}", hold)
     if endpoint == "/api/analyze":
@@ -114,6 +115,9 @@ def test_delayed_private_response_is_ignored_after_logout(
     else:
         page.reload()
         expect(page.locator("#authenticated-app")).to_be_visible()
+    # Establish the delayed-response race before logging out. Otherwise a fast
+    # logout can occur before the browser has even dispatched the request.
+    page.wait_for_function("window.privateResponseHeld === true")
     expect(page.get_by_role("button", name="Log out")).to_be_enabled()
     page.get_by_role("button", name="Log out").click()
     expect(page.locator("#auth-gate")).to_be_visible()

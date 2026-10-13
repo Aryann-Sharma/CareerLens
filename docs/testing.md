@@ -6,6 +6,8 @@ Run commands from the repository root with the virtual environment activated.
 
 | Date | Check | Result |
 | --- | --- | --- |
+| 2026-10-13 | Complete backend and Chromium suites after compound spelling and wider context review; all local model and occupation experiment checks enabled | 744 passed; one PostgreSQL-only test skipped |
+| 2026-10-13 | Separate PostgreSQL 18 integration, context-review, and saved-roadmap browser checks | 17 passed |
 | 2026-10-13 | Complete backend and Chromium suites after private saved roadmaps; MiniLM, CRF, contextual, and occupation experiment checks enabled | 713 passed; one PostgreSQL-only test skipped |
 | 2026-10-13 | Separate PostgreSQL 18 integration plus saved-roadmap and learning browser suites | 22 passed; migration 0007 and schema consistency check passed |
 | 2026-10-13 | Complete backend and Chromium suites after learning roadmaps and editor placement changes; MiniLM, CRF, contextual, and occupation experiment checks enabled | 678 passed; one PostgreSQL-only test skipped |
@@ -28,7 +30,10 @@ The PostgreSQL runs repeat browser coverage against a different database; these
 counts should not be added together as unique tests. Extraction and semantic
 weights were reused. A separate occupation classifier was trained and evaluated
 offline; it is not used in the app (see [experiment](role-experiment.md)). The latest suite reported one upstream
-Starlette/AnyIO deprecation warning and no test failures.
+Starlette/AnyIO deprecation warning and no test failures. The context review also
+has 32 development cases and 22 additional project-authored evaluation cases;
+these are regression fixtures, not an independent accuracy benchmark. See the
+[context review notes](context-review.md) for the results and remaining misses.
 
 These checks support the implemented local workflows. They do not establish
 production load capacity, browser compatibility beyond Chromium, or accuracy on
@@ -85,6 +90,7 @@ The browser fixture applies migrations to a temporary SQLite database and starts
 | Trained extraction | Split deduplication, label validation, span metrics, miniature CRF training, artifact integrity, offline prediction, Unicode offsets, contextual word alignment and long inputs, public preview, failure recovery |
 | Skill review | Screenshot regression for standalone “a”, grammar-only/punctuation/numeric fragment filtering, preservation of short skills and meaningful phrases, shared PDF/reuse filtering, trained phrases affect scoring, corrected lists override predictions, input limits, source highlighting, original input snapshots, saved extraction evidence |
 | Learning plans | All 18 guides, alias and case handling, prerequisite ordering, 80 seeded mixed-skill plans, unknown phrases, reviewed typo choices, six directions, unchanged fit scores, downloadable checked milestones, snapshot preservation, empty plans, errors/retries, logout clearing, late responses, literal text rendering, keyboard dialogs, 320/768/1440-pixel layouts |
+| Context review | Source-aligned evidence, opt-in API flag, no score changes until review, saved interpretations, missing-model fallback, 32 development and 22 additional examples with all misses recorded, compound joins and misspellings, casing and hyphens, explicit denials and unrelated sections, real PDF/PNG imports, literal text rendering, analyzed snapshots, phone/desktop review controls |
 | Editor placement | Edit shortcut beside the result heading, editor before matched skills, accepted spelling correction focuses the text box with Update analysis in view on phone and desktop |
 | Saved roadmaps | Named plans, checked progress, reload/reopen/rename/delete, multiple independent plans, guest sign-in preserving drafts, account isolation, changed-session guards, late success and expired-session responses, lost-response retries without duplicate records, stale update/delete conflicts, saved step snapshots, changed-guide revision checks, pagination and last-page deletion, literal titles, 320/1440-pixel layouts, migration and readiness checks |
 | Occupation experiment | Source checksums, conflicting-label removal, split isolation, feature case/typo behavior, acceptance gates, artifact validation, reproduced held-out metrics from actual trained weights; experiment excluded from app recommendations |

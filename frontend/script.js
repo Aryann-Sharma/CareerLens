@@ -215,6 +215,7 @@ form.addEventListener("submit", async (event) => {
     user_skills: userSkills,
     matching_method: matchingMethod.value,
     extraction_method: extractionMethod.value,
+    interpret_duties: extractionMethod.value === "trained",
   };
   await runAnalysis(request);
 });
@@ -572,6 +573,10 @@ function setView(view) {
 function renderResults(result) {
   document.querySelector("#learning-chip-hint").hidden = !result.missing_skills.length;
   reviewInput.value = result.extracted_skills.join("\n");
+  renderContextSuggestions(document.querySelector("#context-suggestions"), result.extraction_details, true);
+  document.querySelector("#context-review").hidden = !result.extraction_details?.context_notice;
+  const contextCount = result.extraction_details?.context_suggestions?.length || 0;
+  document.querySelector("#context-review summary").textContent = `Check the wider role context${contextCount ? ` (${contextCount} ${contextCount === 1 ? "suggestion" : "suggestions"})` : ""}`;
   renderSpellingChecks(document.querySelector("#spelling-checks"), result.extraction_details?.spelling, (original, candidate) => {
     applySpellingChoice(reviewInput, original, candidate);
     openSkillsReview();
@@ -848,6 +853,9 @@ function renderHistoryDetail(analysis) {
   spelling.className = "spelling-checks";
   renderSpellingChecks(spelling, analysis.extraction_details?.spelling);
   historyDetail.append(spelling);
+  const context = document.createElement("div");
+  renderContextSuggestions(context, analysis.extraction_details);
+  historyDetail.append(context);
   appendDetailGroup("Your skills", analysis.user_skills, "neutral");
   appendDetailGroup("Matched skills", analysis.matched_skills, "matched");
   appendDetailGroup("Skills to build", analysis.missing_skills, "missing");
@@ -881,6 +889,59 @@ function extractionExplanation(details) {
   if (details?.method === "reviewed") return "Reviewed skill list · The score uses your corrections.";
   if (details?.method === "trained") return "Skills found using the wording of the description. Check the highlighted phrases and correct any mistakes below.";
   return "Skills found from a list of 18 common technologies. Add any other requirements that were missed.";
+}
+
+function renderContextSuggestions(container, details, editable = false) {
+  container.replaceChildren();
+  container.hidden = !details?.context_notice;
+  if (!details?.context_notice) return;
+  const title = document.createElement("h3");
+  title.textContent = "Skills suggested by the duties";
+  const notice = document.createElement("p");
+  notice.textContent = details.context_notice;
+  container.append(title, notice);
+  for (const suggestion of details.context_suggestions || []) {
+    const row = document.createElement("div");
+    row.className = "context-choice";
+    const label = document.createElement("strong");
+    label.textContent = suggestion.skill;
+    const evidence = document.createElement("p");
+    evidence.textContent = `Based on: “${suggestion.evidence}”`;
+    row.append(label, evidence);
+    if (editable) {
+      const actions = document.createElement("div");
+      actions.className = "resume-actions";
+      const add = document.createElement("button");
+      add.type = "button";
+      add.className = "secondary-button";
+      add.textContent = `Add ${suggestion.skill}`;
+      add.addEventListener("click", () => {
+        applySpellingChoice(reviewInput, suggestion.skill, suggestion.skill);
+        openSkillsReview();
+        const status = document.createElement("p");
+        status.textContent = "Added to your review. Remove any literal or duplicate phrases, then choose Update analysis.";
+        actions.replaceWith(status);
+      });
+      const dismiss = document.createElement("button");
+      dismiss.type = "button";
+      dismiss.className = "text-button";
+      dismiss.textContent = "Dismiss";
+      dismiss.addEventListener("click", () => {
+        actions.remove();
+        evidence.textContent = "Dismissed. Your skill list and score have not changed.";
+        evidence.tabIndex = -1;
+        evidence.focus();
+      });
+      actions.append(add, dismiss);
+      row.append(actions);
+    }
+    container.append(row);
+  }
+  if (!details.context_suggestions?.length) {
+    const empty = document.createElement("p");
+    empty.textContent = "No additional suggestions to review. Indirect wording may still be missed; add or remove skills in the editor.";
+    container.append(empty);
+  }
 }
 
 function applySpellingChoice(input, original, candidate) {

@@ -535,6 +535,8 @@ footer a { color: var(--green); font-weight: 700; }
 .roadmap-save-controls label { display: block; font-weight: 650; margin-bottom: 8px; }
 .roadmap-save-controls input { display: block; width: min(100%, 480px); margin-bottom: 12px; }
 .roadmap-list { display: grid; gap: 12px; }
+.context-choice { padding: 16px 0; border-top: 1px solid var(--line); overflow-wrap: anywhere; }
+.context-choice p { margin: 8px 0; }
 .roadmap-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 16px; border: 1px solid var(--line); border-radius: 12px; }
 .roadmap-row > div:first-child { flex: 1 1 230px; min-width: 0; overflow-wrap: anywhere; }
 .roadmap-row h3 { margin: 0 0 8px; font-size: 1rem; }

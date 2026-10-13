@@ -73,6 +73,13 @@ The browser starts with **Include similar wording**, the semantic matching mode.
 
 **Match skill names only** uses names and aliases. Extraction and matching are separate choices: trained extraction can discover phrases outside the catalog, while MiniLM semantic suggestions currently map only to the 18 catalog skills. Other extracted phrases need an exact, case-insensitive profile match. Results, extraction evidence, and matching evidence are saved together; corrected lists are labelled as reviewed.
 
+**Check the wider role context** offers possible capabilities based on duties and
+surrounding passages, including indirect wording. Each suggestion shows its
+supporting text and needs review before it enters the score. This uses the
+existing local sentence model; it is not general sarcasm understanding. See
+the [context review guide](docs/context-review.md) for measured limitations and
+the difference between reference descriptions and training data.
+
 Both models run locally on the server's CPU once their files are installed. MiniLM uses downloaded pretrained weights; the contextual extractor uses the project's fine-tuned weights. There are no hosted inference calls or API charges. See the [matching guide](docs/model.md) and [extraction guide](docs/contextual-model.md) for setup, evaluation, and limitations.
 
 The score measures coverage of detected skills. It does not measure hiring probability, experience, education, or suitability for a role. The extractor also does not distinguish required, optional, and negated mentions.
@@ -97,7 +104,10 @@ The same checks run when importing or reusing a résumé. Choose **Add to my ski
 after reviewing the list. The original job description, source offsets, and saved
 PDF stay unchanged. Letter casing alone never triggers a spelling suggestion, including supported aliases such as `POSTGRE SQL`. Known skill names are never changed into another technology;
 short names such as SQL, C, and R are not guessed. This is limited spelling support
-for named technologies and 32 workplace terms, not a general English spellchecker.
+for named technologies, 32 workplace terms, and 16 multiword workplace phrases,
+not a general English spellchecker. Joined compounds such as `hardworker` and
+misspellings inside phrases such as `team wokrer` are offered for review. The
+browser's own red spelling underline is independent of these checks.
 Workplace suggestions are always subject to review and do not make the suggested
 word a detected skill by themselves. Explicitly reviewed lists take precedence over automatic
 corrections, and existing saved analyses keep their original results.

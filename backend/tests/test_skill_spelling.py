@@ -73,7 +73,9 @@ def test_soft_skill_spelling_is_left_for_manual_review():
     text = "comunication skills and team wokrer"
     assert correct_known_typos(text) == text
     assert spelling_checks(text) == [{"original": "comunication", "candidates": ["communication"],
-                                     "applied": False, "start": 0, "end": 12}]
+                                     "applied": False, "start": 0, "end": 12},
+                                    {"original": "team wokrer", "candidates": ["team worker"],
+                                     "applied": False, "start": 24, "end": 35}]
 
 
 @pytest.mark.parametrize("typo,word", [
