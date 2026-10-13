@@ -5,6 +5,11 @@ indirect duties and misspelled descriptions. It trains new weights, but does not
 replace the model used by the website: the candidate failed the release checks.
 The existing phrase extractor and sentence encoder have not been retrained.
 
+The [source-backed follow-up](context-source-training.md) adds occupational
+tasks, annotation corrections, class balancing and more public descriptions.
+It records better precision on one benchmark and substantial coverage failures
+elsewhere, so its candidates also remain outside the app.
+
 ## Data and sources
 
 The [corpus](../evaluation/context-training-cases.json) contains 242 distinct

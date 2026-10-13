@@ -1,0 +1,190 @@
+{
+  "description": "Small additional source check. No training, threshold selection or label changes based on its predictions. Three sources are not representative of the job market.",
+  "sources": [
+    {
+      "id": "zoox-program",
+      "url": "https://jobs.lever.co/zoox/c2256725-2c81-4039-b6dd-03a0d7d7e95f",
+      "kind": "Employer recruitment page, readable",
+      "accessed": "2026-10-13",
+      "usage": "Short project paraphrase. Annotations cover supported capabilities only; no employer-supplied labels. Collected after candidate configurations were fixed."
+    },
+    {
+      "id": "ampd-consultant",
+      "url": "https://jobs.lever.co/ampd-energy/6c3c9577-6935-41dc-8f84-5a6c45e3243d",
+      "kind": "Employer recruitment page, readable",
+      "accessed": "2026-10-13",
+      "usage": "Short project paraphrase. Annotations cover supported capabilities only; no employer-supplied labels. Collected after candidate configurations were fixed."
+    },
+    {
+      "id": "mongodb-analyst",
+      "url": "https://www.linkedin.com/jobs/view/senior-sales-strategy-planning-analyst-at-mongodb-3278332494",
+      "kind": "Expired LinkedIn vacancy, full description readable",
+      "accessed": "2026-10-13",
+      "usage": "Short project paraphrase. Annotations cover supported capabilities only; no employer-supplied labels. Collected after candidate configurations were fixed."
+    }
+  ],
+  "excluded_sources": [
+    {
+      "url": "https://www.linkedin.com/jobs/view/senior-financial-analyst-fp-a-at-taskrabbit-4393053609",
+      "reason": "Redirected to an unrelated search; excluded."
+    },
+    {
+      "url": "https://jobs.smartrecruiters.com/DominoS/744000152048611",
+      "reason": "Full page could not be retrieved; excluded from this final check."
+    }
+  ],
+  "cases": [
+    {
+      "id": "final-0",
+      "family": "zoox-program",
+      "source_id": "zoox-program",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Keep the recruitment circus moving by turning growth targets into hiring plans and organizing conference budgets, suppliers and schedules.",
+      "expected": [
+        "Planning"
+      ],
+      "acceptable": [
+        "Time management"
+      ]
+    },
+    {
+      "id": "final-1",
+      "family": "zoox-program",
+      "source_id": "zoox-program",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Work alongside recruiting leaders, the personnel systems team and legal colleagues to coordinate shared initiatives.",
+      "expected": [
+        "Teamwork"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "final-2",
+      "family": "zoox-program",
+      "source_id": "zoox-program",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Lead group sessions and explain ideas through presentations in several formats.",
+      "expected": [
+        "Presentation"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "final-3",
+      "family": "zoox-program",
+      "source_id": "zoox-program",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Benefits: staff receive insurance, leave and stock compensation. A sign-on payment may be offered.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "final-4",
+      "family": "ampd-consultant",
+      "source_id": "ampd-consultant",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Turn technical modeling results into persuasive proposal slides that explain the commercial value to clients.",
+      "expected": [
+        "Presentation",
+        "Marketing communication"
+      ],
+      "acceptable": [
+        "Written communication",
+        "Data analysis"
+      ]
+    },
+    {
+      "id": "final-5",
+      "family": "ampd-consultant",
+      "source_id": "ampd-consultant",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Herd the project cats: coordinate several departments and follow up on their responses so tender deadlines are met.",
+      "expected": [
+        "Teamwork",
+        "Time management"
+      ],
+      "acceptable": [
+        "Planning"
+      ]
+    },
+    {
+      "id": "final-6",
+      "family": "ampd-consultant",
+      "source_id": "ampd-consultant",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Examine measurements from deployed equipment and adjust the performance models to reflect actual conditions.",
+      "expected": [
+        "Data analysis"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "final-7",
+      "family": "ampd-consultant",
+      "source_id": "ampd-consultant",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "About the company: the business sells battery equipment intended to replace generators and reduce construction emissions.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "final-8",
+      "family": "mongodb-analyst",
+      "source_id": "mongodb-analyst",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Be a spreadsheet wizard by manipulating sales records and analyzing them for useful commercial insights.",
+      "expected": [
+        "Data analysis"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "final-9",
+      "family": "mongodb-analyst",
+      "source_id": "mongodb-analyst",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Partner with finance colleagues to examine productivity and staffing scenarios.",
+      "expected": [
+        "Teamwork",
+        "Data analysis"
+      ],
+      "acceptable": [
+        "Planning"
+      ]
+    },
+    {
+      "id": "final-10",
+      "family": "mongodb-analyst",
+      "source_id": "mongodb-analyst",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Take part in quarterly and yearly planning for the sales organization.",
+      "expected": [
+        "Planning"
+      ],
+      "acceptable": [
+        "Teamwork"
+      ]
+    },
+    {
+      "id": "final-11",
+      "family": "mongodb-analyst",
+      "source_id": "mongodb-analyst",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Benefits: choose ergonomic equipment and a laptop for your workstation. The company offers parental leave and staff events.",
+      "expected": [],
+      "acceptable": []
+    }
+  ]
+}

@@ -64,3 +64,20 @@ def test_selection_does_not_invent_or_expand_source_text():
     result = prepare_job_document(text)
     assert len(result["text"]) <= len(text)
     assert result["text"] in text
+
+
+@pytest.mark.parametrize("heading", ["Why you'll love it here", "Why you’ll love it here:",
+    "Benefits that work for you", "Extra perks that matter"])
+def test_conversational_posting_headings_keep_duties_and_exclude_perks(heading):
+    from backend.app.services.context_suggestions import evidence_units
+    text = ("About us\nOur software team builds Java services.\n"
+            "What you'll be doing:\nWrite Python code for customer applications.\n"
+            f"{heading}\nEnjoy optional presentation and negotiation classes.\n"
+            "Who you are:\nYou can check records carefully and find mistakes.")
+    selected = prepare_job_document(text)
+    assert selected["selection_applied"] and selected["full_text"] == text
+    assert "Python" in selected["text"] and "check records" in selected["text"]
+    assert "Java" not in selected["text"] and "optional" not in selected["text"]
+    units = evidence_units(text)
+    assert all("optional" not in u["text"] and "Java" not in u["text"] for u in units)
+    assert all(text[u["start"]:u["end"]] == u["text"] for u in units)

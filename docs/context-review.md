@@ -102,3 +102,13 @@ This remains a bounded skill vocabulary, not a complete English spellchecker.
 The browser's red underline comes from its own dictionary; it is independent
 of the application's suggestions. Unknown words, several simultaneous mistakes,
 and valid words used in the wrong context can still go unflagged.
+
+## Source-backed training follow-up
+
+The [latest training experiment](context-source-training.md) fits context heads
+using occupational tasks and project labels, with separate spelling variants
+and public-source checks. It improves one benchmark but loses coverage on
+earlier and additional employer descriptions. Neither candidate replaces the
+current review model. Conversational headings such as “What you'll be doing”
+and “Why you'll love it here” are now recognised during document selection
+and context review, helping keep benefits separate from duties.

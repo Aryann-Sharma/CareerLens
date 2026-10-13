@@ -89,6 +89,12 @@ more expected skills on new cases but introduced mistakes on negative examples
 and older regressions, so it is not used by the app. The reports include both
 the augmented model and a clean-only training control.
 
+A [source-backed follow-up](docs/context-source-training.md) adds occupational
+tasks, checks their label mappings and tests 4,965 related inputs. The balanced
+candidate improves precision on its new benchmark, but misses too many skills
+on earlier and additional employer examples. It also remains experimental;
+the reports include these regressions rather than only the best result.
+
 The score measures coverage of detected skills. It does not measure hiring probability, experience, education, or suitability for a role. The extractor also does not distinguish required, optional, and negated mentions.
 
 ### Spelling checks

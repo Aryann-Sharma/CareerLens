@@ -1,0 +1,1385 @@
+{
+  "sources": [
+    {
+      "id": "cfosuite-controller",
+      "url": "https://jobs.smartrecruiters.com/CFOSuite/109569173-controller",
+      "kind": "Employer recruitment page; readable, availability not verified",
+      "accessed": "2026-10-13",
+      "usage": "Brief paraphrases only. Labels are project judgements. All cases from this source are held out together."
+    },
+    {
+      "id": "atg-administrator",
+      "url": "https://www.indeed.com/viewjob?jk=d04ac5ef82986fb4",
+      "kind": "Indeed expired vacancy; full description readable",
+      "accessed": "2026-10-13",
+      "usage": "Brief paraphrases only. Labels are project judgements. All cases from this source are held out together."
+    },
+    {
+      "id": "jmr-wizard",
+      "url": "https://www.linkedin.com/jobs/view/yardi-genesis-wizard-at-jmr-associates-llc-4412901621",
+      "kind": "LinkedIn expired vacancy; full description readable",
+      "accessed": "2026-10-13",
+      "usage": "Brief paraphrases only. Labels are project judgements. All cases from this source are held out together."
+    },
+    {
+      "id": "customerhd-review",
+      "url": "https://www.glassdoor.com/Reviews/Employee-Review-CustomerHD-E2510681-RVW78200835.htm",
+      "kind": "Employee review; not a vacancy",
+      "accessed": "2026-10-13",
+      "usage": "Brief paraphrases only. Labels are project judgements. All cases from this source are held out together."
+    }
+  ],
+  "cases": [
+    {
+      "id": "background-0",
+      "family": "background-0",
+      "text": "An employee review says the company used to offer excellent programming workshops before the budget cuts.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "perk-0",
+      "family": "perk-0",
+      "text": "Our staff enjoy optional programming classes after work, paid for through the benefits programme.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "benefit"
+    },
+    {
+      "id": "not-duty-0",
+      "family": "not-duty-0",
+      "text": "This vacancy does not involve programming; another department handles that work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "negation"
+    },
+    {
+      "id": "background-1",
+      "family": "background-1",
+      "text": "An employee review says the company used to offer excellent debugging workshops before the budget cuts.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "perk-1",
+      "family": "perk-1",
+      "text": "Our staff enjoy optional debugging classes after work, paid for through the benefits programme.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "benefit"
+    },
+    {
+      "id": "not-duty-1",
+      "family": "not-duty-1",
+      "text": "This vacancy does not involve debugging; another department handles that work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "negation"
+    },
+    {
+      "id": "background-2",
+      "family": "background-2",
+      "text": "An employee review says the company used to offer excellent software testing workshops before the budget cuts.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "perk-2",
+      "family": "perk-2",
+      "text": "Our staff enjoy optional software testing classes after work, paid for through the benefits programme.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "benefit"
+    },
+    {
+      "id": "not-duty-2",
+      "family": "not-duty-2",
+      "text": "This vacancy does not involve software testing; another department handles that work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "negation"
+    },
+    {
+      "id": "background-3",
+      "family": "background-3",
+      "text": "An employee review says the company used to offer excellent interface design workshops before the budget cuts.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "perk-3",
+      "family": "perk-3",
+      "text": "Our staff enjoy optional interface design classes after work, paid for through the benefits programme.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "benefit"
+    },
+    {
+      "id": "not-duty-3",
+      "family": "not-duty-3",
+      "text": "This vacancy does not involve interface design; another department handles that work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "negation"
+    },
+    {
+      "id": "background-4",
+      "family": "background-4",
+      "text": "An employee review says the company used to offer excellent deployment workshops before the budget cuts.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "perk-4",
+      "family": "perk-4",
+      "text": "Our staff enjoy optional deployment classes after work, paid for through the benefits programme.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "benefit"
+    },
+    {
+      "id": "not-duty-4",
+      "family": "not-duty-4",
+      "text": "This vacancy does not involve deployment; another department handles that work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "negation"
+    },
+    {
+      "id": "background-5",
+      "family": "background-5",
+      "text": "An employee review says the company used to offer excellent data analysis workshops before the budget cuts.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "perk-5",
+      "family": "perk-5",
+      "text": "Our staff enjoy optional data analysis classes after work, paid for through the benefits programme.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "benefit"
+    },
+    {
+      "id": "not-duty-5",
+      "family": "not-duty-5",
+      "text": "This vacancy does not involve data analysis; another department handles that work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "negation"
+    },
+    {
+      "id": "background-6",
+      "family": "background-6",
+      "text": "An employee review says the company used to offer excellent marketing communication workshops before the budget cuts.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "perk-6",
+      "family": "perk-6",
+      "text": "Our staff enjoy optional marketing communication classes after work, paid for through the benefits programme.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "benefit"
+    },
+    {
+      "id": "not-duty-6",
+      "family": "not-duty-6",
+      "text": "This vacancy does not involve marketing communication; another department handles that work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "negation"
+    },
+    {
+      "id": "background-7",
+      "family": "background-7",
+      "text": "An employee review says the company used to offer excellent social media communication workshops before the budget cuts.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "perk-7",
+      "family": "perk-7",
+      "text": "Our staff enjoy optional social media communication classes after work, paid for through the benefits programme.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "benefit"
+    },
+    {
+      "id": "not-duty-7",
+      "family": "not-duty-7",
+      "text": "This vacancy does not involve social media communication; another department handles that work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "negation"
+    },
+    {
+      "id": "background-8",
+      "family": "background-8",
+      "text": "An employee review says the company used to offer excellent presentation workshops before the budget cuts.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "perk-8",
+      "family": "perk-8",
+      "text": "Our staff enjoy optional presentation classes after work, paid for through the benefits programme.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "benefit"
+    },
+    {
+      "id": "not-duty-8",
+      "family": "not-duty-8",
+      "text": "This vacancy does not involve presentation; another department handles that work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "negation"
+    },
+    {
+      "id": "background-9",
+      "family": "background-9",
+      "text": "An employee review says the company used to offer excellent customer support workshops before the budget cuts.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "perk-9",
+      "family": "perk-9",
+      "text": "Our staff enjoy optional customer support classes after work, paid for through the benefits programme.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "benefit"
+    },
+    {
+      "id": "not-duty-9",
+      "family": "not-duty-9",
+      "text": "This vacancy does not involve customer support; another department handles that work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "negation"
+    },
+    {
+      "id": "background-10",
+      "family": "background-10",
+      "text": "An employee review says the company used to offer excellent written communication workshops before the budget cuts.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "perk-10",
+      "family": "perk-10",
+      "text": "Our staff enjoy optional written communication classes after work, paid for through the benefits programme.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "benefit"
+    },
+    {
+      "id": "not-duty-10",
+      "family": "not-duty-10",
+      "text": "This vacancy does not involve written communication; another department handles that work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "negation"
+    },
+    {
+      "id": "background-11",
+      "family": "background-11",
+      "text": "An employee review says the company used to offer excellent empathy workshops before the budget cuts.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "perk-11",
+      "family": "perk-11",
+      "text": "Our staff enjoy optional empathy classes after work, paid for through the benefits programme.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "benefit"
+    },
+    {
+      "id": "not-duty-11",
+      "family": "not-duty-11",
+      "text": "This vacancy does not involve empathy; another department handles that work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "negation"
+    },
+    {
+      "id": "background-12",
+      "family": "background-12",
+      "text": "An employee review says the company used to offer excellent conflict resolution workshops before the budget cuts.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "perk-12",
+      "family": "perk-12",
+      "text": "Our staff enjoy optional conflict resolution classes after work, paid for through the benefits programme.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "benefit"
+    },
+    {
+      "id": "not-duty-12",
+      "family": "not-duty-12",
+      "text": "This vacancy does not involve conflict resolution; another department handles that work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "negation"
+    },
+    {
+      "id": "background-13",
+      "family": "background-13",
+      "text": "An employee review says the company used to offer excellent teamwork workshops before the budget cuts.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "perk-13",
+      "family": "perk-13",
+      "text": "Our staff enjoy optional teamwork classes after work, paid for through the benefits programme.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "benefit"
+    },
+    {
+      "id": "not-duty-13",
+      "family": "not-duty-13",
+      "text": "This vacancy does not involve teamwork; another department handles that work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "negation"
+    },
+    {
+      "id": "background-14",
+      "family": "background-14",
+      "text": "An employee review says the company used to offer excellent active listening workshops before the budget cuts.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "perk-14",
+      "family": "perk-14",
+      "text": "Our staff enjoy optional active listening classes after work, paid for through the benefits programme.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "benefit"
+    },
+    {
+      "id": "not-duty-14",
+      "family": "not-duty-14",
+      "text": "This vacancy does not involve active listening; another department handles that work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "negation"
+    },
+    {
+      "id": "background-15",
+      "family": "background-15",
+      "text": "An employee review says the company used to offer excellent time management workshops before the budget cuts.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "perk-15",
+      "family": "perk-15",
+      "text": "Our staff enjoy optional time management classes after work, paid for through the benefits programme.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "benefit"
+    },
+    {
+      "id": "not-duty-15",
+      "family": "not-duty-15",
+      "text": "This vacancy does not involve time management; another department handles that work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "negation"
+    },
+    {
+      "id": "background-16",
+      "family": "background-16",
+      "text": "An employee review says the company used to offer excellent attention to detail workshops before the budget cuts.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "perk-16",
+      "family": "perk-16",
+      "text": "Our staff enjoy optional attention to detail classes after work, paid for through the benefits programme.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "benefit"
+    },
+    {
+      "id": "not-duty-16",
+      "family": "not-duty-16",
+      "text": "This vacancy does not involve attention to detail; another department handles that work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "negation"
+    },
+    {
+      "id": "background-17",
+      "family": "background-17",
+      "text": "An employee review says the company used to offer excellent problem solving workshops before the budget cuts.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "perk-17",
+      "family": "perk-17",
+      "text": "Our staff enjoy optional problem solving classes after work, paid for through the benefits programme.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "benefit"
+    },
+    {
+      "id": "not-duty-17",
+      "family": "not-duty-17",
+      "text": "This vacancy does not involve problem solving; another department handles that work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "negation"
+    },
+    {
+      "id": "background-18",
+      "family": "background-18",
+      "text": "An employee review says the company used to offer excellent teaching workshops before the budget cuts.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "perk-18",
+      "family": "perk-18",
+      "text": "Our staff enjoy optional teaching classes after work, paid for through the benefits programme.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "benefit"
+    },
+    {
+      "id": "not-duty-18",
+      "family": "not-duty-18",
+      "text": "This vacancy does not involve teaching; another department handles that work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "negation"
+    },
+    {
+      "id": "background-19",
+      "family": "background-19",
+      "text": "An employee review says the company used to offer excellent negotiation workshops before the budget cuts.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "perk-19",
+      "family": "perk-19",
+      "text": "Our staff enjoy optional negotiation classes after work, paid for through the benefits programme.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "benefit"
+    },
+    {
+      "id": "not-duty-19",
+      "family": "not-duty-19",
+      "text": "This vacancy does not involve negotiation; another department handles that work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "negation"
+    },
+    {
+      "id": "background-20",
+      "family": "background-20",
+      "text": "An employee review says the company used to offer excellent planning workshops before the budget cuts.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "perk-20",
+      "family": "perk-20",
+      "text": "Our staff enjoy optional planning classes after work, paid for through the benefits programme.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "benefit"
+    },
+    {
+      "id": "not-duty-20",
+      "family": "not-duty-20",
+      "text": "This vacancy does not involve planning; another department handles that work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "negation"
+    },
+    {
+      "id": "background-21",
+      "family": "background-21",
+      "text": "An employee review says the company used to offer excellent research workshops before the budget cuts.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "perk-21",
+      "family": "perk-21",
+      "text": "Our staff enjoy optional research classes after work, paid for through the benefits programme.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "benefit"
+    },
+    {
+      "id": "not-duty-21",
+      "family": "not-duty-21",
+      "text": "This vacancy does not involve research; another department handles that work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "negation"
+    },
+    {
+      "id": "background-22",
+      "family": "background-22",
+      "text": "An employee review says the company used to offer excellent adaptability workshops before the budget cuts.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "perk-22",
+      "family": "perk-22",
+      "text": "Our staff enjoy optional adaptability classes after work, paid for through the benefits programme.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "benefit"
+    },
+    {
+      "id": "not-duty-22",
+      "family": "not-duty-22",
+      "text": "This vacancy does not involve adaptability; another department handles that work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "negation"
+    },
+    {
+      "id": "background-23",
+      "family": "background-23",
+      "text": "An employee review says the company used to offer excellent persistence workshops before the budget cuts.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "perk-23",
+      "family": "perk-23",
+      "text": "Our staff enjoy optional persistence classes after work, paid for through the benefits programme.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "benefit"
+    },
+    {
+      "id": "not-duty-23",
+      "family": "not-duty-23",
+      "text": "This vacancy does not involve persistence; another department handles that work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "negation"
+    },
+    {
+      "id": "background-extra-0",
+      "family": "background-extra-0",
+      "text": "The office calls itself a family, yet the coffee machine is its most supportive member.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "background-extra-1",
+      "family": "background-extra-1",
+      "text": "The founders argue about every decision and employees say this delays their work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "background-extra-2",
+      "family": "background-extra-2",
+      "text": "A generous salary apparently means enough to rent half a cupboard.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "background-extra-3",
+      "family": "background-extra-3",
+      "text": "The interview panel promises a rockstar lifestyle with a commuter train timetable.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "background-extra-4",
+      "family": "background-extra-4",
+      "text": "Customers praised the old support team before it moved to a different branch.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "background-extra-5",
+      "family": "background-extra-5",
+      "text": "The company sells training courses to colleges; this advertisement gives no duties for the vacancy.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "background-extra-6",
+      "family": "background-extra-6",
+      "text": "We pay a bonus if the company hits its revenue target.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "background-extra-7",
+      "family": "background-extra-7",
+      "text": "A former intern complained that managers kept changing instructions overnight.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "background-extra-8",
+      "family": "background-extra-8",
+      "text": "The reception wall displays awards for innovative interface design.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "background-extra-9",
+      "family": "background-extra-9",
+      "text": "There is a book about negotiation on the waiting room shelf.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "background-extra-10",
+      "family": "background-extra-10",
+      "text": "A friend joked that the job title should be Lord of the Broken Printer.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "background-extra-11",
+      "family": "background-extra-11",
+      "text": "This page describes our history rather than a position we are recruiting for.",
+      "expected": [],
+      "acceptable": [],
+      "split": "train",
+      "origin": "project-authored",
+      "group": "commentary"
+    },
+    {
+      "id": "source-controller-detail",
+      "family": "cfosuite-controller",
+      "text": "Act as the owner's right-hand person. Check supplier bills against the ledger and catch mistakes in the amounts.",
+      "expected": [
+        "Attention to detail"
+      ],
+      "acceptable": [],
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "group": "indirect-duty",
+      "source_id": "cfosuite-controller"
+    },
+    {
+      "id": "source-controller-team",
+      "family": "cfosuite-controller",
+      "text": "Wear several hats in this accounting role. Work with the outside accounting firm and the legal team on shared issues.",
+      "expected": [
+        "Teamwork"
+      ],
+      "acceptable": [],
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "group": "indirect-duty",
+      "source_id": "cfosuite-controller"
+    },
+    {
+      "id": "source-controller-perks",
+      "family": "cfosuite-controller",
+      "text": "Benefits: flexible working hours and a generous pay package are available.",
+      "expected": [],
+      "acceptable": [],
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "group": "benefit",
+      "source_id": "cfosuite-controller"
+    },
+    {
+      "id": "source-controller-mixed",
+      "family": "cfosuite-controller",
+      "text": "Responsibilities: review expense entries carefully and verify transaction records.\nBenefits: flexible hours and generous compensation.",
+      "expected": [
+        "Attention to detail"
+      ],
+      "acceptable": [],
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "group": "indirect-duty",
+      "source_id": "cfosuite-controller"
+    },
+    {
+      "id": "source-atg-detail",
+      "family": "atg-administrator",
+      "text": "Be the operational heartbeat behind sales quotations. Keep records accurate and check the small details before sending proposals.",
+      "expected": [
+        "Attention to detail"
+      ],
+      "acceptable": [],
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "group": "indirect-duty",
+      "source_id": "atg-administrator"
+    },
+    {
+      "id": "source-atg-team",
+      "family": "atg-administrator",
+      "text": "Stop and listen to the sales team. Bring colleagues from different departments together to prepare proposals for customer requests.",
+      "expected": [
+        "Teamwork"
+      ],
+      "acceptable": [
+        "Active listening"
+      ],
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "group": "indirect-duty",
+      "source_id": "atg-administrator"
+    },
+    {
+      "id": "source-atg-pressure",
+      "family": "atg-administrator",
+      "text": "Stay composed when requests arrive at the last minute and adjust your priorities to keep deadlines on track.",
+      "expected": [
+        "Adaptability",
+        "Time management"
+      ],
+      "acceptable": [],
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "group": "indirect-duty",
+      "source_id": "atg-administrator"
+    },
+    {
+      "id": "source-atg-perks",
+      "family": "atg-administrator",
+      "text": "Benefits: staff can receive study reimbursement, personal wellness support and paid time for volunteering.",
+      "expected": [],
+      "acceptable": [],
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "group": "benefit",
+      "source_id": "atg-administrator"
+    },
+    {
+      "id": "source-jmr-repair",
+      "family": "jmr-wizard",
+      "text": "The software wizard will investigate faults in the property management application and troubleshoot configuration problems.",
+      "expected": [
+        "Debugging"
+      ],
+      "acceptable": [
+        "Problem solving"
+      ],
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "group": "indirect-duty",
+      "source_id": "jmr-wizard"
+    },
+    {
+      "id": "source-jmr-reports",
+      "family": "jmr-wizard",
+      "text": "Produce reports from property software and spreadsheets, examining complicated formulas and accounting information.",
+      "expected": [
+        "Data analysis"
+      ],
+      "acceptable": [
+        "Attention to detail"
+      ],
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "group": "indirect-duty",
+      "source_id": "jmr-wizard"
+    },
+    {
+      "id": "source-jmr-support",
+      "family": "jmr-wizard",
+      "text": "Help staff use the property management application and answer their technical questions.",
+      "expected": [
+        "Customer support"
+      ],
+      "acceptable": [
+        "Teaching"
+      ],
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "group": "indirect-duty",
+      "source_id": "jmr-wizard"
+    },
+    {
+      "id": "source-jmr-company",
+      "family": "jmr-wizard",
+      "text": "Company description: a family-run property business values its residents and describes its culture as collaborative. The owner brings a dog to work.",
+      "expected": [],
+      "acceptable": [],
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "group": "company-background",
+      "source_id": "jmr-wizard"
+    },
+    {
+      "id": "source-customerhd-review",
+      "family": "customerhd-review",
+      "text": "Employee review: colleagues are welcoming, but the writer thinks compensation is poor and advancement depends on the assigned client.",
+      "expected": [],
+      "acceptable": [],
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "group": "commentary",
+      "source_id": "customerhd-review"
+    },
+    {
+      "id": "fresh-untangle-release",
+      "family": "fresh-untangle-release",
+      "text": "Untangle the release spaghetti: sequence the rollout tasks, assign owners and keep the launch milestones visible.",
+      "expected": [
+        "Planning"
+      ],
+      "acceptable": [
+        "Teamwork"
+      ],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "indirect-duty"
+    },
+    {
+      "id": "fresh-diplomat",
+      "family": "fresh-diplomat",
+      "text": "Be our departmental diplomat when designers and engineers disagree; help both sides settle on a workable compromise.",
+      "expected": [
+        "Conflict resolution"
+      ],
+      "acceptable": [
+        "Negotiation",
+        "Teamwork"
+      ],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "indirect-duty"
+    },
+    {
+      "id": "fresh-spreadsheet-ghost",
+      "family": "fresh-spreadsheet-ghost",
+      "text": "Chase the ghost in the monthly numbers: compare the sales records and explain the unexpected dip.",
+      "expected": [
+        "Data analysis"
+      ],
+      "acceptable": [
+        "Attention to detail"
+      ],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "indirect-duty"
+    },
+    {
+      "id": "fresh-calm-inbox",
+      "family": "fresh-calm-inbox",
+      "text": "Lower the temperature in the inbox by writing respectful replies that clearly explain the next steps.",
+      "expected": [
+        "Written communication"
+      ],
+      "acceptable": [
+        "Customer support"
+      ],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "indirect-duty"
+    },
+    {
+      "id": "fresh-rubber-duck",
+      "family": "fresh-rubber-duck",
+      "text": "Play rubber duck for junior developers: let them explain the failure, ask questions and guide them towards the cause.",
+      "expected": [
+        "Teaching",
+        "Active listening"
+      ],
+      "acceptable": [
+        "Debugging",
+        "Problem solving"
+      ],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "indirect-duty"
+    },
+    {
+      "id": "fresh-checkout-dragon",
+      "family": "fresh-checkout-dragon",
+      "text": "Slay the checkout dragon by tracing the failing request and correcting the code that crashes.",
+      "expected": [
+        "Debugging"
+      ],
+      "acceptable": [
+        "Programming"
+      ],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "indirect-duty"
+    },
+    {
+      "id": "fresh-screen-puzzle",
+      "family": "fresh-screen-puzzle",
+      "text": "Make the booking screen less of a treasure hunt by grouping controls and clarifying the button labels.",
+      "expected": [
+        "Interface design"
+      ],
+      "acceptable": [],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "indirect-duty"
+    },
+    {
+      "id": "fresh-test-gremlins",
+      "family": "fresh-test-gremlins",
+      "text": "Catch gremlins before release: exercise unusual inputs and create repeatable checks for the failures you find.",
+      "expected": [
+        "Software testing"
+      ],
+      "acceptable": [],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "indirect-duty"
+    },
+    {
+      "id": "fresh-teach-new-hire",
+      "family": "fresh-teach-new-hire",
+      "text": "Translate the procedure manual from ancient runes into a demonstration new hires can follow.",
+      "expected": [
+        "Teaching"
+      ],
+      "acceptable": [
+        "Written communication"
+      ],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "indirect-duty"
+    },
+    {
+      "id": "fresh-negotiate-bridge",
+      "family": "fresh-negotiate-bridge",
+      "text": "Build a bridge between our budget and the supplier quote by discussing prices and reaching acceptable terms.",
+      "expected": [
+        "Negotiation"
+      ],
+      "acceptable": [],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "indirect-duty"
+    },
+    {
+      "id": "fresh-facts-fog",
+      "family": "fresh-facts-fog",
+      "text": "Clear the fog around this claim by checking original documents and comparing reliable sources.",
+      "expected": [
+        "Research"
+      ],
+      "acceptable": [
+        "Attention to detail"
+      ],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "indirect-duty"
+    },
+    {
+      "id": "fresh-brand-story",
+      "family": "fresh-brand-story",
+      "text": "Give the product a voice: explain its benefits in messages that persuade prospective buyers.",
+      "expected": [
+        "Marketing communication"
+      ],
+      "acceptable": [
+        "Written communication"
+      ],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "indirect-duty"
+    },
+    {
+      "id": "fresh-social-calendar",
+      "family": "fresh-social-calendar",
+      "text": "Feed the social channels with relevant posts and answer followers in the brand voice.",
+      "expected": [
+        "Social media communication"
+      ],
+      "acceptable": [
+        "Marketing communication"
+      ],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "indirect-duty"
+    },
+    {
+      "id": "fresh-deadline-juggle",
+      "family": "fresh-deadline-juggle",
+      "text": "Keep the deadline juggling act going by ranking tasks and reserving time for the urgent work.",
+      "expected": [
+        "Time management"
+      ],
+      "acceptable": [
+        "Planning"
+      ],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "indirect-duty"
+    },
+    {
+      "id": "fresh-setbacks",
+      "family": "fresh-setbacks",
+      "text": "When the first attempt fails, keep trying sensible alternatives until the task is finished.",
+      "expected": [
+        "Persistence"
+      ],
+      "acceptable": [
+        "Problem solving",
+        "Adaptability"
+      ],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "indirect-duty"
+    },
+    {
+      "id": "fresh-care",
+      "family": "fresh-care",
+      "text": "If a visitor becomes upset, acknowledge how they feel and give them time to explain.",
+      "expected": [
+        "Empathy",
+        "Active listening"
+      ],
+      "acceptable": [],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "indirect-duty"
+    },
+    {
+      "id": "fresh-negative-0",
+      "family": "fresh-negative-0",
+      "text": "An online review complains that the department heads constantly clash and delay approvals.",
+      "expected": [],
+      "acceptable": [],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "nonrequirement"
+    },
+    {
+      "id": "fresh-negative-1",
+      "family": "fresh-negative-1",
+      "text": "Staff say the free presentation course was cancelled last winter.",
+      "expected": [],
+      "acceptable": [],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "nonrequirement"
+    },
+    {
+      "id": "fresh-negative-2",
+      "family": "fresh-negative-2",
+      "text": "The salary is described as competitive, apparently against pocket money.",
+      "expected": [],
+      "acceptable": [],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "nonrequirement"
+    },
+    {
+      "id": "fresh-negative-3",
+      "family": "fresh-negative-3",
+      "text": "Our new slogan is Spreadsheet Sorcerers Unite. There are no duties listed on this page.",
+      "expected": [],
+      "acceptable": [],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "nonrequirement"
+    },
+    {
+      "id": "fresh-negative-4",
+      "family": "fresh-negative-4",
+      "text": "A critic calls the management team masters of disappearing when customers complain.",
+      "expected": [],
+      "acceptable": [],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "nonrequirement"
+    },
+    {
+      "id": "fresh-negative-5",
+      "family": "fresh-negative-5",
+      "text": "The company used to sell debugging tools, but that product was discontinued.",
+      "expected": [],
+      "acceptable": [],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "nonrequirement"
+    },
+    {
+      "id": "fresh-negative-6",
+      "family": "fresh-negative-6",
+      "text": "Benefits: choose optional coding lessons or public speaking classes as part of your personal development allowance.",
+      "expected": [],
+      "acceptable": [],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "nonrequirement"
+    },
+    {
+      "id": "fresh-negative-7",
+      "family": "fresh-negative-7",
+      "text": "Official title: Ambassador of Good Vibes and Office Snacks.",
+      "expected": [],
+      "acceptable": [],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "nonrequirement"
+    },
+    {
+      "id": "fresh-negative-8",
+      "family": "fresh-negative-8",
+      "text": "No programming experience is required for this position.",
+      "expected": [],
+      "acceptable": [],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "nonrequirement"
+    },
+    {
+      "id": "fresh-negative-9",
+      "family": "fresh-negative-9",
+      "text": "This job does not involve negotiating prices with suppliers.",
+      "expected": [],
+      "acceptable": [],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "nonrequirement"
+    },
+    {
+      "id": "fresh-negative-10",
+      "family": "fresh-negative-10",
+      "text": "A customer left a five-star review of the previous support representative.",
+      "expected": [],
+      "acceptable": [],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "nonrequirement"
+    },
+    {
+      "id": "fresh-negative-11",
+      "family": "fresh-negative-11",
+      "text": "Our conference room is named after a famous scientist; the chairs are named after back pain.",
+      "expected": [],
+      "acceptable": [],
+      "split": "test",
+      "origin": "project-authored",
+      "group": "nonrequirement"
+    }
+  ]
+}

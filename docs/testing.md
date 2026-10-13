@@ -6,6 +6,8 @@ Run commands from the repository root with the virtual environment activated.
 
 | Date | Check | Result |
 | --- | --- | --- |
+| 2026-10-13 | Complete backend and Chromium suites after the source-data follow-up, with existing local models and both context stress sets enabled | 1,696 passed; PostgreSQL and the separately checked source-head artifact test skipped |
+| 2026-10-13 | Final source-data audits, both exported heads, 80 additional source variants and four conversational-heading imports | 92 passed; overlaps some checks above; compressed JPEG uses an explicit preview correction |
 | 2026-10-13 | Complete backend and Chromium suites with all existing local models and the new context workflow stress flag enabled | 1,132 passed; one PostgreSQL-only test skipped |
 | 2026-10-13 | Additional exported context-head prediction and expanded split-audit checks | 3 passed; both training variants reproduced the recorded predictions |
 | 2026-10-13 | Complete backend and Chromium suites after compound spelling and wider context review; all local model and occupation experiment checks enabled | 744 passed; one PostgreSQL-only test skipped |
@@ -36,6 +38,15 @@ Starlette/AnyIO deprecation warning and no test failures. The context review als
 has 32 development cases and 22 additional project-authored evaluation cases;
 these are regression fixtures, not an independent accuracy benchmark. See the
 [context review notes](context-review.md) for the results and remaining misses.
+
+The [source-backed context experiment](context-source-training.md) contains
+748 base examples and 4,965 related training/development/test inputs. A further
+12 source paraphrases produce 80 additional evaluation inputs. Model-quality
+reports are separate from API stress checks: a valid response and correct
+evidence offsets do not establish that a suggested skill is right. Both new
+trained heads failed their replacement gates and remain outside app inference.
+The conversational-heading JPEG fixture also needs a visible preview correction
+because compressed text loses spaces; PDF, PNG and WebP versions import directly.
 
 These checks support the implemented local workflows. They do not establish
 production load capacity, browser compatibility beyond Chromium, or accuracy on

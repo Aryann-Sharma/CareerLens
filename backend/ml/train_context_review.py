@@ -36,12 +36,25 @@ def write_report(path, report):
     path.write_text(render(report) + "\n", encoding="utf-8")
 
 
-def fit(x, y, regularization):
-    mean_x, mean_y = x.mean(axis=0), y.mean(axis=0)
+def fit(x, y, regularization, sample_weights=None):
+    mean_x = np.average(x, axis=0, weights=sample_weights)
+    mean_y = np.average(y, axis=0, weights=sample_weights)
     centered = x - mean_x
-    weights = np.linalg.solve(centered.T @ centered + regularization * np.eye(x.shape[1]),
-                              centered.T @ (y - mean_y))
+    scale = np.ones(len(x)) if sample_weights is None else np.sqrt(sample_weights)
+    weighted = centered * scale[:, None]
+    weights = np.linalg.solve(weighted.T @ weighted + regularization * np.eye(x.shape[1]),
+                              weighted.T @ ((y - mean_y) * scale[:, None]))
     return weights, mean_y - mean_x @ weights
+
+
+def balanced_weights(targets):
+    """Give rare capabilities and negative examples comparable training weight."""
+    frequencies = targets.sum(axis=0)
+    positives = targets.sum(axis=1)
+    weights = (targets / np.maximum(frequencies, 1)).sum(axis=1) / np.maximum(positives, 1)
+    negative = positives == 0
+    weights[negative] = 1 / max(int(negative.sum()), 1)
+    return weights / weights.mean()
 
 
 def metrics(rows, predictions):
@@ -91,7 +104,7 @@ def baseline(rows):
     return [[s["skill"] for s in suggest_from_context(row["text"], [])[0]] for row in rows]
 
 
-def run(data, output, report_path, augment=True):
+def run(data, output, report_path, augment=True, previous_test=None, balance_labels=False):
     if output.exists():
         raise ValueError("Choose a fresh output directory")
     rows = load_cases(data)
@@ -100,12 +113,14 @@ def run(data, output, report_path, augment=True):
     # Fit only whole training sentences. All their perturbations keep the label.
     train = splits["train"] if augment else [r for r in splits["train"] if r["variant"] == "clean"]
     x = np.array(list(encoder.embed([r["text"] for r in train], batch_size=32)), dtype=np.float64)
-    y = np.array([[float(label in row["expected"]) for label in LABELS] for row in train])
+    # Defensible alternatives must not become false negative training targets.
+    y = np.array([[float(label in set(row["expected"]) | set(row["acceptable"])) for label in LABELS] for row in train])
+    sample_weights = balanced_weights(y) if balance_labels else None
     dev_vectors, dev_ranges = embed_cases(splits["dev"], encoder)
     best = None
     experiments = []
     for regularization in REGULARIZATIONS:
-        weights, bias = fit(x, y, regularization)
+        weights, bias = fit(x, y, regularization, sample_weights)
         for threshold in THRESHOLDS:
             result = metrics(splits["dev"], predict(dev_vectors, dev_ranges, weights, bias, threshold))
             experiments.append({"regularization": regularization, "threshold": threshold, **{k:v for k,v in result.items() if k != "results"}})
@@ -120,10 +135,11 @@ def run(data, output, report_path, augment=True):
     manifest = {"labels": LABELS, "encoder_revision": MODEL_REVISION, "sha256": digest,
                 "regularization": regularization, "threshold": threshold, "data_sha256": hashlib.sha256(data.read_bytes()).hexdigest(),
                 "training_rows": len(train), "typo_augmentation": augment,
+                "balanced_labels": balance_labels,
                 "status": "experimental; not loaded by the application"}
     (output / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     print(f"Selected alpha={regularization}, threshold={threshold}; evaluating untouched cases", flush=True)
-    report = {"scope": "Project-authored labels and source paraphrases; no independent expert annotation. Encoder frozen; ridge head trained with typo augmentation.",
+    report = {"scope": "Project annotations and any documented source crosswalks; no independent expert annotation. Encoder frozen; ridge head trained " + ("with spelling augmentation." if augment else "on clean text."),
               "manifest": manifest, "base_counts": dict(Counter(r["split"] for r in rows)),
               "expanded_counts": {k:len(v) for k,v in splits.items()}, "selection": experiments, "evaluations": {}}
     for name in ("dev", "test"):
@@ -136,6 +152,12 @@ def run(data, output, report_path, augment=True):
             report["evaluations"][f"{name}-{kind}"] = {
                 "baseline": metrics(selected, [baseline_predictions[i] for i in indices]),
                 "candidate": metrics(selected, [candidate_predictions[i] for i in indices])}
+        for origin in sorted({r["origin"] for r in splits[name]}):
+            indices = [i for i,r in enumerate(splits[name]) if r["origin"] == origin]
+            selected = [splits[name][i] for i in indices]
+            report["evaluations"][f"{name}-origin-{origin}"] = {
+                "baseline": metrics(selected, [baseline_predictions[i] for i in indices]),
+                "candidate": metrics(selected, [candidate_predictions[i] for i in indices])}
         print(name, {engine:{k:v for k,v in report['evaluations'][f'{name}-all'][engine].items() if k!='results'} for engine in ('baseline','candidate')}, flush=True)
     # Existing cases are regression checks, not training or selection examples.
     old = []
@@ -145,12 +167,24 @@ def run(data, output, report_path, augment=True):
     report["evaluations"]["previous-regressions"] = {
         "baseline": metrics(old, baseline(old)),
         "candidate": metrics(old, predict(old_vectors, old_ranges, weights, bias, threshold))}
+    if previous_test:
+        previous = expanded([r for r in load_cases(previous_test) if r["split"] == "test"])
+        previous_vectors, previous_ranges = embed_cases(previous, encoder)
+        report["evaluations"]["previous-test-regressions"] = {
+            "baseline": metrics(previous, baseline(previous)),
+            "candidate": metrics(previous, predict(previous_vectors, previous_ranges, weights, bias, threshold))}
+        report["previous_test_sha256"] = hashlib.sha256(previous_test.read_bytes()).hexdigest()
     gates = []
-    for key in ("test-all", "test-clean", "previous-regressions"):
+    gate_sets = ["test-all", "test-clean", "previous-regressions"]
+    if previous_test:
+        gate_sets += ["previous-test-regressions"]
+        gate_sets += [key for key in report["evaluations"] if key.startswith("test-origin-")]
+    for key in gate_sets:
         results = report["evaluations"][key]
         a, b = results["candidate"], results["baseline"]
         gates.append(a["precision"] >= max(.90, b["precision"]) and a["coverage"] >= b["coverage"] and a["negative_errors"] <= b["negative_errors"])
-    report["promotion_gate"] = {"passed": all(gates), "rule": "Candidate precision >= max(90%, baseline), coverage >= baseline, and negative errors <= baseline on test-all, test-clean, and previous regressions. No automatic deployment."}
+    report["promotion_gate"] = {"passed": all(gates), "evaluated_sets": gate_sets,
+        "rule": "Candidate precision >= max(90%, baseline), coverage >= baseline, and negative errors <= baseline on every evaluated set. No automatic deployment."}
     write_report(report_path, report)
     print(report["promotion_gate"], flush=True)
 
@@ -161,5 +195,8 @@ if __name__ == "__main__":
     parser.add_argument("--output", type=Path, default=Path(".models/context-head-v1"))
     parser.add_argument("--report", type=Path, default=Path("evaluation/context-training-results.json"))
     parser.add_argument("--no-augmentation", action="store_true", help="Run the clean-only training control")
+    parser.add_argument("--previous-test", type=Path, help="Preserve an earlier experiment's test set as an additional regression gate")
+    parser.add_argument("--balance-labels", action="store_true", help="Weight rare capabilities using training frequencies only")
     args = parser.parse_args()
-    run(args.data, args.output, args.report, augment=not args.no_augmentation)
+    run(args.data, args.output, args.report, augment=not args.no_augmentation,
+        previous_test=args.previous_test, balance_labels=args.balance_labels)

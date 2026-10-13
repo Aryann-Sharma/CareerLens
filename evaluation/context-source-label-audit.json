@@ -1,0 +1,394 @@
+{
+  "scope": "Project annotation audit of task wording against the activity crosswalk, before inspecting candidate evaluation results. Not independent expert review. Unchanged rows retain weak crosswalk labels, which may be incomplete.",
+  "changes": {
+    "onet-5e54629c94a8491e": {
+      "exclude": true,
+      "reason": "The mapped activity does not establish product assistance or complaint handling in this task text."
+    },
+    "onet-6a630ead783357ed": {
+      "exclude": true,
+      "reason": "The mapped activity does not establish product assistance or complaint handling in this task text."
+    },
+    "onet-6227d2e108185d4a": {
+      "exclude": true,
+      "reason": "The mapped activity does not establish product assistance or complaint handling in this task text."
+    },
+    "onet-02ed9fba1d592a45": {
+      "exclude": true,
+      "reason": "The mapped activity does not establish product assistance or complaint handling in this task text."
+    },
+    "onet-4770e0e6f7d89f51": {
+      "exclude": true,
+      "reason": "The task concerns mathematics, inspection or administration; measured-data analysis is not clear enough."
+    },
+    "onet-db04876fda978e6f": {
+      "exclude": true,
+      "reason": "The task concerns mathematics, inspection or administration; measured-data analysis is not clear enough."
+    },
+    "onet-af3e4fde8ed435c8": {
+      "exclude": true,
+      "reason": "The task concerns mathematics, inspection or administration; measured-data analysis is not clear enough."
+    },
+    "onet-be628939da750a49": {
+      "exclude": true,
+      "reason": "The task concerns mathematics, inspection or administration; measured-data analysis is not clear enough."
+    },
+    "onet-b3179999d022b2a2": {
+      "exclude": true,
+      "reason": "The task concerns mathematics, inspection or administration; measured-data analysis is not clear enough."
+    },
+    "onet-ae16b6bdd21a60de": {
+      "exclude": true,
+      "reason": "Contract administration does not necessarily involve negotiating terms."
+    },
+    "onet-8613f4f3d4f0fee8": {
+      "exclude": true,
+      "reason": "Contract administration does not necessarily involve negotiating terms."
+    },
+    "onet-ce4f3f2e9de64684": {
+      "exclude": true,
+      "reason": "Contract administration does not necessarily involve negotiating terms."
+    },
+    "onet-dcecf29fe8890b43": {
+      "exclude": true,
+      "reason": "Contract administration does not necessarily involve negotiating terms."
+    },
+    "onet-d4d74920e6aae528": {
+      "exclude": true,
+      "reason": "Monitoring or referring a fault does not by itself establish collaborative work."
+    },
+    "onet-da1d48e8c8f5f9c0": {
+      "exclude": true,
+      "reason": "Monitoring or referring a fault does not by itself establish collaborative work."
+    },
+    "onet-80afcbefff925009": {
+      "exclude": true,
+      "reason": "Monitoring or referring a fault does not by itself establish collaborative work."
+    },
+    "onet-ec6a1c3a55910128": {
+      "exclude": true,
+      "reason": "Creating graphics does not establish writing."
+    },
+    "onet-982b9beaba5c586a": {
+      "exclude": true,
+      "reason": "Reviewing a design or recommending upgrades is not necessarily executing software tests."
+    },
+    "onet-442abfa8992ef159": {
+      "exclude": true,
+      "reason": "Reviewing a design or recommending upgrades is not necessarily executing software tests."
+    },
+    "onet-817f6d0681141ea2": {
+      "exclude": true,
+      "reason": "Reviewing a design or recommending upgrades is not necessarily executing software tests."
+    },
+    "onet-3d0f5ee975b976e8": {
+      "exclude": true,
+      "reason": "Database setup, equipment design or providing tools does not clearly require writing code in this sentence."
+    },
+    "onet-914c5a2372dd31ea": {
+      "exclude": true,
+      "reason": "Database setup, equipment design or providing tools does not clearly require writing code in this sentence."
+    },
+    "onet-b362fde9520af8e9": {
+      "exclude": true,
+      "reason": "Database setup, equipment design or providing tools does not clearly require writing code in this sentence."
+    },
+    "onet-af3e0e5879abb26d": {
+      "exclude": true,
+      "reason": "Database setup, equipment design or providing tools does not clearly require writing code in this sentence."
+    },
+    "onet-0e6150f3462f3948": {
+      "exclude": true,
+      "reason": "Database setup, equipment design or providing tools does not clearly require writing code in this sentence."
+    },
+    "onet-0e3aa5d19aa11a41": {
+      "exclude": true,
+      "reason": "Review purpose is too broad to establish checking fine details."
+    },
+    "onet-91e984e77f1fc2a9": {
+      "exclude": true,
+      "reason": "Review purpose is too broad to establish checking fine details."
+    },
+    "onet-aab6f294f665dc88": {
+      "exclude": true,
+      "reason": "Review purpose is too broad to establish checking fine details."
+    },
+    "onet-03023faa9da5c3a2": {
+      "exclude": true,
+      "reason": "System or recovery-plan problems may not be software defects; the sentence does not resolve that ambiguity."
+    },
+    "onet-8c9567dee5a2dee6": {
+      "exclude": true,
+      "reason": "System or recovery-plan problems may not be software defects; the sentence does not resolve that ambiguity."
+    },
+    "onet-0a9444d9bfdc87e8": {
+      "expected": [
+        "Customer support"
+      ],
+      "acceptable": [],
+      "reason": "The task does not specify a written response. Do not infer writing from the activity code."
+    },
+    "onet-0dd64949a7ac7ad3": {
+      "expected": [
+        "Customer support"
+      ],
+      "acceptable": [],
+      "reason": "The task does not specify a written response. Do not infer writing from the activity code."
+    },
+    "onet-32006c1805e1c498": {
+      "expected": [
+        "Customer support"
+      ],
+      "acceptable": [],
+      "reason": "The task does not specify a written response. Do not infer writing from the activity code."
+    },
+    "onet-ae697fe8eb721300": {
+      "expected": [
+        "Customer support"
+      ],
+      "acceptable": [],
+      "reason": "The task does not specify a written response. Do not infer writing from the activity code."
+    },
+    "onet-afb948a6a95c743a": {
+      "expected": [
+        "Customer support"
+      ],
+      "acceptable": [],
+      "reason": "The task does not specify a written response. Do not infer writing from the activity code."
+    },
+    "onet-68a139628516774a": {
+      "expected": [
+        "Customer support"
+      ],
+      "acceptable": [],
+      "reason": "The task does not specify a written response. Do not infer writing from the activity code."
+    },
+    "onet-a896c2fcc3ad85f7": {
+      "expected": [
+        "Customer support"
+      ],
+      "acceptable": [],
+      "reason": "The task does not specify a written response. Do not infer writing from the activity code."
+    },
+    "onet-8cb07973b6d02e0f": {
+      "expected": [
+        "Customer support"
+      ],
+      "acceptable": [],
+      "reason": "The task does not specify a written response. Do not infer writing from the activity code."
+    },
+    "onet-bc69ffb080418db9": {
+      "expected": [
+        "Customer support"
+      ],
+      "acceptable": [],
+      "reason": "The task does not specify a written response. Do not infer writing from the activity code."
+    },
+    "onet-f279f63da12ae72b": {
+      "expected": [
+        "Customer support"
+      ],
+      "acceptable": [],
+      "reason": "The task does not specify a written response. Do not infer writing from the activity code."
+    },
+    "onet-07d2c930b00b92e0": {
+      "expected": [
+        "Written communication"
+      ],
+      "acceptable": [
+        "Customer support"
+      ],
+      "reason": "Mail and email are explicit but product assistance is not."
+    },
+    "onet-b1e4f276f28b4f5f": {
+      "expected": [
+        "Written communication"
+      ],
+      "acceptable": [],
+      "reason": "Publishing transaction terms is written information, not necessarily answering a customer."
+    },
+    "onet-6ee2246c7e6b42e2": {
+      "expected": [
+        "Customer support",
+        "Teaching"
+      ],
+      "acceptable": [],
+      "reason": "The task describes educating customers and answering questions, without specifying writing."
+    },
+    "onet-0f28bca47403d400": {
+      "expected": [
+        "Deployment",
+        "Programming"
+      ],
+      "acceptable": [],
+      "reason": "Automating software rollouts establishes both release work and implementation."
+    },
+    "onet-bf60ee66325c31b5": {
+      "expected": [
+        "Teamwork"
+      ],
+      "acceptable": [],
+      "reason": "Consulting technical colleagues establishes collaboration but not writing software."
+    },
+    "onet-b8c490eb28a9b381": {
+      "expected": [
+        "Problem solving",
+        "Teamwork"
+      ],
+      "acceptable": [],
+      "reason": "The task is consulting researchers about problems and solutions, not necessarily programming."
+    },
+    "onet-331be2dfa542bb08": {
+      "expected": [
+        "Programming",
+        "Software testing"
+      ],
+      "acceptable": [],
+      "reason": "Code and testing are explicit alternatives in the task; both belong in the supported capability set."
+    },
+    "onet-2e26440c7bfe9f5d": {
+      "expected": [
+        "Interface design"
+      ],
+      "acceptable": [
+        "Programming"
+      ],
+      "reason": "Improving user interfaces is explicit; coding is not stated."
+    },
+    "onet-8e266e66152f00cc": {
+      "expected": [
+        "Debugging"
+      ],
+      "acceptable": [],
+      "reason": "The task is diagnosing a failure from logs or code, not running behaviour tests."
+    },
+    "onet-88ee98d7b3caa5ff": {
+      "expected": [
+        "Social media communication"
+      ],
+      "acceptable": [
+        "Written communication",
+        "Marketing communication"
+      ],
+      "reason": "Posting social content is explicit; promotional persuasion is not."
+    },
+    "onet-cd8a7cd917d1aaa9": {
+      "expected": [
+        "Software testing"
+      ],
+      "acceptable": [],
+      "reason": "The task explicitly tests tools and does not say to write them."
+    },
+    "onet-bfb26cb25679287d": {
+      "expected": [
+        "Programming",
+        "Data analysis"
+      ],
+      "acceptable": [],
+      "reason": "Both programming and data analysis are named in the task."
+    },
+    "onet-4f37ab2c884f9a03": {
+      "expected": [
+        "Data analysis"
+      ],
+      "acceptable": [],
+      "reason": "The task tracks and measures risk; it does not specify delivering a presentation."
+    },
+    "onet-aed206405ed6fbfe": {
+      "expected": [
+        "Data analysis",
+        "Attention to detail"
+      ],
+      "acceptable": [],
+      "reason": "The task explicitly checks financial records for accuracy and completeness."
+    },
+    "onet-0fb04b98c0e5ef46": {
+      "expected": [
+        "Data analysis"
+      ],
+      "acceptable": [
+        "Software testing",
+        "Interface design"
+      ],
+      "reason": "Website usage analysis and user testing can support either interpretation."
+    },
+    "onet-fdb617e94f868786": {
+      "expected": [
+        "Software testing"
+      ],
+      "acceptable": [
+        "Research"
+      ],
+      "reason": "Verifying that software fixes function is testing; research is an acceptable broader interpretation."
+    },
+    "onet-61a951d689f4f8ff": {
+      "expected": [
+        "Teamwork",
+        "Interface design"
+      ],
+      "acceptable": [],
+      "reason": "The task explicitly collaborates on usability issues."
+    },
+    "onet-5f7e49509c907db3": {
+      "expected": [
+        "Teamwork",
+        "Debugging"
+      ],
+      "acceptable": [],
+      "reason": "The task explicitly collaborates to troubleshoot applications or running programs."
+    },
+    "onet-e3b7fedf14019b83": {
+      "expected": [
+        "Teamwork",
+        "Debugging"
+      ],
+      "acceptable": [],
+      "reason": "The task explicitly collaborates to troubleshoot applications or running programs."
+    },
+    "onet-8494c0ae98c13fd7": {
+      "expected": [
+        "Data analysis",
+        "Problem solving"
+      ],
+      "acceptable": [],
+      "reason": "Both analyzing data and developing solutions are explicit."
+    },
+    "onet-dc028f24b7d54e5d": {
+      "expected": [
+        "Research",
+        "Data analysis"
+      ],
+      "acceptable": [],
+      "reason": "Research and data analysis are both named."
+    },
+    "onet-7a53190ab259ec28": {
+      "expected": [
+        "Teaching",
+        "Presentation"
+      ],
+      "acceptable": [],
+      "reason": "Training materials and presentations to users are explicit."
+    },
+    "onet-db5bb96ce8284ff3": {
+      "expected": [
+        "Teamwork"
+      ],
+      "acceptable": [
+        "Conflict resolution",
+        "Planning",
+        "Problem solving"
+      ],
+      "reason": "The sentence permits several meeting purposes; resolving conflicts is a defensible alternative."
+    },
+    "onet-d2e3eed67cfe3b33": {
+      "expected": [
+        "Research"
+      ],
+      "acceptable": [
+        "Presentation",
+        "Written communication"
+      ],
+      "reason": "Research is explicit, with publishing or presenting the results as alternatives."
+    }
+  }
+}
