@@ -67,6 +67,28 @@ jobs:
       - name: Download local matching model
         run: python -m backend.scripts.download_model
 
+      - name: Train experimental context heads
+        run: |
+          mkdir -p test-results
+          python -m backend.ml.train_context_review --report test-results/context-head.json
+          python -m backend.ml.train_context_review --no-augmentation --output .models/context-head-clean-control --report test-results/context-head-control.json
+
+      - name: Check exported context weights
+        env:
+          RUN_CONTEXT_HEAD_TESTS: "1"
+        run: python -m pytest backend/tests/test_context_training.py -k exported -q
+
+      - name: Upload context training reports and weights
+        uses: actions/upload-artifact@v5
+        with:
+          name: context-head-experiment
+          include-hidden-files: true
+          path: |
+            test-results/context-head*.json
+            .models/context-head-v1/
+            .models/context-head-clean-control/
+          retention-days: 14
+
       - name: Apply database migrations
         run: python -m alembic upgrade head
 

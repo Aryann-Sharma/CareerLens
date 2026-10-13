@@ -47,6 +47,11 @@ existing benchmark procedure remain unchanged.
 
 ## Evaluation and limits
 
+A later [supervised context-head experiment](context-training.md) uses 242
+distinct examples and 1,612 spelling/casing variants. It trains new head weights
+and reports a clean-only control. It failed the replacement checks and remains
+outside the application; the behaviour described here is still the live path.
+
 The initial 32 project-authored examples include the reported descriptions,
 plain duties, other humorous wording, and negative cases. Thresholds were
 adjusted using these examples, so they are development results. The final run

@@ -82,6 +82,13 @@ the difference between reference descriptions and training data.
 
 Both models run locally on the server's CPU once their files are installed. MiniLM uses downloaded pretrained weights; the contextual extractor uses the project's fine-tuned weights. There are no hosted inference calls or API charges. See the [matching guide](docs/model.md) and [extraction guide](docs/contextual-model.md) for setup, evaluation, and limitations.
 
+A separate [context-head training experiment](docs/context-training.md) learns
+9,240 weights and biases from project-labelled duties with spelling augmentation.
+Its 242 distinct examples expand to 1,612 inputs across disjoint splits. It found
+more expected skills on new cases but introduced mistakes on negative examples
+and older regressions, so it is not used by the app. The reports include both
+the augmented model and a clean-only training control.
+
 The score measures coverage of detected skills. It does not measure hiring probability, experience, education, or suitability for a role. The extractor also does not distinguish required, optional, and negated mentions.
 
 ### Spelling checks

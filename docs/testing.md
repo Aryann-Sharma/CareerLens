@@ -6,6 +6,8 @@ Run commands from the repository root with the virtual environment activated.
 
 | Date | Check | Result |
 | --- | --- | --- |
+| 2026-10-13 | Complete backend and Chromium suites with all existing local models and the new context workflow stress flag enabled | 1,132 passed; one PostgreSQL-only test skipped |
+| 2026-10-13 | Additional exported context-head prediction and expanded split-audit checks | 3 passed; both training variants reproduced the recorded predictions |
 | 2026-10-13 | Complete backend and Chromium suites after compound spelling and wider context review; all local model and occupation experiment checks enabled | 744 passed; one PostgreSQL-only test skipped |
 | 2026-10-13 | Separate PostgreSQL 18 integration, context-review, and saved-roadmap browser checks | 17 passed |
 | 2026-10-13 | Complete backend and Chromium suites after private saved roadmaps; MiniLM, CRF, contextual, and occupation experiment checks enabled | 713 passed; one PostgreSQL-only test skipped |
@@ -142,6 +144,13 @@ handwriting, poor lighting, complex layouts, and arbitrary résumé formats need
 broader independent evaluation.
 
 ## Trained extraction checks
+
+The [context-head experiment](context-training.md) adds a corpus audit, a
+reproducible training control, and 365 real-model preview variants plus 12
+document-import flows. Set `RUN_CONTEXT_STRESS_TESTS=1` alongside the other
+model flags to run those workflow checks. Generated variants are related
+examples, not independent samples; interpretation quality is reported separately
+from passing software tests.
 
 The contextual model has separate offline, Unicode-offset, repeated-inference,
 and long-input checks. Its alignment tests cover overlapping windows and control
