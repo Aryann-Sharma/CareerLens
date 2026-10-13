@@ -112,3 +112,11 @@ earlier and additional employer descriptions. Neither candidate replaces the
 current review model. Conversational headings such as “What you'll be doing”
 and “Why you'll love it here” are now recognised during document selection
 and context review, helping keep benefits separate from duties.
+
+The [duty-classifier follow-up](context-duty-training.md) adds further employer
+sources and fine-tunes the upper layers of a local encoder. It improves combined
+coverage but still fails the replacement checks. The app now keeps a complete
+comma-separated sentence when all its short duty fragments would be discarded,
+preserves affirmative modifiers such as “without supervision”, and skips clear
+employee-review commentary and benefit statements. These are bounded scope
+checks, not a general understanding of sarcasm or every use of negation.

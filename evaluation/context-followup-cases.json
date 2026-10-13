@@ -1,0 +1,919 @@
+{
+  "description": "Follow-up corpus: brief public posting paraphrases plus authored humorous duty/nonrequirement contrasts. Source families and contrast pairs are assigned before training. Project labels, not employer or independent expert annotations.",
+  "sources": [
+    {
+      "id": "computer-futures-devops",
+      "split": "train",
+      "url": "https://jobs.smartrecruiters.com/ComputerFutures3/96053576-devops-engineer",
+      "accessed": "2026-10-13",
+      "kind": "Readable employer recruitment page; vacancy availability not verified",
+      "usage": "Brief paraphrases only. Original wording may be humorous or metaphoric. Authored contrasts are separately identified."
+    },
+    {
+      "id": "pls-clerical",
+      "split": "train",
+      "url": "https://job-boards.greenhouse.io/plscareers/jobs/5262874008",
+      "accessed": "2026-10-13",
+      "kind": "Readable employer recruitment page; vacancy availability not verified",
+      "usage": "Brief paraphrases only. Original wording may be humorous or metaphoric. Authored contrasts are separately identified."
+    },
+    {
+      "id": "ownwell-tax",
+      "split": "dev",
+      "url": "https://job-boards.greenhouse.io/ownwell/jobs/4410174006",
+      "accessed": "2026-10-13",
+      "kind": "Readable employer recruitment page; vacancy availability not verified",
+      "usage": "Brief paraphrases only. Original wording may be humorous or metaphoric. Authored contrasts are separately identified."
+    },
+    {
+      "id": "climateworks-program",
+      "split": "dev",
+      "url": "https://apply.workable.com/climateworks-foundation-1/j/AF8F6925B4/",
+      "accessed": "2026-10-13",
+      "kind": "Readable employer recruitment page; vacancy availability not verified",
+      "usage": "Brief paraphrases only. Original wording may be humorous or metaphoric. Authored contrasts are separately identified."
+    },
+    {
+      "id": "faeth-engineer",
+      "split": "test",
+      "url": "https://job-boards.greenhouse.io/faeththerapeutics/jobs/4226314009",
+      "accessed": "2026-10-13",
+      "kind": "Readable employer recruitment page; vacancy availability not verified",
+      "usage": "Brief paraphrases only. Original wording may be humorous or metaphoric. Authored contrasts are separately identified."
+    },
+    {
+      "id": "squircle-ui",
+      "split": "test",
+      "url": "https://jobs.smartrecruiters.com/SQUIRCLEITCONSULTINGSERVICESPVTLTD/112046595-java-ui-gurgaon",
+      "accessed": "2026-10-13",
+      "kind": "Readable employer recruitment page; vacancy availability not verified",
+      "usage": "Brief paraphrases only. Original wording may be humorous or metaphoric. Authored contrasts are separately identified."
+    },
+    {
+      "id": "knight-humor",
+      "split": "test",
+      "url": "https://jobs.smartrecruiters.com/KnightArthurPromotions1/95405943-must-have-a-sense-of-humor-entry-level-sales-marketing",
+      "accessed": "2026-10-13",
+      "kind": "Readable employer recruitment page; vacancy availability not verified",
+      "usage": "Brief paraphrases only. Original wording may be humorous or metaphoric. Authored contrasts are separately identified."
+    }
+  ],
+  "excluded_sources": [
+    {
+      "url": "https://job-boards.greenhouse.io/echo/jobs/4356226009",
+      "reason": "Redirects to a general job board, not the cited vacancy."
+    },
+    {
+      "url": "https://job-boards.greenhouse.io/agilesix/jobs/6355824003",
+      "reason": "Full page could not be retrieved."
+    },
+    {
+      "url": "https://jobs.smartrecruiters.com/Propra/744000061699565-account-executive",
+      "reason": "Full page could not be retrieved."
+    },
+    {
+      "url": "https://jobs.smartrecruiters.com/EliteInStoreSolutions/100688005-must-have-a-sense-of-humor-entry-level-sales-marketing",
+      "reason": "Full page could not be retrieved; a readable different employer posting was used."
+    }
+  ],
+  "cases": [
+    {
+      "id": "web-next-computer-futures-devops-0",
+      "family": "computer-futures-devops",
+      "source_id": "computer-futures-devops",
+      "split": "train",
+      "origin": "public-source-paraphrase",
+      "text": "Keep an eye on the servers and deal with operational problems as they arise.",
+      "expected": [
+        "Deployment"
+      ],
+      "acceptable": [
+        "Problem solving"
+      ]
+    },
+    {
+      "id": "web-next-computer-futures-devops-1",
+      "family": "computer-futures-devops",
+      "source_id": "computer-futures-devops",
+      "split": "train",
+      "origin": "public-source-paraphrase",
+      "text": "Troubleshoot the automated checks used to test software.",
+      "expected": [
+        "Software testing"
+      ],
+      "acceptable": [
+        "Debugging",
+        "Problem solving"
+      ]
+    },
+    {
+      "id": "web-next-computer-futures-devops-2",
+      "family": "computer-futures-devops",
+      "source_id": "computer-futures-devops",
+      "split": "train",
+      "origin": "public-source-paraphrase",
+      "text": "Wear several hats across development and operations, learning unfamiliar tools as the work changes.",
+      "expected": [
+        "Adaptability"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "web-next-computer-futures-devops-3",
+      "family": "computer-futures-devops",
+      "source_id": "computer-futures-devops",
+      "split": "train",
+      "origin": "public-source-paraphrase",
+      "text": "Help your colleagues learn new approaches and grow their understanding alongside you.",
+      "expected": [
+        "Teaching"
+      ],
+      "acceptable": [
+        "Teamwork"
+      ]
+    },
+    {
+      "id": "web-next-pls-clerical-0",
+      "family": "pls-clerical",
+      "source_id": "pls-clerical",
+      "split": "train",
+      "origin": "public-source-paraphrase",
+      "text": "Look after the service mailbox, answer agency queries and coordinate responses with colleagues in other departments.",
+      "expected": [
+        "Customer support",
+        "Teamwork"
+      ],
+      "acceptable": [
+        "Written communication"
+      ]
+    },
+    {
+      "id": "web-next-pls-clerical-1",
+      "family": "pls-clerical",
+      "source_id": "pls-clerical",
+      "split": "train",
+      "origin": "public-source-paraphrase",
+      "text": "Arrange conference meetings, keep the audit calendar current and prepare materials before meetings.",
+      "expected": [
+        "Planning"
+      ],
+      "acceptable": [
+        "Time management",
+        "Attention to detail"
+      ]
+    },
+    {
+      "id": "web-next-pls-clerical-2",
+      "family": "pls-clerical",
+      "source_id": "pls-clerical",
+      "split": "train",
+      "origin": "public-source-paraphrase",
+      "text": "Reconcile financial entries carefully and make sure the month-end records are complete and accurate.",
+      "expected": [
+        "Attention to detail"
+      ],
+      "acceptable": [
+        "Data analysis"
+      ]
+    },
+    {
+      "id": "web-next-pls-clerical-3",
+      "family": "pls-clerical",
+      "source_id": "pls-clerical",
+      "split": "train",
+      "origin": "public-source-paraphrase",
+      "text": "Benefits:\nEligible staff receive health coverage, retirement contributions and ongoing training.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "web-next-ownwell-tax-0",
+      "family": "ownwell-tax",
+      "source_id": "ownwell-tax",
+      "split": "dev",
+      "origin": "public-source-paraphrase",
+      "text": "Combine property market information from several sources, interpret comparisons and use them to assess property values.",
+      "expected": [
+        "Data analysis"
+      ],
+      "acceptable": [
+        "Research"
+      ]
+    },
+    {
+      "id": "web-next-ownwell-tax-1",
+      "family": "ownwell-tax",
+      "source_id": "ownwell-tax",
+      "split": "dev",
+      "origin": "public-source-paraphrase",
+      "text": "Prepare clear written rebuttals for property tax appeals.",
+      "expected": [
+        "Written communication"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "web-next-ownwell-tax-2",
+      "family": "ownwell-tax",
+      "source_id": "ownwell-tax",
+      "split": "dev",
+      "origin": "public-source-paraphrase",
+      "text": "Keep your knowledge of local property markets and relevant information sources up to date.",
+      "expected": [
+        "Research"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "web-next-ownwell-tax-3",
+      "family": "ownwell-tax",
+      "source_id": "ownwell-tax",
+      "split": "dev",
+      "origin": "public-source-paraphrase",
+      "text": "This contract runs during tax season and is based in Texas.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "web-next-climateworks-program-0",
+      "family": "climateworks-program",
+      "source_id": "climateworks-program",
+      "split": "dev",
+      "origin": "public-source-paraphrase",
+      "text": "Assess possible grants, develop the grantmaking plan and follow each grant through evaluation.",
+      "expected": [
+        "Planning"
+      ],
+      "acceptable": [
+        "Research"
+      ]
+    },
+    {
+      "id": "web-next-climateworks-program-1",
+      "family": "climateworks-program",
+      "source_id": "climateworks-program",
+      "split": "dev",
+      "origin": "public-source-paraphrase",
+      "text": "Prepare proposals and briefings for partners, and share knowledge through webinars and written updates.",
+      "expected": [
+        "Written communication",
+        "Presentation"
+      ],
+      "acceptable": [
+        "Teaching"
+      ]
+    },
+    {
+      "id": "web-next-climateworks-program-2",
+      "family": "climateworks-program",
+      "source_id": "climateworks-program",
+      "split": "dev",
+      "origin": "public-source-paraphrase",
+      "text": "Monitor new industrial decarbonization approaches and investigate promising solutions.",
+      "expected": [
+        "Research"
+      ],
+      "acceptable": [
+        "Data analysis"
+      ]
+    },
+    {
+      "id": "web-next-climateworks-program-3",
+      "family": "climateworks-program",
+      "source_id": "climateworks-program",
+      "split": "dev",
+      "origin": "public-source-paraphrase",
+      "text": "Benefits:\nStaff can access fitness support, family care and wellness services.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "web-next-faeth-engineer-0",
+      "family": "faeth-engineer",
+      "source_id": "faeth-engineer",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Wear whichever hat the team needs: debug a release pipeline one week and handle customer escalations the next.",
+      "expected": [
+        "Adaptability",
+        "Debugging",
+        "Customer support"
+      ],
+      "acceptable": [
+        "Deployment",
+        "Problem solving"
+      ]
+    },
+    {
+      "id": "web-next-faeth-engineer-1",
+      "family": "faeth-engineer",
+      "source_id": "faeth-engineer",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Build production features across the web stack and improve the existing application architecture.",
+      "expected": [
+        "Programming"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "web-next-faeth-engineer-2",
+      "family": "faeth-engineer",
+      "source_id": "faeth-engineer",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Pair with less experienced engineers, review designs and help colleagues develop their technical judgement.",
+      "expected": [
+        "Teaching",
+        "Teamwork"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "web-next-faeth-engineer-3",
+      "family": "faeth-engineer",
+      "source_id": "faeth-engineer",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Requirements:\nKeep delivering useful software as priorities shift and resources remain limited.",
+      "expected": [
+        "Adaptability"
+      ],
+      "acceptable": [
+        "Programming",
+        "Persistence",
+        "Time management"
+      ]
+    },
+    {
+      "id": "web-next-squircle-ui-0",
+      "family": "squircle-ui",
+      "source_id": "squircle-ui",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Build reusable browser components and improve their performance on different devices.",
+      "expected": [
+        "Programming"
+      ],
+      "acceptable": [
+        "Interface design"
+      ]
+    },
+    {
+      "id": "web-next-squircle-ui-1",
+      "family": "squircle-ui",
+      "source_id": "squircle-ui",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Celebrate like a video-game fighter after diagnosing a software bug and shipping the repair.",
+      "expected": [
+        "Debugging"
+      ],
+      "acceptable": [
+        "Deployment",
+        "Problem solving"
+      ]
+    },
+    {
+      "id": "web-next-squircle-ui-2",
+      "family": "squircle-ui",
+      "source_id": "squircle-ui",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Write installation instructions and technical documentation, then discuss proposed solutions with engineering peers.",
+      "expected": [
+        "Written communication",
+        "Teamwork"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "web-next-squircle-ui-3",
+      "family": "squircle-ui",
+      "source_id": "squircle-ui",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Check the website with assistive technology and automated tests to catch accessibility failures.",
+      "expected": [
+        "Software testing"
+      ],
+      "acceptable": [
+        "Interface design",
+        "Attention to detail"
+      ]
+    },
+    {
+      "id": "web-next-knight-humor-0",
+      "family": "knight-humor",
+      "source_id": "knight-humor",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "If you wish typography had a special setting for sarcasm, you might enjoy this sales team.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "web-next-knight-humor-1",
+      "family": "knight-humor",
+      "source_id": "knight-humor",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Ever glance repeatedly at your watch and still forget the time? You may appreciate our jokes.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "web-next-knight-humor-2",
+      "family": "knight-humor",
+      "source_id": "knight-humor",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "The company promises to teach entry-level recruits sales and service work from the beginning.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "web-next-knight-humor-3",
+      "family": "knight-humor",
+      "source_id": "knight-humor",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Put sustained effort into your work and keep striving towards your goals.",
+      "expected": [
+        "Persistence"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-release-fire-duty",
+      "family": "contrast-release-fire",
+      "split": "train",
+      "origin": "project-authored",
+      "group": "sarcasm-duty",
+      "text": "When a release decides to set the service on fire, restore the application and investigate the outage.",
+      "expected": [
+        "Deployment"
+      ],
+      "acceptable": [
+        "Problem solving"
+      ]
+    },
+    {
+      "id": "contrast-release-fire-background",
+      "family": "contrast-release-fire",
+      "split": "train",
+      "origin": "project-authored",
+      "group": "nonrequirement",
+      "text": "The office newsletter jokes that every software release sets the service on fire.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-spreadsheet-oracle-duty",
+      "family": "contrast-spreadsheet-oracle",
+      "split": "train",
+      "origin": "project-authored",
+      "group": "sarcasm-duty",
+      "text": "Be the spreadsheet oracle: compare conversion figures and explain which campaigns are performing better.",
+      "expected": [
+        "Data analysis"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-spreadsheet-oracle-background",
+      "family": "contrast-spreadsheet-oracle",
+      "split": "train",
+      "origin": "project-authored",
+      "group": "nonrequirement",
+      "text": "Our office costume party once crowned a spreadsheet oracle for the best outfit.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-meeting-traffic-duty",
+      "family": "contrast-meeting-traffic",
+      "split": "train",
+      "origin": "project-authored",
+      "group": "sarcasm-duty",
+      "text": "Direct project traffic before the meeting pile-up: agree milestones, assign owners and track the delivery schedule.",
+      "expected": [
+        "Planning"
+      ],
+      "acceptable": [
+        "Teamwork"
+      ]
+    },
+    {
+      "id": "contrast-meeting-traffic-background",
+      "family": "contrast-meeting-traffic",
+      "split": "train",
+      "origin": "project-authored",
+      "group": "nonrequirement",
+      "text": "An employee review complains about a meeting pile-up and unclear project ownership.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-email-fire-duty",
+      "family": "contrast-email-fire",
+      "split": "train",
+      "origin": "project-authored",
+      "group": "sarcasm-duty",
+      "text": "Cool down heated email threads by writing clear, tactful replies that explain what happens next.",
+      "expected": [
+        "Written communication"
+      ],
+      "acceptable": [
+        "Empathy"
+      ]
+    },
+    {
+      "id": "contrast-email-fire-background",
+      "family": "contrast-email-fire",
+      "split": "train",
+      "origin": "project-authored",
+      "group": "nonrequirement",
+      "text": "Benefits include optional workshops about writing tactful email replies.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-rubber-duck-duty",
+      "family": "contrast-rubber-duck",
+      "split": "train",
+      "origin": "project-authored",
+      "group": "sarcasm-duty",
+      "text": "Talk to a rubber duck if it helps, but trace the application failure to its cause and repair it.",
+      "expected": [
+        "Debugging"
+      ],
+      "acceptable": [
+        "Problem solving"
+      ]
+    },
+    {
+      "id": "contrast-rubber-duck-background",
+      "family": "contrast-rubber-duck",
+      "split": "train",
+      "origin": "project-authored",
+      "group": "nonrequirement",
+      "text": "The welcome pack includes a rubber duck for your desk and a notebook.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-pixel-police-duty",
+      "family": "contrast-pixel-police",
+      "split": "train",
+      "origin": "project-authored",
+      "group": "sarcasm-duty",
+      "text": "Join the pixel police: adjust screen spacing and controls until people can navigate the product comfortably.",
+      "expected": [
+        "Interface design"
+      ],
+      "acceptable": [
+        "Attention to detail"
+      ]
+    },
+    {
+      "id": "contrast-pixel-police-background",
+      "family": "contrast-pixel-police",
+      "split": "train",
+      "origin": "project-authored",
+      "group": "nonrequirement",
+      "text": "Our team jokingly calls the office decorators the pixel police.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-audience-awake-duty",
+      "family": "contrast-audience-awake",
+      "split": "train",
+      "origin": "project-authored",
+      "group": "sarcasm-duty",
+      "text": "Keep the audience awake while presenting the quarterly results with clear slides and examples.",
+      "expected": [
+        "Presentation"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-audience-awake-background",
+      "family": "contrast-audience-awake",
+      "split": "train",
+      "origin": "project-authored",
+      "group": "nonrequirement",
+      "text": "A former employee jokes that the quarterly presentation sent the audience to sleep.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-peace-table-duty",
+      "family": "contrast-peace-table",
+      "split": "train",
+      "origin": "project-authored",
+      "group": "sarcasm-duty",
+      "text": "Bring the warring departments to the same table and help them agree how to settle the dispute.",
+      "expected": [
+        "Conflict resolution"
+      ],
+      "acceptable": [
+        "Negotiation"
+      ]
+    },
+    {
+      "id": "contrast-peace-table-background",
+      "family": "contrast-peace-table",
+      "split": "train",
+      "origin": "project-authored",
+      "group": "nonrequirement",
+      "text": "The annual party offers a board game about warring kingdoms and disputed territory.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-instruction-manual-duty",
+      "family": "contrast-instruction-manual",
+      "split": "dev",
+      "origin": "project-authored",
+      "group": "sarcasm-duty",
+      "text": "Be a walking instruction manual: demonstrate unfamiliar procedures and coach new starters through practice.",
+      "expected": [
+        "Teaching"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-instruction-manual-background",
+      "family": "contrast-instruction-manual",
+      "split": "dev",
+      "origin": "project-authored",
+      "group": "nonrequirement",
+      "text": "The company gives new starters an instruction manual and optional coaching sessions.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-numbers-ghost-duty",
+      "family": "contrast-numbers-ghost",
+      "split": "dev",
+      "origin": "project-authored",
+      "group": "sarcasm-duty",
+      "text": "Find the ghost in the figures by comparing monthly sales patterns and investigating unusual changes.",
+      "expected": [
+        "Data analysis"
+      ],
+      "acceptable": [
+        "Research"
+      ]
+    },
+    {
+      "id": "contrast-numbers-ghost-background",
+      "family": "contrast-numbers-ghost",
+      "split": "dev",
+      "origin": "project-authored",
+      "group": "nonrequirement",
+      "text": "The social committee runs an optional ghost-story evening after the monthly sales meeting.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-hat-rack-duty",
+      "family": "contrast-hat-rack",
+      "split": "dev",
+      "origin": "project-authored",
+      "group": "sarcasm-duty",
+      "text": "Your hat rack will be busy: switch between unfamiliar workflows as business priorities change.",
+      "expected": [
+        "Adaptability"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-hat-rack-background",
+      "family": "contrast-hat-rack",
+      "split": "dev",
+      "origin": "project-authored",
+      "group": "nonrequirement",
+      "text": "The office has a hat rack by the door and a busy social calendar.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-calendar-jenga-duty",
+      "family": "contrast-calendar-jenga",
+      "split": "dev",
+      "origin": "project-authored",
+      "group": "sarcasm-duty",
+      "text": "Play calendar Jenga responsibly: prioritize urgent tasks and still finish routine work by its deadline.",
+      "expected": [
+        "Time management"
+      ],
+      "acceptable": [
+        "Planning"
+      ]
+    },
+    {
+      "id": "contrast-calendar-jenga-background",
+      "family": "contrast-calendar-jenga",
+      "split": "dev",
+      "origin": "project-authored",
+      "group": "nonrequirement",
+      "text": "The staff room has Jenga and a calendar listing optional social events.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-checkout-gremlin-duty",
+      "family": "contrast-checkout-gremlin",
+      "split": "test",
+      "origin": "project-authored",
+      "group": "sarcasm-duty",
+      "text": "Our checkout gremlin appears only on Tuesdays, so reproduce the intermittent payment failure and track down its cause.",
+      "expected": [
+        "Debugging"
+      ],
+      "acceptable": [
+        "Software testing",
+        "Problem solving"
+      ]
+    },
+    {
+      "id": "contrast-checkout-gremlin-background",
+      "family": "contrast-checkout-gremlin",
+      "split": "test",
+      "origin": "project-authored",
+      "group": "nonrequirement",
+      "text": "Our checkout gremlin is the mascot printed on the staff coffee mugs.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-inbox-diplomat-duty",
+      "family": "contrast-inbox-diplomat",
+      "split": "test",
+      "origin": "project-authored",
+      "group": "sarcasm-duty",
+      "text": "Be an inbox diplomat: reply politely to angry customers and guide them through fixing their account problems.",
+      "expected": [
+        "Customer support",
+        "Written communication"
+      ],
+      "acceptable": [
+        "Empathy"
+      ]
+    },
+    {
+      "id": "contrast-inbox-diplomat-background",
+      "family": "contrast-inbox-diplomat",
+      "split": "test",
+      "origin": "project-authored",
+      "group": "nonrequirement",
+      "text": "We sell a novelty mug that says inbox diplomat and offer optional customer service classes.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-conference-juggler-duty",
+      "family": "contrast-conference-juggler",
+      "split": "test",
+      "origin": "project-authored",
+      "group": "sarcasm-duty",
+      "text": "Keep the conference plates spinning by booking speakers, setting the schedule and tracking the event budget.",
+      "expected": [
+        "Planning"
+      ],
+      "acceptable": [
+        "Time management"
+      ]
+    },
+    {
+      "id": "contrast-conference-juggler-background",
+      "family": "contrast-conference-juggler",
+      "split": "test",
+      "origin": "project-authored",
+      "group": "nonrequirement",
+      "text": "An employee review says the company conference was a circus with too many spinning plates.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-bug-bouncer-duty",
+      "family": "contrast-bug-bouncer",
+      "split": "test",
+      "origin": "project-authored",
+      "group": "sarcasm-duty",
+      "text": "Act as the release bouncer: try awkward inputs and automate checks so broken features stay outside the door.",
+      "expected": [
+        "Software testing"
+      ],
+      "acceptable": [
+        "Attention to detail"
+      ]
+    },
+    {
+      "id": "contrast-bug-bouncer-background",
+      "family": "contrast-bug-bouncer",
+      "split": "test",
+      "origin": "project-authored",
+      "group": "nonrequirement",
+      "text": "The staff party needs a door sign featuring a cartoon bug dressed as a bouncer.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-brand-story-duty",
+      "family": "contrast-brand-story",
+      "split": "test",
+      "origin": "project-authored",
+      "group": "sarcasm-duty",
+      "text": "Turn a decidedly ordinary product into an interesting story that explains its benefits to prospective buyers.",
+      "expected": [
+        "Marketing communication"
+      ],
+      "acceptable": [
+        "Written communication"
+      ]
+    },
+    {
+      "id": "contrast-brand-story-background",
+      "family": "contrast-brand-story",
+      "split": "test",
+      "origin": "project-authored",
+      "group": "nonrequirement",
+      "text": "A former employee mocks the ordinary product as another life-changing corporate miracle.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-deadline-weather-duty",
+      "family": "contrast-deadline-weather",
+      "split": "test",
+      "origin": "project-authored",
+      "group": "sarcasm-duty",
+      "text": "When priorities change faster than the weather, learn the replacement workflow and adjust your work accordingly.",
+      "expected": [
+        "Adaptability"
+      ],
+      "acceptable": [
+        "Time management"
+      ]
+    },
+    {
+      "id": "contrast-deadline-weather-background",
+      "family": "contrast-deadline-weather",
+      "split": "test",
+      "origin": "project-authored",
+      "group": "nonrequirement",
+      "text": "The employee review says priorities changed faster than the weather and nobody could keep up.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-quiet-patience-duty",
+      "family": "contrast-quiet-patience",
+      "split": "test",
+      "origin": "project-authored",
+      "group": "sarcasm-duty",
+      "text": "Hear frustrated customers out, acknowledge their concerns and make sure you understand the problem before replying.",
+      "expected": [
+        "Empathy",
+        "Active listening"
+      ],
+      "acceptable": [
+        "Customer support"
+      ]
+    },
+    {
+      "id": "contrast-quiet-patience-background",
+      "family": "contrast-quiet-patience",
+      "split": "test",
+      "origin": "project-authored",
+      "group": "nonrequirement",
+      "text": "No customer calls are part of this role; a separate support department handles frustrated callers.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-title-only-duty",
+      "family": "contrast-title-only",
+      "split": "test",
+      "origin": "project-authored",
+      "group": "sarcasm-duty",
+      "text": "Official title: Supreme Wizard of Everything and Chief Biscuit Dunker.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "contrast-title-only-background",
+      "family": "contrast-title-only",
+      "split": "test",
+      "origin": "project-authored",
+      "group": "nonrequirement",
+      "text": "Job title: Growth Ninja and Digital Prophet.",
+      "expected": [],
+      "acceptable": []
+    }
+  ]
+}

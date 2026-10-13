@@ -9,6 +9,8 @@ on:
       - "backend/app/services/semantic_matcher.py"
       - "backend/app/services/model_assets.py"
       - "backend/tests/test_context_source_data.py"
+      - "backend/tests/test_context_followup.py"
+      - "backend/app/services/duty_scope.py"
       - "evaluation/context-*.json"
       - ".github/workflows/context-training.yml"
   workflow_dispatch:
@@ -48,6 +50,15 @@ jobs:
         env:
           RUN_SOURCE_HEAD_TESTS: "1"
         run: python -m pytest backend/tests/test_context_source_data.py -q
+      - name: Train follow-up heads
+        run: |
+          python -m backend.ml.train_context_review --data evaluation/context-source-cases.json --output .models/context-head-sentences-v1 --report .review-tests/context-ci/context-sentence-results.json --previous-test evaluation/context-training-cases.json --balance-labels --sentence-context
+          python -m backend.ml.train_context_calibrated --report .review-tests/context-ci/context-calibrated-results.json
+      - name: Verify follow-up exports and scope checks
+        env:
+          RUN_FOLLOWUP_HEAD_TESTS: "1"
+          RUN_MODEL_TESTS: "1"
+        run: python -m pytest backend/tests/test_context_followup.py backend/tests/test_duty_scope.py -q
       - name: Run additional source check
         run: python -m backend.ml.evaluate_context_heads --output .review-tests/context-ci/context-final-results.json
       - name: Upload experimental weights and reports
@@ -59,5 +70,7 @@ jobs:
           path: |
             .models/context-head-source-v4/
             .models/context-head-source-balanced-v4/
+            .models/context-head-sentences-v1/
+            .models/context-head-calibrated-v2/
             .review-tests/context-ci/context-*.json
           retention-days: 14

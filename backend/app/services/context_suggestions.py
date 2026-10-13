@@ -10,6 +10,7 @@ import re
 import numpy as np
 
 from backend.app.services.job_document import heading_kind
+from backend.app.services.duty_scope import denied_duty, workplace_commentary
 from backend.app.services.semantic_matcher import _load_model, _model_lock, ModelUnavailableError
 
 CAPABILITIES = {
@@ -83,6 +84,7 @@ def evidence_units(text: str) -> list[dict]:
         if section == "other":
             offset += len(line)
             continue
+        line_units = []
         for match in re.finditer(r"[^.!?;,\n]+(?:[.!?;,]|$)", line):
             raw = match.group()
             value = raw.strip(" \t•-*\r\n")
@@ -90,9 +92,24 @@ def evidence_units(text: str) -> list[dict]:
             if not 4 <= len(value.split()) <= 85 or len(value) > 500:
                 continue
             sentence_start = max(line.rfind(mark, 0, match.start()) for mark in ".!?;") + 1
-            if NEGATIVE.search(line[sentence_start:match.end()]):
+            sentence = line[sentence_start:match.end()].lstrip(" \t•-*")
+            if denied_duty(sentence) or workplace_commentary(sentence):
                 continue
-            units.append({"text": value, "start": start, "end": start + len(value)})
+            line_units.append({"text": value, "start": start, "end": start + len(value)})
+        # Several short duties can all disappear when each comma fragment has
+        # fewer than four words. Keep their sentence only when none survived;
+        # otherwise retain the more precise original evidence passages.
+        for match in re.finditer(r"[^.!?;\n]+(?:[.!?;]|$)", line):
+            raw = match.group()
+            value = raw.strip(" \t•-*\r\n")
+            start = offset + match.start() + raw.find(value)
+            end = start + len(value)
+            if ("," not in value or not 4 <= len(value.split()) <= 85 or len(value) > 500
+                or denied_duty(value) or workplace_commentary(value)
+                or any(u["start"] < end and start < u["end"] for u in line_units)):
+                continue
+            line_units.append({"text": value, "start": start, "end": end})
+        units.extend(sorted(line_units, key=lambda u:u["start"]))
         offset += len(line)
     # Spread the bounded sample across the document, rather than ignoring its end.
     if len(units) > 48:

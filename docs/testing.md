@@ -6,6 +6,8 @@ Run commands from the repository root with the virtual environment activated.
 
 | Date | Check | Result |
 | --- | --- | --- |
+| 2026-10-13 | Complete backend and Chromium suites after duty-scope fixes, with local extraction/matching models, all context stress sets and the new exported classifier enabled | 1,995 passed; one PostgreSQL-only test skipped |
+| 2026-10-13 | Final follow-up corpus/calibration checks and all three new model exports | 8 passed; 186 API variants already covered in the full run; counts overlap |
 | 2026-10-13 | Complete backend and Chromium suites after the source-data follow-up, with existing local models and both context stress sets enabled | 1,696 passed; PostgreSQL and the separately checked source-head artifact test skipped |
 | 2026-10-13 | Final source-data audits, both exported heads, 80 additional source variants and four conversational-heading imports | 92 passed; overlaps some checks above; compressed JPEG uses an explicit preview correction |
 | 2026-10-13 | Complete backend and Chromium suites with all existing local models and the new context workflow stress flag enabled | 1,132 passed; one PostgreSQL-only test skipped |
@@ -47,6 +49,15 @@ evidence offsets do not establish that a suggested skill is right. Both new
 trained heads failed their replacement gates and remain outside app inference.
 The conversational-heading JPEG fixture also needs a visible preview correction
 because compressed text loses spaces; PDF, PNG and WebP versions import directly.
+
+The [duty-classifier follow-up](context-duty-training.md) adds seven employer
+postings and authored duty/background contrasts, taking the combined corpus to
+816 base descriptions and 5,417 related inputs. The full suite includes another
+186 held-out variants through the preview API. `RUN_FOLLOWUP_HEAD_TESTS=1`
+checks both new ridge exports; `RUN_DUTY_HEAD_TESTS=1` verifies the fine-tuned
+classifier on all clean test descriptions and checks batch-independent ONNX
+inference. The model-quality report separately compares 1,239 unique regression
+inputs. Improved aggregate scores do not remove the failed replacement gates.
 
 These checks support the implemented local workflows. They do not establish
 production load capacity, browser compatibility beyond Chromium, or accuracy on

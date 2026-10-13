@@ -80,10 +80,10 @@ def metrics(rows, predictions):
             "negative_cases": negatives, "negative_errors": negative_errors, "results": details}
 
 
-def embed_cases(rows, encoder):
+def embed_cases(rows, encoder, unitizer=evidence_units):
     texts, ranges = [], []
     for row in rows:
-        units = evidence_units(row["text"])
+        units = unitizer(row["text"])
         start = len(texts)
         texts.extend(unit["text"] for unit in units)
         ranges.append((start, len(texts)))
@@ -93,11 +93,15 @@ def embed_cases(rows, encoder):
 
 def predict(vectors, ranges, weights, bias, threshold):
     scores = vectors @ weights + bias
+    thresholds = np.broadcast_to(np.asarray(threshold), (len(LABELS),))
     predictions = []
     for start, end in ranges:
         best = scores[start:end].max(axis=0) if end > start else np.full(len(LABELS), -1.0)
+        best = np.where(thresholds <= 1, best, -np.inf)
         indices = np.argsort(-best)[:6]
-        predictions.append([LABELS[j] for j in indices if best[j] >= threshold])
+        # Values above one explicitly disable an insufficiently supported label.
+        # Ridge outputs are unbounded, so the sentinel needs an explicit check.
+        predictions.append([LABELS[j] for j in indices if thresholds[j] <= 1 and best[j] >= thresholds[j]])
     return predictions
 
 
@@ -105,19 +109,22 @@ def baseline(rows):
     return [[s["skill"] for s in suggest_from_context(row["text"], [])[0]] for row in rows]
 
 
-def run(data, output, report_path, augment=True, previous_test=None, balance_labels=False):
+def run(data, output, report_path, augment=True, previous_test=None, balance_labels=False,
+        sentence_context=False):
     if output.exists():
         raise ValueError("Choose a fresh output directory")
     rows = load_cases(data)
     splits = {name: expanded([r for r in rows if r["split"] == name]) for name in ("train", "dev", "test")}
     encoder, _, _ = _load_model()
+    from backend.ml.context_sentences import sentence_units
+    unitizer = sentence_units if sentence_context else evidence_units
     # Fit only whole training sentences. All their perturbations keep the label.
     train = splits["train"] if augment else [r for r in splits["train"] if r["variant"] == "clean"]
     x = np.array(list(encoder.embed([r["text"] for r in train], batch_size=32)), dtype=np.float64)
     # Defensible alternatives must not become false negative training targets.
     y = np.array([[float(label in set(row["expected"]) | set(row["acceptable"])) for label in LABELS] for row in train])
     sample_weights = balanced_weights(y) if balance_labels else None
-    dev_vectors, dev_ranges = embed_cases(splits["dev"], encoder)
+    dev_vectors, dev_ranges = embed_cases(splits["dev"], encoder, unitizer)
     best = None
     experiments = []
     for regularization in REGULARIZATIONS:
@@ -138,13 +145,15 @@ def run(data, output, report_path, augment=True, previous_test=None, balance_lab
                 "training_rows": len(train), "typo_augmentation": augment,
                 "balanced_labels": balance_labels,
                 "status": "experimental; not loaded by the application"}
+    if sentence_context:
+        manifest["unitizer"] = "sentences-v1"
     (output / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     print(f"Selected alpha={regularization}, threshold={threshold}; evaluating untouched cases", flush=True)
     report = {"scope": "Project annotations and any documented source crosswalks; no independent expert annotation. Encoder frozen; ridge head trained " + ("with spelling augmentation." if augment else "on clean text."),
               "manifest": manifest, "base_counts": dict(Counter(r["split"] for r in rows)),
               "expanded_counts": {k:len(v) for k,v in splits.items()}, "selection": experiments, "evaluations": {}}
     for name in ("dev", "test"):
-        vectors, ranges = embed_cases(splits[name], encoder)
+        vectors, ranges = embed_cases(splits[name], encoder, unitizer)
         candidate_predictions = predict(vectors, ranges, weights, bias, threshold)
         baseline_predictions = baseline(splits[name])
         for kind in ("all", "clean", "deletion", "transposition", "duplication", "joined", "spacing", "casing"):
@@ -164,13 +173,13 @@ def run(data, output, report_path, augment=True, previous_test=None, balance_lab
     old = []
     for filename in ("context-cases.json", "context-holdout.json"):
         old.extend(json.loads((data.parent / filename).read_text(encoding="utf-8"))["cases"])
-    old_vectors, old_ranges = embed_cases(old, encoder)
+    old_vectors, old_ranges = embed_cases(old, encoder, unitizer)
     report["evaluations"]["previous-regressions"] = {
         "baseline": metrics(old, baseline(old)),
         "candidate": metrics(old, predict(old_vectors, old_ranges, weights, bias, threshold))}
     if previous_test:
         previous = expanded([r for r in load_cases(previous_test) if r["split"] == "test"])
-        previous_vectors, previous_ranges = embed_cases(previous, encoder)
+        previous_vectors, previous_ranges = embed_cases(previous, encoder, unitizer)
         report["evaluations"]["previous-test-regressions"] = {
             "baseline": metrics(previous, baseline(previous)),
             "candidate": metrics(previous, predict(previous_vectors, previous_ranges, weights, bias, threshold))}
@@ -198,6 +207,7 @@ if __name__ == "__main__":
     parser.add_argument("--no-augmentation", action="store_true", help="Run the clean-only training control")
     parser.add_argument("--previous-test", type=Path, help="Preserve an earlier experiment's test set as an additional regression gate")
     parser.add_argument("--balance-labels", action="store_true", help="Weight rare capabilities using training frequencies only")
+    parser.add_argument("--sentence-context", action="store_true", help="Keep comma-separated duties together during inference")
     args = parser.parse_args()
     run(args.data, args.output, args.report, augment=not args.no_augmentation,
-        previous_test=args.previous_test, balance_labels=args.balance_labels)
+        previous_test=args.previous_test, balance_labels=args.balance_labels, sentence_context=args.sentence_context)

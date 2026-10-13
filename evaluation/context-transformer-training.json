@@ -1,0 +1,265 @@
+{
+  "scope": "Project labels and occupational weak supervision. Upper two encoder layers and a 24-label classifier are fine-tuned. No test selection.",
+  "seed": 20261013,
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "train_rows": 3684,
+  "development_rows": 993,
+  "epochs": [
+    {
+      "epoch": 1,
+      "loss": 0.26266169543196627,
+      "seconds": 8.32,
+      "threshold": 0.7750000000000004,
+      "development": {
+        "cases": 993,
+        "suggestions": 606,
+        "unsupported": 55,
+        "expected": 993,
+        "covered": 544,
+        "precision": 0.9092,
+        "coverage": 0.5478,
+        "f0_5": 0.8033,
+        "negative_cases": 80,
+        "negative_errors": 1
+      }
+    },
+    {
+      "epoch": 2,
+      "loss": 0.06625244282669836,
+      "seconds": 7.13,
+      "threshold": 0.6500000000000004,
+      "development": {
+        "cases": 993,
+        "suggestions": 754,
+        "unsupported": 58,
+        "expected": 993,
+        "covered": 689,
+        "precision": 0.9231,
+        "coverage": 0.6939,
+        "f0_5": 0.8659,
+        "negative_cases": 80,
+        "negative_errors": 5
+      }
+    },
+    {
+      "epoch": 3,
+      "loss": 0.02876707668379917,
+      "seconds": 7.27,
+      "threshold": 0.5500000000000003,
+      "development": {
+        "cases": 993,
+        "suggestions": 773,
+        "unsupported": 42,
+        "expected": 993,
+        "covered": 724,
+        "precision": 0.9457,
+        "coverage": 0.7291,
+        "f0_5": 0.8926,
+        "negative_cases": 80,
+        "negative_errors": 4
+      }
+    },
+    {
+      "epoch": 4,
+      "loss": 0.01438089520609998,
+      "seconds": 7.24,
+      "threshold": 0.6750000000000003,
+      "development": {
+        "cases": 993,
+        "suggestions": 728,
+        "unsupported": 38,
+        "expected": 993,
+        "covered": 683,
+        "precision": 0.9478,
+        "coverage": 0.6878,
+        "f0_5": 0.8812,
+        "negative_cases": 80,
+        "negative_errors": 2
+      }
+    },
+    {
+      "epoch": 5,
+      "loss": 0.00807193492980698,
+      "seconds": 6.93,
+      "threshold": 0.6250000000000002,
+      "development": {
+        "cases": 993,
+        "suggestions": 763,
+        "unsupported": 39,
+        "expected": 993,
+        "covered": 717,
+        "precision": 0.9489,
+        "coverage": 0.7221,
+        "f0_5": 0.8928,
+        "negative_cases": 80,
+        "negative_errors": 1
+      }
+    },
+    {
+      "epoch": 6,
+      "loss": 0.004970651218220107,
+      "seconds": 7.1,
+      "threshold": 0.6000000000000003,
+      "development": {
+        "cases": 993,
+        "suggestions": 769,
+        "unsupported": 47,
+        "expected": 993,
+        "covered": 715,
+        "precision": 0.9389,
+        "coverage": 0.72,
+        "f0_5": 0.8851,
+        "negative_cases": 80,
+        "negative_errors": 6
+      }
+    },
+    {
+      "epoch": 7,
+      "loss": 0.003257795520483625,
+      "seconds": 6.81,
+      "threshold": 0.5750000000000002,
+      "development": {
+        "cases": 993,
+        "suggestions": 760,
+        "unsupported": 43,
+        "expected": 993,
+        "covered": 710,
+        "precision": 0.9434,
+        "coverage": 0.715,
+        "f0_5": 0.8868,
+        "negative_cases": 80,
+        "negative_errors": 2
+      }
+    },
+    {
+      "epoch": 8,
+      "loss": 0.0024614325957372785,
+      "seconds": 7.05,
+      "threshold": 0.6000000000000003,
+      "development": {
+        "cases": 993,
+        "suggestions": 774,
+        "unsupported": 52,
+        "expected": 993,
+        "covered": 715,
+        "precision": 0.9328,
+        "coverage": 0.72,
+        "f0_5": 0.8808,
+        "negative_cases": 80,
+        "negative_errors": 4
+      }
+    },
+    {
+      "epoch": 9,
+      "loss": 0.0018110288289684027,
+      "seconds": 7.04,
+      "threshold": 0.7000000000000004,
+      "development": {
+        "cases": 993,
+        "suggestions": 729,
+        "unsupported": 31,
+        "expected": 993,
+        "covered": 691,
+        "precision": 0.9575,
+        "coverage": 0.6959,
+        "f0_5": 0.8905,
+        "negative_cases": 80,
+        "negative_errors": 1
+      }
+    },
+    {
+      "epoch": 10,
+      "loss": 0.0014047650420016234,
+      "seconds": 7.71,
+      "threshold": 0.7250000000000003,
+      "development": {
+        "cases": 993,
+        "suggestions": 725,
+        "unsupported": 29,
+        "expected": 993,
+        "covered": 689,
+        "precision": 0.96,
+        "coverage": 0.6939,
+        "f0_5": 0.8916,
+        "negative_cases": 80,
+        "negative_errors": 1
+      }
+    },
+    {
+      "epoch": 11,
+      "loss": 0.001210034203144129,
+      "seconds": 7.24,
+      "threshold": 0.6750000000000003,
+      "development": {
+        "cases": 993,
+        "suggestions": 726,
+        "unsupported": 27,
+        "expected": 993,
+        "covered": 692,
+        "precision": 0.9628,
+        "coverage": 0.6969,
+        "f0_5": 0.8945,
+        "negative_cases": 80,
+        "negative_errors": 3
+      }
+    },
+    {
+      "epoch": 12,
+      "loss": 0.000933055561444081,
+      "seconds": 7.29,
+      "threshold": 0.5500000000000003,
+      "development": {
+        "cases": 993,
+        "suggestions": 780,
+        "unsupported": 47,
+        "expected": 993,
+        "covered": 726,
+        "precision": 0.9397,
+        "coverage": 0.7311,
+        "f0_5": 0.889,
+        "negative_cases": 80,
+        "negative_errors": 1
+      }
+    }
+  ],
+  "trained_parameters": 14194200,
+  "selected_epoch": 11,
+  "threshold": 0.6750000000000003,
+  "export_max_absolute_error": 1.430511474609375e-05,
+  "manifest": {
+    "architecture": "distilbert-duty-classifier",
+    "base_revision": "12040accade4e8a0f71eabdb258fecc2e7e948be",
+    "labels": ["Programming", "Debugging", "Software testing", "Interface design", "Deployment", "Data analysis", "Marketing communication", "Social media communication", "Presentation", "Customer support", "Written communication", "Empathy", "Conflict resolution", "Teamwork", "Active listening", "Time management", "Attention to detail", "Problem solving", "Teaching", "Negotiation", "Planning", "Research", "Adaptability", "Persistence"],
+    "max_length": 160,
+    "unitizer": "sentences-v1",
+    "threshold": 0.6750000000000003,
+    "selected_epoch": 11,
+    "data_sha256": {
+      "evaluation\\context-source-cases.json": "cb62e9ef4371ec7faea93527a563d2138bd3b28fe70d7bce38fbb3778de36bad",
+      "evaluation\\context-followup-cases.json": "2355df391d18636942f142031e4613b762902101cfdc12e2550695a9d2ea6010"
+    },
+    "sha256": {
+      "model.onnx": "11ef50977fc27e8cb8d24becdf3adc9c1b57de58c6753a3a4191bbac4f2ccb58",
+      "tokenizer.json": "1b19820b21bee2ab9a5d3f2ac461f9517c4589536c7d751d60d38877993c5e8b"
+    },
+    "status": "candidate; not loaded by the application"
+  },
+  "config": {
+    "epochs": 12,
+    "batch_size": 24,
+    "max_length": 160,
+    "encoder_learning_rate": 2e-05,
+    "classifier_learning_rate": 0.001,
+    "weight_decay": 0.01,
+    "dropout": 0.2,
+    "frozen_lower_layers": 4
+  },
+  "versions": {
+    "torch": "2.7.1+cu126",
+    "transformers": "4.52.4",
+    "tokenizers": "0.21.4",
+    "onnxruntime": "1.30.0",
+    "numpy": "2.3.2"
+  }
+}

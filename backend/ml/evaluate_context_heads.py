@@ -10,6 +10,7 @@ import numpy as np
 from backend.app.services.model_assets import MODEL_REVISION
 from backend.app.services.semantic_matcher import _load_model
 from backend.ml.context_data import expanded, load_cases
+from backend.ml.context_sentences import sentence_units
 from backend.ml.train_context_review import LABELS, baseline, embed_cases, metrics, predict, write_report
 
 
@@ -33,7 +34,13 @@ def evaluate(data, directories, output):
         if not np.isfinite(weights).all() or not np.isfinite(bias).all():
             raise ValueError("Nonfinite experimental head")
         manifests[root.name] = manifest
-        predictions[root.name] = predict(vectors, ranges, weights, bias, manifest["threshold"])
+        if manifest.get("unitizer") == "sentences-v1":
+            model_vectors, model_ranges = embed_cases(rows, _load_model()[0], sentence_units)
+        elif "unitizer" not in manifest:
+            model_vectors, model_ranges = vectors, ranges
+        else:
+            raise ValueError("Unknown context unitizer")
+        predictions[root.name] = predict(model_vectors, model_ranges, weights, bias, manifest["threshold"])
     report = {"scope": "Additional source paraphrases with project labels, collected after configurations were fixed. No model selection uses this report.",
         "data_sha256": hashlib.sha256(data.read_bytes()).hexdigest(), "manifests": manifests, "evaluations": {}}
     slices = {"all": list(range(len(rows))), "clean": [i for i,r in enumerate(rows) if r["variant"] == "clean"]}

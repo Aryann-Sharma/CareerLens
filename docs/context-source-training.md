@@ -142,6 +142,10 @@ this is a tested recovery path, not a claim of successful automatic recognition.
 
 ## Attribution
 
+A later [duty-classifier follow-up](context-duty-training.md) adds seven employer
+sources, preserves complete sentence context and fine-tunes encoder layers.
+Its reports retain the earlier benchmarks as regressions.
+
 This project includes information from the
 [O*NET® 31.0 Database](https://www.onetcenter.org/database.html), by the U.S.
 Department of Labor, Employment and Training Administration (USDOL/ETA), under

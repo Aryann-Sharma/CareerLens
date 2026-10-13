@@ -6,3 +6,5 @@ onnx==1.19.1
 onnxruntime==1.30.0
 safetensors==0.8.0
 python-crfsuite==0.9.12
+pydantic-settings==2.10.1
+SQLAlchemy==2.0.54

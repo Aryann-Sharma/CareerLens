@@ -95,6 +95,13 @@ candidate improves precision on its new benchmark, but misses too many skills
 on earlier and additional employer examples. It also remains experimental;
 the reports include these regressions rather than only the best result.
 
+The [duty-classifier follow-up](docs/context-duty-training.md) adds seven employer
+postings, humorous duty/background contrasts and typo variants. It fine-tunes
+part of a local language encoder on 3,684 training inputs and improves measured
+test coverage, but still fails checks on jokes and earlier cases. Its weights
+remain separate from the app. The app itself now preserves short coordinated
+duties and handles clear commentary and affirmative modifiers more carefully.
+
 The score measures coverage of detected skills. It does not measure hiring probability, experience, education, or suitability for a role. The extractor also does not distinguish required, optional, and negated mentions.
 
 ### Spelling checks
