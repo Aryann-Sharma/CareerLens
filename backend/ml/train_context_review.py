@@ -33,6 +33,7 @@ def write_report(path, report):
         if isinstance(value, list) and value and any(isinstance(item, (list, dict)) for item in value):
             return "[\n" + ",\n".join(" " * (depth + 2) + render(item, depth + 2) for item in value) + "\n" + " " * depth + "]"
         return json.dumps(value)
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(render(report) + "\n", encoding="utf-8")
 
 

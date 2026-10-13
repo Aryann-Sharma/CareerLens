@@ -41,16 +41,17 @@ jobs:
         run: python -m backend.scripts.download_model
       - name: Train both weighting variants
         run: |
-          mkdir -p test-results
-          python -m backend.ml.train_context_review --data evaluation/context-source-cases.json --output .models/context-head-source-v4 --report test-results/context-source-results.json --previous-test evaluation/context-training-cases.json
-          python -m backend.ml.train_context_review --data evaluation/context-source-cases.json --output .models/context-head-source-balanced-v4 --report test-results/context-source-balanced-results.json --previous-test evaluation/context-training-cases.json --balance-labels
+          mkdir -p .review-tests/context-ci
+          python -m backend.ml.train_context_review --data evaluation/context-source-cases.json --output .models/context-head-source-v4 --report .review-tests/context-ci/context-source-results.json --previous-test evaluation/context-training-cases.json
+          python -m backend.ml.train_context_review --data evaluation/context-source-cases.json --output .models/context-head-source-balanced-v4 --report .review-tests/context-ci/context-source-balanced-results.json --previous-test evaluation/context-training-cases.json --balance-labels
       - name: Check source separation and exported predictions
         env:
           RUN_SOURCE_HEAD_TESTS: "1"
         run: python -m pytest backend/tests/test_context_source_data.py -q
       - name: Run additional source check
-        run: python -m backend.ml.evaluate_context_heads --output test-results/context-final-results.json
+        run: python -m backend.ml.evaluate_context_heads --output .review-tests/context-ci/context-final-results.json
       - name: Upload experimental weights and reports
+        if: always()
         uses: actions/upload-artifact@v5
         with:
           name: source-context-experiment
@@ -58,5 +59,5 @@ jobs:
           path: |
             .models/context-head-source-v4/
             .models/context-head-source-balanced-v4/
-            test-results/context-*.json
+            .review-tests/context-ci/context-*.json
           retention-days: 14

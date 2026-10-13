@@ -8,7 +8,7 @@ import pytest
 
 from backend.ml.context_data import expanded, load_cases
 from backend.ml.context_source_data import ACTIVITIES, occupation_split, source_rows, task_cases
-from backend.ml.train_context_review import LABELS, balanced_weights, embed_cases, fit, metrics, predict
+from backend.ml.train_context_review import LABELS, balanced_weights, embed_cases, fit, metrics, predict, write_report
 
 DATA = Path("evaluation/context-source-cases.json")
 ROWS = load_cases(DATA)
@@ -62,6 +62,13 @@ def test_wrong_source_checksum_is_rejected(tmp_path):
     path.write_text("Task,wrong data\n")
     with pytest.raises(ValueError, match="checksum"):
         source_rows(path)
+
+
+def test_report_can_be_written_to_a_fresh_output_directory(tmp_path):
+    target = tmp_path / "reports" / "context" / "result.json"
+    report = {"cases": 1, "results": [{"id":"sample", "predicted":["Programming"]}]}
+    write_report(target, report)
+    assert json.loads(target.read_text()) == report
 
 
 def test_unknown_tasks_are_not_labelled_as_negative_and_shared_tasks_are_removed():
