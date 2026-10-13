@@ -531,6 +531,15 @@ footer a { color: var(--green); font-weight: 700; }
 .milestone-check { display: flex; align-items: flex-start; gap: 10px; margin: 12px 0; font-size: .85rem; line-height: 1.6; cursor: pointer; }
 .milestone-check input { width: 18px; height: 18px; flex: 0 0 18px; margin: 4px 0 0; accent-color: var(--green); }
 .learning-project { border-top: 1px solid var(--line); padding-top: 12px; }
+.roadmap-save-controls { margin: 24px 0; padding-top: 20px; border-top: 1px solid var(--line); }
+.roadmap-save-controls label { display: block; font-weight: 650; margin-bottom: 8px; }
+.roadmap-save-controls input { display: block; width: min(100%, 480px); margin-bottom: 12px; }
+.roadmap-list { display: grid; gap: 12px; }
+.roadmap-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 16px; border: 1px solid var(--line); border-radius: 12px; }
+.roadmap-row > div:first-child { flex: 1 1 230px; min-width: 0; overflow-wrap: anywhere; }
+.roadmap-row h3 { margin: 0 0 8px; font-size: 1rem; }
+.roadmap-row p { margin: 0; }
+.roadmap-row .resume-actions { margin: 0; }
 .learning-dialog { overflow-wrap: anywhere; }
 .learning-dialog h3 { margin-top: 24px; font-size: 1rem; }
 .learning-dialog li { margin: 12px 0; line-height: 1.65; }

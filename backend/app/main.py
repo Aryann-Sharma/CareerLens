@@ -13,6 +13,7 @@ from backend.app.api.routes.resume import router as resume_router
 from backend.app.api.routes.job_image import router as job_image_router
 from backend.app.api.routes.job_pdf import router as job_pdf_router
 from backend.app.api.routes.learning import router as learning_router
+from backend.app.api.routes.roadmaps import router as roadmaps_router
 from backend.app.core.config import get_settings
 
 settings = get_settings()
@@ -32,6 +33,7 @@ app.include_router(resume_router)
 app.include_router(job_image_router)
 app.include_router(job_pdf_router)
 app.include_router(learning_router)
+app.include_router(roadmaps_router)
 
 
 frontend_directory = Path(__file__).resolve().parents[2] / "frontend"

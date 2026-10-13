@@ -1,5 +1,8 @@
 """Reviewed learning guides and prerequisite ordering, separate from fit scoring."""
 
+import hashlib
+import json
+
 from backend.app.services.skill_extractor import canonicalize_skill
 from backend.app.services.skill_spelling import spelling_checks
 
@@ -147,5 +150,7 @@ def build_plan(missing: list[str], known: list[str], direction: str | None) -> d
 
     for name, _ in roots.values():
         visit(name)
-    return {"direction": direction, "steps": steps,
+    plan = {"direction": direction, "direction_title": DIRECTIONS[direction]["title"] if direction else "Skills from your analysis", "steps": steps,
             "notice": "This is a starting plan, not a list of extra job requirements. It does not change your fit score. Skip foundations you already know; completing a checklist does not certify proficiency."}
+    plan["revision"] = hashlib.sha256(json.dumps(plan, sort_keys=True).encode()).hexdigest()[:16]
+    return plan

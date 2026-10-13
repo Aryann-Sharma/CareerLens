@@ -32,6 +32,7 @@ the end of this page describe the current scope.
 - View matched skills, missing skills, and a percentage score.
 - Select a missing skill for practice steps, a project idea, and reviewed learning resources.
 - Build an ordered roadmap with suggested foundations, optional learning directions, and a downloadable practice checklist.
+- Save named roadmaps to your account, return to checked practice steps, rename plans, and delete plans you no longer need.
 - Browse paginated history, open saved evidence, and delete individual analyses.
 - Keep each user's history separate, including when switching accounts.
 - Use the interface on desktop or mobile, with keyboard-accessible dialogs.
@@ -45,9 +46,10 @@ practice milestones, and project ideas. An optional direction such as web
 development adds a starter path when the description is vague. These additions
 are labelled as suggestions and never change the fit score.
 
-Track practice on the page and download a checklist to keep it. Roadmap progress
-is not saved to accounts; refreshing, rebuilding, or starting another analysis
-clears it. Unknown phrases get a practice template without invented course
+Track practice on the page, then save the roadmap to your account or download a
+checklist. Saved roadmaps keep their original steps and progress across visits.
+Choose **Save progress** after checking steps or changing a name; unsaved changes
+are lost on refresh. Unknown phrases get a practice template without invented course
 links. See the [learning guide](docs/learning.md) for scope and API examples.
 
 The [occupation classification experiment](docs/role-experiment.md) trains real
@@ -291,6 +293,11 @@ inputs and weights; the trained parameters are learned from data.
 | GET | `/api/learning/directions` | List curated learning directions |
 | GET | `/api/learning/guide?skill=Java` | Read a learning guide or unsupported-phrase fallback |
 | POST | `/api/learning/plan` | Build a roadmap from missing skills and an optional direction; no storage |
+| GET | `/api/learning/saved` | List the signed-in user's saved roadmaps |
+| POST | `/api/learning/saved` | Save a named roadmap and checked practice steps |
+| GET | `/api/learning/saved/{id}` | Open one owned roadmap |
+| PUT | `/api/learning/saved/{id}` | Update its name and progress using the current version |
+| DELETE | `/api/learning/saved/{id}?version=1` | Delete one owned roadmap using its current version |
 | POST | `/api/resume?method=trained` | Read a raw PDF body and suggest profile skills; no account needed |
 | GET | `/api/resume/saved` | Get the signed-in user's saved PDF metadata |
 | PUT | `/api/resume/saved?filename=resume.pdf` | Save or replace the signed-in user's PDF; raw `application/pdf` body |
@@ -306,7 +313,7 @@ inputs and weights; the trained parameters are learned from data.
 | GET | `/health/live` | Check that the application responds |
 | GET | `/health/ready` | Check the database connection and required table columns |
 
-`/health` is an alias for `/health/live`. `/api/preview`, `/api/extract`, `/api/resume`, `/api/job-image`, and `/api/job-pdf` are public and do not save data. `/api/analyze`, all history routes, and all `/api/resume/saved` routes require authentication. A missing or foreign-owned analysis returns `404`.
+`/health` is an alias for `/health/live`. `/api/preview`, `/api/extract`, `/api/resume`, `/api/job-image`, `/api/job-pdf`, and the learning guide/direction/plan routes are public and do not save data. `/api/analyze`, history routes, `/api/resume/saved` routes, and `/api/learning/saved` routes require authentication. A missing or foreign-owned analysis or roadmap returns `404`.
 
 Both job-upload endpoints return `text` (the suggested text), `full_text` (the
 complete extraction), `selected_sections`, and `selection_applied`. `pages` is

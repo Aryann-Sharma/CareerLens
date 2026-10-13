@@ -114,6 +114,7 @@ jobs:
         run: |
           node --check frontend/script.js
           node --check frontend/learning.js
+          node --check frontend/roadmaps.js
 
       - name: Validate deployment configuration
         env:

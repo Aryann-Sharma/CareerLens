@@ -48,10 +48,41 @@ foundation if it repeats knowledge you already have. The plan uses the analyzed
 snapshot, so edits to the input form only take effect after another analysis.
 
 Check off practice milestones and use **Download checklist** to keep a text
-copy with projects, progress, and links. Progress is held in page memory only,
-including for signed-in accounts. Refreshing, logging out, rebuilding, or
-successfully analyzing again clears it. Saving an analysis does not save a
-roadmap. No browser storage or new database table is used.
+copy with projects, progress, and links. Guests can use the full learning flow
+without an account. Unsaved progress is held in page memory only.
+
+## Save and return later
+
+Give the roadmap a name and choose **Save roadmap**. If you are signed out,
+sign in first, then choose **Save roadmap** again. Signing in preserves the
+guest draft but does not save it automatically. Saving an analysis and saving
+a roadmap are separate actions.
+
+**Saved roadmaps** appears below the learning workspace for signed-in users.
+It lists five plans per page, newest updated first. Open a plan to continue,
+change its name, check or uncheck steps, then choose **Save progress**. Save
+before refreshing, logging out, rebuilding, or starting another analysis.
+Opening another saved plan asks before replacing unsaved changes.
+
+Saved plans retain the learning steps and links that were present when saved.
+Later guide updates do not reset their checked milestones. If the guides change
+between building and first saving a plan, the app asks you to download the
+current checklist and rebuild before saving, so progress is not assigned to
+different steps. Existing saved plans remain editable.
+
+Each plan is private to its owner. **Delete** asks for confirmation and removes
+the plan and its saved progress; analysis history is unaffected. Removing an
+account at the database level also removes its roadmaps. There is no self-service
+account deletion screen. Two tabs cannot silently overwrite each other's saved
+progress: a stale save asks you to reopen the latest copy. Download local changes
+first if you want to keep them. Interrupted first saves can be retried without
+creating a second copy of an existing plan.
+
+The `saved_roadmaps` table is added by migration `0007`, using JSON on SQLite and
+JSONB on PostgreSQL. It stores the plan snapshot, name, checked milestone keys,
+owner, timestamps, version, and a retry key. It does not store the job description
+or résumé. Browser storage is not used. No practice checkbox changes the skill
+profile, match score, or saved analysis.
 
 ## Review before planning
 
@@ -63,7 +94,7 @@ out of the way.
 
 ## API
 
-All three routes are public and do not store data:
+These three routes are public and do not store data:
 
 | Route | Purpose |
 | --- | --- |
@@ -90,6 +121,44 @@ skill phrases. The server never follows user-provided URLs.
 The browser renders text without HTML interpretation, uses native modal dialogs
 for keyboard navigation, and discards late responses after a new analysis or
 logout. Resource links open in a separate tab with `noopener noreferrer`.
+
+## Saved roadmap API
+
+The following routes require a session and always scope records to that account:
+
+| Route | Purpose |
+| --- | --- |
+| `GET /api/learning/saved` | List metadata, with `page` and `page_size` (default 10, maximum 50) |
+| `POST /api/learning/saved` | Create a saved plan from a validated plan request |
+| `GET /api/learning/saved/{id}` | Read the snapshot, name, checked steps, and version |
+| `PUT /api/learning/saved/{id}` | Update the name and progress with an expected version |
+| `DELETE /api/learning/saved/{id}?version=1` | Delete with an expected version |
+
+First call `POST /api/learning/plan` to obtain the plan and its `revision`.
+Create a saved copy with a fresh UUID `client_id`, `title`, `completed`,
+`plan_revision` from that response, and the same original `request` object.
+The server builds the snapshot; it does not accept client-supplied links or
+learning steps. The revision check prevents changed guide contents from
+silently shifting checked milestones.
+
+`completed` contains keys such as `"0:1"` for the second milestone of the first
+step. Keys must exist in the saved snapshot. Names allow 1–100 characters after
+trimming. Updates accept only `title`, `completed`, and a positive integer
+`version`; they do not rebuild the snapshot. A successful update increments the
+version. A stale update or delete returns `409`; unknown or foreign-owned IDs
+return `404`. Create returns `201`, read/update return `200`, and delete returns
+`204`. Invalid payloads return `422`.
+
+Retry a first save using its original `client_id`. A repeated key within the
+same account returns the existing record with `200`, without overwriting it.
+If local progress changed while recovering a lost response, save it using PUT
+and the returned version. The browser marks those differences as unsaved.
+
+The browser also sends `X-Account-ID` on private roadmap requests. This optional
+header is compared with the authenticated session; it does not authorize access.
+A mismatch returns `409` with `detail.code` set to `account_changed`, which clears
+private views and prompts sign-in. This covers a session cookie changed in
+another tab. All successful saved-roadmap responses use `Cache-Control: no-store`.
 
 ## Resource maintenance
 

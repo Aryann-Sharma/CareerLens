@@ -132,6 +132,15 @@ memory limit. Public deployment has not been performed for this iteration.
 
 ## Post-deployment checks
 
+Saved roadmaps use migration `0007`. Apply `alembic upgrade head` before starting
+the updated server. Readiness checks now include the `saved_roadmaps` table.
+Each record contains private learning steps, a name, and progress, so include it
+in database backups and the same access controls as analysis history. Deleting
+a roadmap removes the active record; backups follow their own retention policy.
+Check save, refresh, reopen, rename, progress updates, deletion, and isolation
+between two test accounts after upgrading. Concurrent-tab conflicts should
+return `409` without overwriting progress.
+
 After each deployment:
 
 1. Confirm `/health/live` and `/health/ready` return `200`.

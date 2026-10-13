@@ -1,6 +1,6 @@
-/* Learning plans are page-local. They never modify the analysis or profile. */
+/* Practice progress never modifies the analysis or profile. */
 class LearningWorkspace {
-  constructor() {
+  constructor(account) {
     this.panel = document.querySelector("#learning-workspace");
     this.direction = document.querySelector("#learning-direction");
     this.status = document.querySelector("#learning-status");
@@ -11,6 +11,7 @@ class LearningWorkspace {
     this.guideRevision = 0;
     this.directions = null;
     this.completed = new Set();
+    this.saved = new SavedRoadmaps(this, account);
     this.buildButton.addEventListener("click", () => void this.build());
     document.querySelector("#download-learning-plan").addEventListener("click", () => this.download());
     document.querySelector("#close-learning-dialog").addEventListener("click", () => this.dialog.close());
@@ -31,6 +32,7 @@ class LearningWorkspace {
   }
 
   pause() {
+    this.saved.cancelDraftRequests();
     this.revision += 1;
     this.controller?.abort();
     this.guideRevision += 1;
@@ -44,6 +46,7 @@ class LearningWorkspace {
   clear() {
     this.pause();
     this.snapshot = null;
+    this.planRequest = null;
     this.plan = null;
     this.completed.clear();
     this.direction.value = "";
@@ -56,12 +59,14 @@ class LearningWorkspace {
     document.querySelector("#learning-plan").hidden = true;
     this.status.textContent = "";
     this.buildButton.textContent = "Build roadmap";
+    this.saved.resetDraft();
   }
 
   setAnalysis(analysis) {
     this.clear();
     this.snapshot = analysis;
     this.panel.hidden = false;
+    document.querySelector(".learning-controls").hidden = false;
     void this.loadDirections();
   }
 
@@ -94,15 +99,19 @@ class LearningWorkspace {
     this.status.textContent = "";
     void this.loadDirections();
     try {
+      const request = { missing_skills: this.snapshot.result.missing_skills,
+        user_skills: this.snapshot.request.user_skills, direction: this.direction.value || null };
       const response = await fetch("/api/learning/plan", {
         method: "POST", headers: { "Content-Type": "application/json" }, signal: this.controller.signal,
-        body: JSON.stringify({ missing_skills: this.snapshot.result.missing_skills,
-          user_skills: this.snapshot.request.user_skills, direction: this.direction.value || null }),
+        body: JSON.stringify(request),
       });
       if (!response.ok) throw new Error("The roadmap could not be built. Please try again.");
       const body = await response.json();
       if (revision !== this.revision) return;
       this.plan = body;
+      this.planRequest = request;
+      this.saved.resetDraft();
+      this.saved.name.value = body.direction_title || "My learning roadmap";
       this.completed.clear();
       this.renderPlan();
       this.status.textContent = body.steps.length
@@ -123,7 +132,7 @@ class LearningWorkspace {
     const list = document.querySelector("#learning-steps");
     list.replaceChildren();
     document.querySelector("#learning-plan").hidden = false;
-    document.querySelector("#learning-plan-title").textContent = this.directions?.[this.plan.direction]?.title || "Skills from your analysis";
+    document.querySelector("#learning-plan-title").textContent = this.plan.direction_title || this.directions?.[this.plan.direction]?.title || "Skills from your analysis";
     document.querySelector("#learning-notice").textContent = this.plan.notice;
     for (const [index, step] of this.plan.steps.entries()) {
       const item = this.node("li", undefined, "learning-card");
@@ -141,9 +150,11 @@ class LearningWorkspace {
         const input = this.node("input");
         input.type = "checkbox";
         const key = `${index}:${number}`;
+        input.checked = this.completed.has(key);
         input.addEventListener("change", () => {
           if (input.checked) this.completed.add(key); else this.completed.delete(key);
           this.updateProgress();
+          this.saved.changed();
         });
         label.append(input, this.node("span", text));
         item.append(label);
@@ -152,6 +163,7 @@ class LearningWorkspace {
       list.append(item);
     }
     this.updateProgress();
+    this.saved.renderControls();
   }
 
   updateProgress() {
@@ -210,7 +222,7 @@ class LearningWorkspace {
 
   download() {
     if (!this.plan) return;
-    const lines = ["CareerLens learning checklist", document.querySelector("#learning-plan-title").textContent,
+    const lines = ["CareerLens learning checklist", document.querySelector("#roadmap-name").value.trim() || document.querySelector("#learning-plan-title").textContent,
       this.plan.notice, "Progress is self-reported practice, not proof of proficiency.", ""];
     this.plan.steps.forEach((step, index) => {
       lines.push(`${index + 1}. ${step.skill} — ${step.reason}`, step.goal);

@@ -417,6 +417,7 @@ function showSignedIn(user) {
   }
   draftOwnerId = user.id;
   currentUser = user;
+  learning.saved.sessionChanged(user);
   authLoading.hidden = true;
   signedOutActions.hidden = true;
   signedInActions.hidden = false;
@@ -442,6 +443,7 @@ function showSignedOut(
   if (!initial) sessionRevision += 1;
   if (!preserveDraft) clearDraft();
   currentUser = null;
+  learning.saved.sessionChanged(null);
   authLoading.hidden = true;
   signedOutActions.hidden = false;
   signedInActions.hidden = true;
@@ -673,7 +675,10 @@ function openSkillsReview() {
   reviewInput.scrollIntoView({ block: "center" });
 }
 
-const learning = new LearningWorkspace();
+const learning = new LearningWorkspace({
+  signIn: () => openAuthDialog("login"),
+  expired: () => handleExpiredSession(),
+});
 document.querySelector("#edit-result-skills").addEventListener("click", openSkillsReview);
 
 async function loadHistory(page) {

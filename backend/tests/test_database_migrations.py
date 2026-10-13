@@ -41,6 +41,9 @@ def test_migrations_upgrade_and_downgrade(
         assert "analyses" in inspector.get_table_names()
         assert "users" in inspector.get_table_names()
         assert "saved_resumes" in inspector.get_table_names()
+        assert "saved_roadmaps" in inspector.get_table_names()
+        assert inspector.get_foreign_keys("saved_roadmaps")[0]["options"]["ondelete"] == "CASCADE"
+        assert inspector.get_unique_constraints("saved_roadmaps")[0]["column_names"] == ["user_id", "client_id"]
         assert inspector.get_pk_constraint("saved_resumes")["constrained_columns"] == ["user_id"]
         assert inspector.get_foreign_keys("saved_resumes")[0]["options"]["ondelete"] == "CASCADE"
         command.check(config)
@@ -89,6 +92,7 @@ def test_migrations_upgrade_and_downgrade(
         assert "analyses" not in remaining_tables
         assert "users" not in remaining_tables
         assert "saved_resumes" not in remaining_tables
+        assert "saved_roadmaps" not in remaining_tables
         engine.dispose()
     finally:
         get_settings.cache_clear()

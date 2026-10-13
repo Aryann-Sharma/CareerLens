@@ -6,6 +6,8 @@ Run commands from the repository root with the virtual environment activated.
 
 | Date | Check | Result |
 | --- | --- | --- |
+| 2026-10-13 | Complete backend and Chromium suites after private saved roadmaps; MiniLM, CRF, contextual, and occupation experiment checks enabled | 713 passed; one PostgreSQL-only test skipped |
+| 2026-10-13 | Separate PostgreSQL 18 integration plus saved-roadmap and learning browser suites | 22 passed; migration 0007 and schema consistency check passed |
 | 2026-10-13 | Complete backend and Chromium suites after learning roadmaps and editor placement changes; MiniLM, CRF, contextual, and occupation experiment checks enabled | 678 passed; one PostgreSQL-only test skipped |
 | 2026-10-13 | Separate PostgreSQL 18 integration plus learning-roadmap and spelling-review browser suites | 25 passed; migrations and schema consistency check passed |
 | 2026-10-13 | Complete backend and Chromium suites, with MiniLM, CRF, and contextual checks enabled, including workplace spelling review, requirement clauses, seeded inputs, and varied document imports | 612 passed; one PostgreSQL-only test skipped |
@@ -52,6 +54,8 @@ python -m pytest backend/tests -q
 python -m pytest e2e --browser chromium --tracing=retain-on-failure -q
 python -m compileall -q backend e2e
 node --check frontend/script.js
+node --check frontend/learning.js
+node --check frontend/roadmaps.js
 ```
 
 Node.js is needed only for the JavaScript syntax check. The application itself does not require a Node.js server or frontend build step.
@@ -82,6 +86,7 @@ The browser fixture applies migrations to a temporary SQLite database and starts
 | Skill review | Screenshot regression for standalone “a”, grammar-only/punctuation/numeric fragment filtering, preservation of short skills and meaningful phrases, shared PDF/reuse filtering, trained phrases affect scoring, corrected lists override predictions, input limits, source highlighting, original input snapshots, saved extraction evidence |
 | Learning plans | All 18 guides, alias and case handling, prerequisite ordering, 80 seeded mixed-skill plans, unknown phrases, reviewed typo choices, six directions, unchanged fit scores, downloadable checked milestones, snapshot preservation, empty plans, errors/retries, logout clearing, late responses, literal text rendering, keyboard dialogs, 320/768/1440-pixel layouts |
 | Editor placement | Edit shortcut beside the result heading, editor before matched skills, accepted spelling correction focuses the text box with Update analysis in view on phone and desktop |
+| Saved roadmaps | Named plans, checked progress, reload/reopen/rename/delete, multiple independent plans, guest sign-in preserving drafts, account isolation, changed-session guards, late success and expired-session responses, lost-response retries without duplicate records, stale update/delete conflicts, saved step snapshots, changed-guide revision checks, pagination and last-page deletion, literal titles, 320/1440-pixel layouts, migration and readiness checks |
 | Occupation experiment | Source checksums, conflicting-label removal, split isolation, feature case/typo behavior, acceptance gates, artifact validation, reproduced held-out metrics from actual trained weights; experiment excluded from app recommendations |
 | Short skill phrases | Both screenshot regressions, skill-list heading variants, bullets and numbered items, complete team-worker/team-player phrases, generic communication/problem-solving items, original offsets, bounded context batches, prevention of merged requirements or invented source text, exact/semantic scoring, saved history and résumé reuse, unchanged raw extraction and manual overrides |
 | Job image import | Real offline PNG/JPEG/WebP recognition, unsaved guest uploads, byte/pixel/dimension limits, EXIF rotation, transparent backgrounds, animation and blank-image rejection, timeout and busy recovery, camera-button file picker and keyboard access, editable preview, multiple photos appended without overwriting typed text, editing the combined description, text limits, discard during reading and restored focus, logout and upload races, literal text rendering, mobile/tablet/desktop layout |
@@ -198,7 +203,7 @@ $env:E2E_DATABASE_URL = $env:DATABASE_URL
 python -m pytest e2e --browser chromium --tracing=retain-on-failure -q
 ```
 
-The integration test checks the real PostgreSQL driver, JSONB fields, indexes, ownership, UTC dates, the account-to-analysis flow, PDF storage and reuse, invalid replacements, and résumé deletion when its owner is removed. Most other backend tests still use isolated SQLite fixtures. Setting `E2E_DATABASE_URL` runs the complete browser suite against PostgreSQL. Browser test accounts remain in that disposable database after the run.
+The integration test checks the real PostgreSQL driver, JSONB fields, indexes, ownership, UTC dates, the account-to-analysis flow, PDF storage and reuse, invalid replacements, and résumé deletion when its owner is removed. It also checks roadmap creation, retry keys, progress updates, version conflicts, private access, and roadmap deletion when its owner is removed. Most other backend tests still use isolated SQLite fixtures. Setting `E2E_DATABASE_URL` runs the complete browser suite against PostgreSQL. Browser test accounts remain in that disposable database after the run.
 
 Remove the overrides when finished:
 

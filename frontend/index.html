@@ -8,9 +8,10 @@
       content="Compare your skills with a job description using CareerLens."
     />
     <title>CareerLens — See your fit clearly</title>
-    <link rel="stylesheet" href="/static/style.css?v=20261013-2" />
-    <script src="/static/learning.js?v=20261013-2" defer></script>
-    <script src="/static/script.js?v=20261013-2" defer></script>
+    <link rel="stylesheet" href="/static/style.css?v=20261013-3" />
+    <script src="/static/roadmaps.js?v=20261013-3" defer></script>
+    <script src="/static/learning.js?v=20261013-3" defer></script>
+    <script src="/static/script.js?v=20261013-3" defer></script>
   </head>
   <body class="has-workspace">
     <header class="site-header">
@@ -283,10 +284,31 @@
             <h3 id="learning-plan-title"></h3>
             <p id="learning-notice" class="field-hint"></p>
             <p id="learning-progress" role="status"></p>
+            <div class="roadmap-save-controls">
+              <label for="roadmap-name">Roadmap name</label>
+              <input id="roadmap-name" type="text" maxlength="100" autocomplete="off" />
+              <button id="save-roadmap" type="button" class="secondary-button">Sign in to save roadmap</button>
+              <p id="roadmap-save-status" class="field-hint" role="status"></p>
+            </div>
             <ol id="learning-steps" class="learning-steps"></ol>
             <button id="download-learning-plan" type="button" class="secondary-button">Download checklist</button>
-            <p class="field-hint">Progress stays on this page only. Download it before refreshing, logging out, or starting a new analysis. A new roadmap resets the checklist.</p>
+            <p class="field-hint">Save to your account to continue later, or download a copy. Unsaved changes are lost when you refresh, log out, or build another roadmap. Practice checks do not change your profile or fit score.</p>
           </div>
+        </section>
+
+        <section id="saved-roadmaps" class="learning-workspace" aria-labelledby="saved-roadmaps-title" hidden>
+          <div class="result-heading">
+            <h2 id="saved-roadmaps-title">Saved roadmaps</h2>
+            <button id="refresh-roadmaps" type="button" class="text-button">Refresh list</button>
+          </div>
+          <p>Pick up where you left off. Only you can see these plans.</p>
+          <p id="saved-roadmaps-status" role="status"></p>
+          <div id="saved-roadmaps-list" class="roadmap-list"></div>
+          <nav id="roadmap-pagination" class="history-pagination" aria-label="Saved roadmap pages" hidden>
+            <button id="roadmaps-previous" type="button" class="secondary-button">Previous roadmaps</button>
+            <span id="roadmaps-page"></span>
+            <button id="roadmaps-next" type="button" class="secondary-button">Next roadmaps</button>
+          </nav>
         </section>
 
         <section id="history-section" class="history-section" aria-labelledby="history-title" hidden>
@@ -316,6 +338,16 @@
         </section>
       </div>
     </main>
+
+    <dialog id="roadmap-action-dialog" class="auth-dialog" aria-labelledby="roadmap-action-title">
+      <h2 id="roadmap-action-title"></h2>
+      <p id="roadmap-action-copy"></p>
+      <p id="roadmap-action-status" role="alert"></p>
+      <div class="dialog-actions">
+        <button id="cancel-roadmap-action" type="button" class="secondary-button" autofocus>Cancel</button>
+        <button id="confirm-roadmap-action" type="button" class="secondary-button"></button>
+      </div>
+    </dialog>
 
     <dialog id="learning-dialog" class="history-dialog learning-dialog" aria-labelledby="learning-dialog-title">
       <div class="dialog-heading">
