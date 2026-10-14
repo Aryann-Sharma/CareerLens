@@ -405,6 +405,11 @@ GitHub Actions runs on pull requests and pushes to `main`. It checks dependencie
 
 ## Limitations and next steps
 
+The latest [context-classifier training run](docs/context-curriculum.md) uses
+12,053 training inputs and improves aggregate precision, but still fails some
+promotion checks. Its candidate weights are not loaded by the app. The report
+records missed duties, negative-case errors and the unchanged release criteria.
+
 - Semantic suggestions cover the 18-skill catalog; other predicted phrases currently need exact profile matches.
 - Similarity can mistake related concepts for equivalent skills. It is not evidence of proficiency, and some valid paraphrases are deliberately left unmatched.
 - Semantic matching uses small, hand-authored development fixtures. Extraction uses public labelled data with held-out and external span metrics.

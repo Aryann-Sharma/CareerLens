@@ -1,5 +1,9 @@
 # Duty classifier follow-up
 
+For the later 16-epoch run with 1,632 additional authored descriptions, see the
+[context curriculum and promotion check](context-curriculum.md). This document
+retains the earlier experiment so its results remain reproducible.
+
 The app now retains short coordinated duties such as “write code, test changes,
 deploy releases” when splitting at commas would otherwise discard every part.
 It also recognises affirmative modifiers such as “without supervision” and

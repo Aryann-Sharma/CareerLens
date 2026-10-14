@@ -1,0 +1,428 @@
+{
+  "description": "Fresh check fixed before evaluating the curriculum candidate. Brief public paraphrases and separately authored edge cases; project labels, not independent expert annotations.",
+  "created": "2026-10-14",
+  "sources": [
+    {
+      "id": "tieto",
+      "url": "https://jobs.smartrecruiters.com/tieto2/744000152402730",
+      "title": "Tieto project manager",
+      "access": "Readable full posting",
+      "split": "test"
+    },
+    {
+      "id": "hiwave",
+      "url": "https://jobs.smartrecruiters.com/HiWave/743999843660109-tiktok-intern",
+      "title": "HiWave social content intern",
+      "access": "Readable full posting",
+      "split": "test"
+    },
+    {
+      "id": "energy-exemplar",
+      "url": "https://job-boards.greenhouse.io/energyexemplarllc/jobs/5417736008?gh_src=be7d93548us",
+      "title": "Energy Exemplar support analyst",
+      "access": "Readable full posting",
+      "split": "test"
+    }
+  ],
+  "excluded_sources": [
+    {
+      "url": "https://apply.workable.com/pavago/j/F966D3631F",
+      "reason": "Redirected to current openings"
+    },
+    {
+      "url": "https://apply.workable.com/datafied-1/j/D3F695138C/",
+      "reason": "Redirected to current openings"
+    },
+    {
+      "url": "https://job-boards.greenhouse.io/7shifts/jobs/4740157004",
+      "reason": "404 on opening"
+    },
+    {
+      "url": "https://jobs.smartrecruiters.com/purplerain/743999661209773",
+      "reason": "Full page unavailable"
+    }
+  ],
+  "cases": [
+    {
+      "id": "promotion-tieto-0",
+      "family": "promotion-tieto",
+      "source_id": "tieto",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Prepare project plans using stakeholder input and track the delivery schedule.",
+      "expected": [
+        "Planning"
+      ],
+      "acceptable": [
+        "Time management"
+      ]
+    },
+    {
+      "id": "promotion-tieto-1",
+      "family": "promotion-tieto",
+      "source_id": "tieto",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Work with technical colleagues to resolve dependencies between products.",
+      "expected": [
+        "Teamwork"
+      ],
+      "acceptable": [
+        "Problem solving"
+      ]
+    },
+    {
+      "id": "promotion-tieto-2",
+      "family": "promotion-tieto",
+      "source_id": "tieto",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Communicate clearly in writing to both technical and nontechnical audiences.",
+      "expected": [
+        "Written communication"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "promotion-tieto-3",
+      "family": "promotion-tieto",
+      "source_id": "tieto",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Benefits include medical insurance, holiday support and reimbursement for language courses.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "promotion-hiwave-0",
+      "family": "promotion-hiwave",
+      "source_id": "hiwave",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Create content for TikTok and follow emerging social trends to increase audience engagement.",
+      "expected": [
+        "Social media communication"
+      ],
+      "acceptable": [
+        "Marketing communication"
+      ]
+    },
+    {
+      "id": "promotion-hiwave-1",
+      "family": "promotion-hiwave",
+      "source_id": "hiwave",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Develop compelling brand videos and campaign concepts that promote the product.",
+      "expected": [
+        "Marketing communication"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "promotion-hiwave-2",
+      "family": "promotion-hiwave",
+      "source_id": "hiwave",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Collaborate with channel specialists and colleagues to produce content for their audiences.",
+      "expected": [
+        "Teamwork"
+      ],
+      "acceptable": [
+        "Social media communication",
+        "Marketing communication"
+      ]
+    },
+    {
+      "id": "promotion-hiwave-3",
+      "family": "promotion-hiwave",
+      "source_id": "hiwave",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Humour is welcome, but the purpose of the social content is to market a product rather than just share selfies.",
+      "expected": [
+        "Social media communication",
+        "Marketing communication"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "promotion-energy-exemplar-0",
+      "family": "promotion-energy-exemplar",
+      "source_id": "energy-exemplar",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Help customers resolve technical problems with cloud and desktop products.",
+      "expected": [
+        "Customer support"
+      ],
+      "acceptable": [
+        "Problem solving",
+        "Debugging"
+      ]
+    },
+    {
+      "id": "promotion-energy-exemplar-1",
+      "family": "promotion-energy-exemplar",
+      "source_id": "energy-exemplar",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Deliver customer lessons and write practical guides explaining how to use the software.",
+      "expected": [
+        "Teaching",
+        "Written communication"
+      ],
+      "acceptable": [
+        "Customer support"
+      ]
+    },
+    {
+      "id": "promotion-energy-exemplar-2",
+      "family": "promotion-energy-exemplar",
+      "source_id": "energy-exemplar",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Partner with account managers and developers to investigate client issues and improve the product.",
+      "expected": [
+        "Teamwork",
+        "Customer support"
+      ],
+      "acceptable": [
+        "Problem solving",
+        "Debugging"
+      ]
+    },
+    {
+      "id": "promotion-energy-exemplar-3",
+      "family": "promotion-energy-exemplar",
+      "source_id": "energy-exemplar",
+      "split": "test",
+      "origin": "public-source-paraphrase",
+      "text": "Listen to customers, understand their business difficulty and explain technical ideas clearly.",
+      "expected": [
+        "Active listening",
+        "Customer support"
+      ],
+      "acceptable": [
+        "Teaching",
+        "Problem solving"
+      ]
+    },
+    {
+      "id": "promotion-authored-0",
+      "family": "promotion-authored-0",
+      "split": "test",
+      "origin": "project-authored",
+      "text": "Our booking system has developed a taste for duplicate reservations. Find the fault and repair the booking code.",
+      "expected": [
+        "Debugging"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "promotion-authored-1",
+      "family": "promotion-authored-1",
+      "split": "test",
+      "origin": "project-authored",
+      "text": "We sell umbrellas, not miracles. Write convincing product messages without pretending they control the weather.",
+      "expected": [
+        "Marketing communication"
+      ],
+      "acceptable": [
+        "Written communication"
+      ]
+    },
+    {
+      "id": "promotion-authored-2",
+      "family": "promotion-authored-2",
+      "split": "test",
+      "origin": "project-authored",
+      "text": "The dashboard looks like a confetti accident. Reorganise its visual layout so the key action is obvious.",
+      "expected": [
+        "Interface design"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "promotion-authored-3",
+      "family": "promotion-authored-3",
+      "split": "test",
+      "origin": "project-authored",
+      "text": "When invoices disagree with the ledger, inspect every entry and catch the mismatched figures.",
+      "expected": [
+        "Attention to detail"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "promotion-authored-4",
+      "family": "promotion-authored-4",
+      "split": "test",
+      "origin": "project-authored",
+      "text": "Keep the nightly service online and roll back an update if the release sends availability downhill.",
+      "expected": [
+        "Deployment"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "promotion-authored-5",
+      "family": "promotion-authored-5",
+      "split": "test",
+      "origin": "project-authored",
+      "text": "Translate the monthly measurements into findings that explain why returns increased.",
+      "expected": [
+        "Data analysis"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "promotion-authored-6",
+      "family": "promotion-authored-6",
+      "split": "test",
+      "origin": "project-authored",
+      "text": "Run the planning meeting, set delivery milestones and coordinate the people responsible for each phase.",
+      "expected": [
+        "Planning",
+        "Teamwork"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "promotion-authored-7",
+      "family": "promotion-authored-7",
+      "split": "test",
+      "origin": "project-authored",
+      "text": "Our complaint queue is not a debate club. Hear the caller out and acknowledge why the situation upset them.",
+      "expected": [
+        "Active listening",
+        "Empathy"
+      ],
+      "acceptable": [
+        "Customer support"
+      ]
+    },
+    {
+      "id": "promotion-authored-8",
+      "family": "promotion-authored-8",
+      "split": "test",
+      "origin": "project-authored",
+      "text": "Use automated acceptance checks to stop another broken checkout from reaching customers.",
+      "expected": [
+        "Software testing"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "promotion-authored-9",
+      "family": "promotion-authored-9",
+      "split": "test",
+      "origin": "project-authored",
+      "text": "Write a reusable module that calculates the delivery estimate for the application.",
+      "expected": [
+        "Programming"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "promotion-authored-10",
+      "family": "promotion-authored-10",
+      "split": "test",
+      "origin": "project-authored",
+      "text": "The staff newsletter jokes that our printer needs emotional support. It is a cartoon caption, not an assignment.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "promotion-authored-11",
+      "family": "promotion-authored-11",
+      "split": "test",
+      "origin": "project-authored",
+      "text": "A poster advertises optional lunchtime lessons in resolving disputes and making presentations.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "promotion-authored-12",
+      "family": "promotion-authored-12",
+      "split": "test",
+      "origin": "project-authored",
+      "text": "This is a warehouse vacancy. You will receive software lessons from our instructor; teaching those lessons is not your responsibility.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "promotion-authored-13",
+      "family": "promotion-authored-13",
+      "split": "test",
+      "origin": "project-authored",
+      "text": "The company sells video lessons about writing code. This paragraph describes the product, not duties for the vacancy.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "promotion-authored-14",
+      "family": "promotion-authored-14",
+      "split": "test",
+      "origin": "project-authored",
+      "text": "The job title is Supreme Spreadsheet Whisperer. No responsibilities have been supplied yet.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "promotion-authored-15",
+      "family": "promotion-authored-15",
+      "split": "test",
+      "origin": "project-authored",
+      "text": "Customers do not contact this role and providing technical support is not part of the position.",
+      "expected": [],
+      "acceptable": []
+    },
+    {
+      "id": "promotion-authored-16",
+      "family": "promotion-authored-16",
+      "split": "test",
+      "origin": "project-authored",
+      "text": "Benefits: optional lessons in presenting slides. Responsibilities: maintain accurate stock records and inspect entries for mistakes.",
+      "expected": [
+        "Attention to detail"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "promotion-authored-17",
+      "family": "promotion-authored-17",
+      "split": "test",
+      "origin": "project-authored",
+      "text": "You are not expected to write software. Instead, teach apprentices how to operate the equipment.",
+      "expected": [
+        "Teaching"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "promotion-authored-18",
+      "family": "promotion-authored-18",
+      "split": "test",
+      "origin": "project-authored",
+      "text": "Not only will you investigate crashes, you will also write checks that prevent the same software failure returning.",
+      "expected": [
+        "Debugging",
+        "Software testing"
+      ],
+      "acceptable": []
+    },
+    {
+      "id": "promotion-authored-19",
+      "family": "promotion-authored-19",
+      "split": "test",
+      "origin": "project-authored",
+      "text": "Reconcile supplier expectations and reach acceptable pricing terms without turning the contract discussion into a wrestling match.",
+      "expected": [
+        "Negotiation"
+      ],
+      "acceptable": []
+    }
+  ]
+}

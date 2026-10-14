@@ -11,16 +11,17 @@ import onnxruntime as ort
 from tokenizers import Tokenizer
 
 from backend.ml.context_data import expanded, load_cases
-from backend.ml.context_sentences import sentence_units
+from backend.ml.context_sentences import UNITIZERS
 from backend.ml.train_context_calibrated import combined_rows
 from backend.ml.train_context_review import LABELS, baseline, metrics, write_report
 
 
 def load_model(root):
     manifest=json.loads((root/'manifest.json').read_text())
-    if manifest['architecture']!='distilbert-duty-classifier' or manifest['labels']!=LABELS or manifest['unitizer']!='sentences-v1':
+    if manifest['architecture']!='distilbert-duty-classifier' or manifest['labels']!=LABELS or manifest['unitizer'] not in UNITIZERS:
         raise ValueError('Unsupported duty classifier')
-    if not .0 < manifest['threshold'] <= 1 or manifest['max_length']!=160:
+    expected_length={'sentences-v1':160,'paragraphs-v2':256}[manifest['unitizer']]
+    if not .0 < manifest['threshold'] <= 1 or manifest['max_length']!=expected_length:
         raise ValueError('Invalid classifier settings')
     for name in ('model.onnx','tokenizer.json'):
         if hashlib.sha256((root/name).read_bytes()).hexdigest()!=manifest['sha256'][name]:
@@ -34,11 +35,11 @@ def load_model(root):
     return manifest,tokenizer,session
 
 
-def predict_rows(rows,manifest,tokenizer,session):
+def score_rows(rows,manifest,tokenizer,session):
     texts,ranges=[],[]
     for row in rows:
         start=len(texts)
-        texts.extend(u['text'] for u in sentence_units(row['text']))
+        texts.extend(u['text'] for u in UNITIZERS[manifest['unitizer']](row['text']))
         ranges.append((start,len(texts)))
     values=[]
     for start in range(0,len(texts),16):
@@ -52,11 +53,16 @@ def predict_rows(rows,manifest,tokenizer,session):
     results=[]
     for start,end in ranges:
         scores=values[start:end].max(0) if end>start else np.zeros(len(LABELS))
-        results.append([LABELS[j] for j in np.argsort(-scores)[:6] if scores[j]>=manifest['threshold']])
-    return results
+        results.append(scores)
+    return np.asarray(results).reshape(-1,len(LABELS))
 
 
-def run(root,report_path):
+def predict_rows(rows,manifest,tokenizer,session):
+    return [[LABELS[j] for j in np.argsort(-scores)[:6] if scores[j]>=manifest['threshold']]
+            for scores in score_rows(rows,manifest,tokenizer,session)]
+
+
+def run(root,report_path,fresh=None):
     manifest,tokenizer,session=load_model(root)
     for name,digest in manifest['data_sha256'].items():
         if hashlib.sha256(Path(name).read_text(encoding='utf-8').encode()).hexdigest()!=digest:
@@ -92,6 +98,23 @@ def run(root,report_path):
             'scope-guard':metrics(selected,[current[r['id']] for r in selected]),
             'candidate':metrics(selected,[lookup[r['id']] for r in selected])}
         print(name,{m:{k:v for k,v in result.items() if k in ('precision','coverage','negative_errors')} for m,result in report['evaluations'][name].items()},flush=True)
+    if fresh:
+        fresh_rows=expanded(load_cases(fresh))
+        if any(r['split']!='test' for r in fresh_rows):
+            raise ValueError('The fresh check must be test-only')
+        report['fresh_sha256']=hashlib.sha256(fresh.read_bytes()).hexdigest()
+        candidate=predict_rows(fresh_rows,manifest,tokenizer,session)
+        reference=baseline(fresh_rows)
+        for name,indices in {
+            'fresh-all':list(range(len(fresh_rows))),
+            'fresh-clean':[i for i,r in enumerate(fresh_rows) if r['variant']=='clean'],
+            'fresh-public':[i for i,r in enumerate(fresh_rows) if r['origin']=='public-source-paraphrase'],
+            'fresh-authored':[i for i,r in enumerate(fresh_rows) if r['origin']=='project-authored'],
+        }.items():
+            selected=[fresh_rows[i] for i in indices]
+            report['evaluations'][name]={'baseline':metrics(selected,[reference[i] for i in indices]),
+                'candidate':metrics(selected,[candidate[i] for i in indices])}
+            print(name,{m:{k:v for k,v in result.items() if k in ('precision','coverage','negative_errors')} for m,result in report['evaluations'][name].items()},flush=True)
     failures=[]
     for name,results in report['evaluations'].items():
         a,b=results['candidate'],results['baseline']
@@ -99,6 +122,7 @@ def run(root,report_path):
             failures.append(name)
     report['promotion_gate']={'passed':not failures,'failed_sets':failures,
         'rule':'Precision >= max(90%, baseline), coverage >= baseline, negative errors <= baseline on every evaluated set. No automatic deployment.'}
+    report['evaluated_unique_cases']=len({row['id'] for result in report['evaluations'].values() for row in result['candidate']['results']})
     write_report(report_path,report)
     print(report['promotion_gate'],flush=True)
 
@@ -107,5 +131,6 @@ if __name__=='__main__':
     p=argparse.ArgumentParser()
     p.add_argument('--model',type=Path,default=Path('.models/context-transformer-v1'))
     p.add_argument('--report',type=Path,default=Path('evaluation/context-transformer-results.json'))
+    p.add_argument('--fresh',type=Path)
     args=p.parse_args()
-    run(args.model,args.report)
+    run(args.model,args.report,args.fresh)

@@ -223,6 +223,12 @@ new directory under `.review-tests` using `--basetemp=.review-tests/my-test-run`
 and disable pytest's cache with `-p no:cacheprovider` if necessary.
 Choose an unused path: pytest clears the specified base directory when starting.
 
+The [context curriculum check](context-curriculum.md) adds 217 fresh-description
+and typo variants through the preview API, plus source separation and passage
+boundary checks. Set `RUN_CURRICULUM_HEAD_TESTS=1` to check the locally exported
+candidate against its recorded predictions. These model checks are separate
+from software-test pass counts; the candidate has not passed promotion.
+
 ## PostgreSQL checks
 
 Use a disposable database. The integration and browser suites create accounts and analyses; never point them at development data you need to keep or a production database.

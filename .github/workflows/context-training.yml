@@ -10,6 +10,7 @@ on:
       - "backend/app/services/model_assets.py"
       - "backend/tests/test_context_source_data.py"
       - "backend/tests/test_context_followup.py"
+      - "backend/tests/test_context_curriculum.py"
       - "backend/app/services/duty_scope.py"
       - "evaluation/context-*.json"
       - ".github/workflows/context-training.yml"
@@ -58,7 +59,7 @@ jobs:
         env:
           RUN_FOLLOWUP_HEAD_TESTS: "1"
           RUN_MODEL_TESTS: "1"
-        run: python -m pytest backend/tests/test_context_followup.py backend/tests/test_duty_scope.py -q
+        run: python -m pytest backend/tests/test_context_followup.py backend/tests/test_duty_scope.py backend/tests/test_context_curriculum.py -q
       - name: Run additional source check
         run: python -m backend.ml.evaluate_context_heads --output .review-tests/context-ci/context-final-results.json
       - name: Upload experimental weights and reports
