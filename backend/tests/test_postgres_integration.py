@@ -10,6 +10,9 @@ from backend.app.db.session import SessionLocal, engine
 from backend.app.main import app
 from backend.app.models.analysis import AnalysisRecord
 from backend.app.models.user import User
+from backend.app.models.resume import SavedResume
+from backend.app.models.roadmap import SavedRoadmap
+from backend.tests.pdf_fixtures import make_pdf
 
 
 @pytest.mark.skipif(
@@ -64,6 +67,49 @@ def test_application_flow_uses_postgresql() -> None:
         assert detail.status_code == 200
         assert detail.json()["job_description"] == description
 
+        semantic = client.post("/api/analyze", json={
+            "job_description": "SQL and CSS", "matching_method": "semantic",
+            "user_skills": ["writing relational database queries", "styling web pages"],
+        })
+        assert semantic.status_code == 200
+        assert semantic.json()["match_score"] == 100
+        semantic_id = client.get("/api/analyses").json()["items"][0]["id"]
+        assert client.get(f"/api/analyses/{semantic_id}").json()["matching_details"] == (
+            semantic.json()["matching_details"]
+        )
+        reviewed = client.post("/api/analyze", json={
+            "job_description": "Python and SQL", "user_skills": ["Python"], "reviewed_job_skills": ["Python"],
+        })
+        assert reviewed.status_code == 200
+        reviewed_url = reviewed.headers["Location"]
+        assert client.get(reviewed_url).json()["extraction_details"]["method"] == "reviewed"
+        assert client.delete(reviewed_url).status_code == 204
+        assert client.get(reviewed_url).status_code == 404
+
+        pdf = make_pdf("Python SQL")
+        saved_resume = client.put("/api/resume/saved?filename=resume.pdf", content=pdf,
+                                  headers={"Content-Type": "application/pdf"})
+        assert saved_resume.status_code == 200
+        assert saved_resume.json()["updated_at"].endswith("Z")
+        assert client.get("/api/resume/saved/file").content == pdf
+        assert client.post("/api/resume/saved/skills?method=catalog").json()["skills"] == ["Python", "SQL"]
+        assert client.put("/api/resume/saved", content=b"invalid", headers={"Content-Type": "application/pdf"}).status_code == 422
+        assert client.get("/api/resume/saved/file").content == pdf
+
+        roadmap_request = {"client_id": str(uuid4()), "title": "PostgreSQL practice", "completed": ["0:0"],
+                           "request": {"missing_skills": ["PostgreSQL"], "user_skills": ["SQL"]}}
+        roadmap_request["plan_revision"] = client.post("/api/learning/plan", json=roadmap_request["request"]).json()["revision"]
+        roadmap = client.post("/api/learning/saved", json=roadmap_request)
+        assert roadmap.status_code == 201
+        roadmap_id = roadmap.json()["id"]
+        roadmap_url = f"/api/learning/saved/{roadmap_id}"
+        assert client.post("/api/learning/saved", json=roadmap_request).json()["id"] == roadmap_id
+        changed = client.put(roadmap_url, json={"title": "Database project", "completed": ["0:0", "0:2"], "version": 1})
+        assert changed.status_code == 200 and changed.json()["version"] == 2
+        assert client.put(roadmap_url, json={"title": "Stale", "completed": [], "version": 1}).status_code == 409
+        assert client.delete(roadmap_url + "?version=1").status_code == 409
+        assert client.get(roadmap_url).json()["completed"] == ["0:0", "0:2"]
+
         with SessionLocal() as session:
             saved_analysis = session.scalar(
                 select(AnalysisRecord).where(AnalysisRecord.id == analysis_id)
@@ -82,6 +128,13 @@ def test_application_flow_uses_postgresql() -> None:
         assert second_registration.status_code == 201
         assert client.get("/api/analyses").json()["items"] == []
         assert client.get(f"/api/analyses/{analysis_id}").status_code == 404
+        assert client.delete(f"/api/analyses/{analysis_id}").status_code == 404
+        assert client.get("/api/resume/saved").status_code == 404
+        assert client.get("/api/resume/saved/file").status_code == 404
+        assert client.delete("/api/resume/saved").status_code == 404
+        assert client.get("/api/learning/saved").json()["items"] == []
+        assert client.get(roadmap_url).status_code == 404
+        assert client.delete(roadmap_url + "?version=2").status_code == 404
 
         assert engine.dialect.name == "postgresql"
         inspector = inspect(engine)
@@ -90,6 +143,11 @@ def test_application_flow_uses_postgresql() -> None:
             for column in inspector.get_columns("analyses")
         }
         assert isinstance(analysis_columns["user_skills"]["type"], JSONB)
+        assert isinstance(analysis_columns["matching_details"]["type"], JSONB)
+        assert isinstance(analysis_columns["extraction_details"]["type"], JSONB)
+        roadmap_columns = {column["name"]: column for column in inspector.get_columns("saved_roadmaps")}
+        assert isinstance(roadmap_columns["plan"]["type"], JSONB)
+        assert isinstance(roadmap_columns["completed"]["type"], JSONB)
         assert analysis_columns["user_id"]["nullable"] is True
         assert any(
             foreign_key["name"] == "fk_analyses_user_id_users"
@@ -120,3 +178,5 @@ def test_application_flow_uses_postgresql() -> None:
                 delete(User).where(User.email.in_([email, second_email]))
             )
             session.commit()
+            assert session.scalar(select(SavedResume).where(SavedResume.user_id == registration.json()["id"])) is None
+            assert session.scalar(select(SavedRoadmap).where(SavedRoadmap.user_id == registration.json()["id"])) is None

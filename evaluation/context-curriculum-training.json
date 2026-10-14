@@ -1,0 +1,339 @@
+{
+  "scope": "Project labels and occupational weak supervision. Upper two encoder layers and a 24-label classifier are fine-tuned. No test selection.",
+  "seed": 20261013,
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "train_rows": 12053,
+  "development_rows": 3445,
+  "epochs": [
+    {
+      "epoch": 1,
+      "loss": 0.15922564745808454,
+      "seconds": 50.99,
+      "threshold": 0.9250000000000005,
+      "development": {
+        "cases": 3445,
+        "suggestions": 1489,
+        "unsupported": 137,
+        "expected": 2809,
+        "covered": 1348,
+        "precision": 0.908,
+        "coverage": 0.4799,
+        "f0_5": 0.7705,
+        "negative_cases": 1512,
+        "negative_errors": 81
+      }
+    },
+    {
+      "epoch": 2,
+      "loss": 0.02712280402204418,
+      "seconds": 51.36,
+      "threshold": 0.9500000000000006,
+      "development": {
+        "cases": 3445,
+        "suggestions": 1582,
+        "unsupported": 128,
+        "expected": 2809,
+        "covered": 1447,
+        "precision": 0.9191,
+        "coverage": 0.5151,
+        "f0_5": 0.7945,
+        "negative_cases": 1512,
+        "negative_errors": 68
+      }
+    },
+    {
+      "epoch": 3,
+      "loss": 0.008620295430363247,
+      "seconds": 51.45,
+      "threshold": 0.9500000000000006,
+      "development": {
+        "cases": 3445,
+        "suggestions": 1820,
+        "unsupported": 164,
+        "expected": 2809,
+        "covered": 1649,
+        "precision": 0.9099,
+        "coverage": 0.587,
+        "f0_5": 0.8197,
+        "negative_cases": 1512,
+        "negative_errors": 106
+      }
+    },
+    {
+      "epoch": 4,
+      "loss": 0.004095476204145211,
+      "seconds": 51.76,
+      "threshold": 0.9500000000000006,
+      "development": {
+        "cases": 3445,
+        "suggestions": 1880,
+        "unsupported": 211,
+        "expected": 2809,
+        "covered": 1662,
+        "precision": 0.8878,
+        "coverage": 0.5917,
+        "f0_5": 0.807,
+        "negative_cases": 1512,
+        "negative_errors": 168
+      }
+    },
+    {
+      "epoch": 5,
+      "loss": 0.0023636188993434596,
+      "seconds": 51.64,
+      "threshold": 0.9500000000000006,
+      "development": {
+        "cases": 3445,
+        "suggestions": 2171,
+        "unsupported": 343,
+        "expected": 2809,
+        "covered": 1821,
+        "precision": 0.842,
+        "coverage": 0.6483,
+        "f0_5": 0.7945,
+        "negative_cases": 1512,
+        "negative_errors": 276
+      }
+    },
+    {
+      "epoch": 6,
+      "loss": 0.0014073423822037784,
+      "seconds": 51.3,
+      "threshold": 0.9500000000000006,
+      "development": {
+        "cases": 3445,
+        "suggestions": 2097,
+        "unsupported": 260,
+        "expected": 2809,
+        "covered": 1830,
+        "precision": 0.876,
+        "coverage": 0.6515,
+        "f0_5": 0.8195,
+        "negative_cases": 1512,
+        "negative_errors": 195
+      }
+    },
+    {
+      "epoch": 7,
+      "loss": 0.0009394278159863468,
+      "seconds": 48.68,
+      "threshold": 0.9500000000000006,
+      "development": {
+        "cases": 3445,
+        "suggestions": 2157,
+        "unsupported": 272,
+        "expected": 2809,
+        "covered": 1878,
+        "precision": 0.8739,
+        "coverage": 0.6686,
+        "f0_5": 0.8233,
+        "negative_cases": 1512,
+        "negative_errors": 214
+      }
+    },
+    {
+      "epoch": 8,
+      "loss": 0.0008463905949350844,
+      "seconds": 81.46,
+      "threshold": 0.9500000000000006,
+      "development": {
+        "cases": 3445,
+        "suggestions": 2100,
+        "unsupported": 238,
+        "expected": 2809,
+        "covered": 1855,
+        "precision": 0.8867,
+        "coverage": 0.6604,
+        "f0_5": 0.8298,
+        "negative_cases": 1512,
+        "negative_errors": 171
+      }
+    },
+    {
+      "epoch": 9,
+      "loss": 0.000511993217941549,
+      "seconds": 73.66,
+      "threshold": 0.9500000000000006,
+      "development": {
+        "cases": 3445,
+        "suggestions": 2110,
+        "unsupported": 240,
+        "expected": 2809,
+        "covered": 1863,
+        "precision": 0.8863,
+        "coverage": 0.6632,
+        "f0_5": 0.8304,
+        "negative_cases": 1512,
+        "negative_errors": 196
+      }
+    },
+    {
+      "epoch": 10,
+      "loss": 0.00040948643882671664,
+      "seconds": 616.23,
+      "threshold": 0.9500000000000006,
+      "development": {
+        "cases": 3445,
+        "suggestions": 2297,
+        "unsupported": 355,
+        "expected": 2809,
+        "covered": 1935,
+        "precision": 0.8455,
+        "coverage": 0.6889,
+        "f0_5": 0.8087,
+        "negative_cases": 1512,
+        "negative_errors": 282
+      }
+    },
+    {
+      "epoch": 11,
+      "loss": 0.00021267326322504414,
+      "seconds": 21.98,
+      "threshold": 0.8750000000000004,
+      "development": {
+        "cases": 3445,
+        "suggestions": 2528,
+        "unsupported": 465,
+        "expected": 2809,
+        "covered": 2056,
+        "precision": 0.8161,
+        "coverage": 0.7319,
+        "f0_5": 0.7977,
+        "negative_cases": 1512,
+        "negative_errors": 385
+      }
+    },
+    {
+      "epoch": 12,
+      "loss": 0.001229657259511376,
+      "seconds": 22.17,
+      "threshold": 0.8750000000000004,
+      "development": {
+        "cases": 3445,
+        "suggestions": 2535,
+        "unsupported": 482,
+        "expected": 2809,
+        "covered": 2046,
+        "precision": 0.8099,
+        "coverage": 0.7284,
+        "f0_5": 0.7921,
+        "negative_cases": 1512,
+        "negative_errors": 387
+      }
+    },
+    {
+      "epoch": 13,
+      "loss": 0.0003777951218215466,
+      "seconds": 22.24,
+      "threshold": 0.9500000000000006,
+      "development": {
+        "cases": 3445,
+        "suggestions": 2351,
+        "unsupported": 401,
+        "expected": 2809,
+        "covered": 1943,
+        "precision": 0.8294,
+        "coverage": 0.6917,
+        "f0_5": 0.7977,
+        "negative_cases": 1512,
+        "negative_errors": 330
+      }
+    },
+    {
+      "epoch": 14,
+      "loss": 0.00021634716995774415,
+      "seconds": 28.16,
+      "threshold": 0.9250000000000005,
+      "development": {
+        "cases": 3445,
+        "suggestions": 2604,
+        "unsupported": 496,
+        "expected": 2809,
+        "covered": 2101,
+        "precision": 0.8095,
+        "coverage": 0.748,
+        "f0_5": 0.7964,
+        "negative_cases": 1512,
+        "negative_errors": 391
+      }
+    },
+    {
+      "epoch": 15,
+      "loss": 0.0001911091218065827,
+      "seconds": 30.74,
+      "threshold": 0.9500000000000006,
+      "development": {
+        "cases": 3445,
+        "suggestions": 2309,
+        "unsupported": 275,
+        "expected": 2809,
+        "covered": 2027,
+        "precision": 0.8809,
+        "coverage": 0.7216,
+        "f0_5": 0.8437,
+        "negative_cases": 1512,
+        "negative_errors": 189
+      }
+    },
+    {
+      "epoch": 16,
+      "loss": 0.00014270880000598912,
+      "seconds": 30.32,
+      "threshold": 0.9500000000000006,
+      "development": {
+        "cases": 3445,
+        "suggestions": 2185,
+        "unsupported": 209,
+        "expected": 2809,
+        "covered": 1969,
+        "precision": 0.9043,
+        "coverage": 0.701,
+        "f0_5": 0.8547,
+        "negative_cases": 1512,
+        "negative_errors": 155
+      }
+    }
+  ],
+  "config": {
+    "epochs": 16,
+    "batch_size": 24,
+    "max_length": 256,
+    "encoder_learning_rate": 2e-05,
+    "classifier_learning_rate": 0.001,
+    "weight_decay": 0.01,
+    "dropout": 0.2,
+    "frozen_lower_layers": 4,
+    "unitizer": "paragraphs-v2"
+  },
+  "versions": {
+    "torch": "2.7.1+cu126",
+    "transformers": "4.52.4",
+    "tokenizers": "0.21.4",
+    "onnxruntime": "1.30.0",
+    "numpy": "2.3.2"
+  },
+  "trained_parameters": 14194200,
+  "selected_epoch": 16,
+  "threshold": 0.9500000000000006,
+  "export_max_absolute_error": 2.956390380859375e-05,
+  "manifest": {
+    "architecture": "distilbert-duty-classifier",
+    "base_revision": "12040accade4e8a0f71eabdb258fecc2e7e948be",
+    "labels": ["Programming", "Debugging", "Software testing", "Interface design", "Deployment", "Data analysis", "Marketing communication", "Social media communication", "Presentation", "Customer support", "Written communication", "Empathy", "Conflict resolution", "Teamwork", "Active listening", "Time management", "Attention to detail", "Problem solving", "Teaching", "Negotiation", "Planning", "Research", "Adaptability", "Persistence"],
+    "max_length": 256,
+    "unitizer": "paragraphs-v2",
+    "threshold": 0.9500000000000006,
+    "selected_epoch": 16,
+    "data_sha256": {
+      "evaluation\\context-source-cases.json": "cb62e9ef4371ec7faea93527a563d2138bd3b28fe70d7bce38fbb3778de36bad",
+      "evaluation\\context-followup-cases.json": "2355df391d18636942f142031e4613b762902101cfdc12e2550695a9d2ea6010",
+      "evaluation\\context-curriculum-cases.json": "ae15e2be7cceaadc44c06713a7e51520f323ef20b86a1ab6368a580617cc1c8a"
+    },
+    "sha256": {
+      "model.onnx": "5ffadcf4e50aaed93a64251eba46e3e2dbfc89adabc87ff7f97a56200ae4b698",
+      "tokenizer.json": "851ca67100d372ca3ae031a6abd168f53489eebfd7d89523f35c5c9b4d372c3c"
+    },
+    "status": "candidate; not loaded by the application"
+  }
+}

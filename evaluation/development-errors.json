@@ -1,0 +1,56 @@
+{
+  "model_revision": "c405c29c94e49c8746940ca708c4158ff30adf823ca81a04fc31d8382a782896",
+  "split": "development",
+  "sentences": 2438,
+  "heads": {
+    "skill": {
+      "errors": {
+        "extra_predictions": 698,
+        "missed_without_overlap": 218,
+        "missed_with_overlap": 348
+      },
+      "recall_by_gold_length": {
+        "1": {
+          "gold": 145,
+          "exact": 85,
+          "recall": 0.586207
+        },
+        "2-3": {
+          "gold": 315,
+          "exact": 152,
+          "recall": 0.48254
+        },
+        "4+": {
+          "gold": 598,
+          "exact": 255,
+          "recall": 0.426421
+        }
+      }
+    },
+    "knowledge": {
+      "errors": {
+        "extra_predictions": 613,
+        "missed_without_overlap": 180,
+        "missed_with_overlap": 243
+      },
+      "recall_by_gold_length": {
+        "1": {
+          "gold": 558,
+          "exact": 387,
+          "recall": 0.693548
+        },
+        "2-3": {
+          "gold": 432,
+          "exact": 252,
+          "recall": 0.583333
+        },
+        "4+": {
+          "gold": 88,
+          "exact": 16,
+          "recall": 0.181818
+        }
+      }
+    }
+  },
+  "interpretation": "Overlapping misses indicate possible boundary/category errors, not a manually adjudicated cause. No test-set tuning."
+}

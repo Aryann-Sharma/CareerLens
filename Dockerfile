@@ -6,6 +6,10 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libgl1 libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN addgroup --system careerlens \
     && adduser --system --ingroup careerlens careerlens
 
@@ -16,6 +20,8 @@ RUN python -m pip install --upgrade pip \
 COPY alembic.ini ./alembic.ini
 COPY backend ./backend
 COPY frontend ./frontend
+
+RUN python -m backend.scripts.download_model
 
 RUN chown -R careerlens:careerlens /app
 

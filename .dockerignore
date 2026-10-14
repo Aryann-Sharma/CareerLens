@@ -1,12 +1,16 @@
 .git
 .github
 .venv
+.venv-training
+.models
+.data
 __pycache__
 *.py[codz]
 *.db
 .env
 .env.*
 .pytest_cache
+.review-tests
 test-results
 backend/tests
 e2e

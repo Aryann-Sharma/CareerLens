@@ -13,6 +13,8 @@ def save_analysis(
     user_skills: list[str],
     extracted_skills: list[str],
     result: MatchResult,
+    matching_details: dict | None = None,
+    extraction_details: dict | None = None,
 ) -> AnalysisRecord:
     record = AnalysisRecord(
         user_id=user_id,
@@ -22,6 +24,8 @@ def save_analysis(
         matched_skills=list(result["matched_skills"]),
         missing_skills=list(result["missing_skills"]),
         match_score=result["match_score"],
+        matching_details=matching_details,
+        extraction_details=extraction_details,
     )
     session.add(record)
 

@@ -1,0 +1,77 @@
+name: Context training
+
+on:
+  pull_request:
+    paths:
+      - "backend/ml/**"
+      - "backend/app/services/context_suggestions.py"
+      - "backend/app/services/job_document.py"
+      - "backend/app/services/semantic_matcher.py"
+      - "backend/app/services/model_assets.py"
+      - "backend/tests/test_context_source_data.py"
+      - "backend/tests/test_context_followup.py"
+      - "backend/tests/test_context_curriculum.py"
+      - "backend/app/services/duty_scope.py"
+      - "evaluation/context-*.json"
+      - ".github/workflows/context-training.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: context-training-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  source-experiment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements-dev.txt
+      - name: Install dependencies
+        run: python -m pip install -r backend/requirements-dev.txt
+      - name: Verify source corpus reproduction
+        run: |
+          python -m backend.ml.context_source_data --download
+          git diff --exit-code evaluation/context-source-cases.json
+      - name: Download sentence encoder
+        run: python -m backend.scripts.download_model
+      - name: Train both weighting variants
+        run: |
+          mkdir -p .review-tests/context-ci
+          python -m backend.ml.train_context_review --data evaluation/context-source-cases.json --output .models/context-head-source-v4 --report .review-tests/context-ci/context-source-results.json --previous-test evaluation/context-training-cases.json
+          python -m backend.ml.train_context_review --data evaluation/context-source-cases.json --output .models/context-head-source-balanced-v4 --report .review-tests/context-ci/context-source-balanced-results.json --previous-test evaluation/context-training-cases.json --balance-labels
+      - name: Check source separation and exported predictions
+        env:
+          RUN_SOURCE_HEAD_TESTS: "1"
+        run: python -m pytest backend/tests/test_context_source_data.py -q
+      - name: Train follow-up heads
+        run: |
+          python -m backend.ml.train_context_review --data evaluation/context-source-cases.json --output .models/context-head-sentences-v1 --report .review-tests/context-ci/context-sentence-results.json --previous-test evaluation/context-training-cases.json --balance-labels --sentence-context
+          python -m backend.ml.train_context_calibrated --report .review-tests/context-ci/context-calibrated-results.json
+      - name: Verify follow-up exports and scope checks
+        env:
+          RUN_FOLLOWUP_HEAD_TESTS: "1"
+          RUN_MODEL_TESTS: "1"
+        run: python -m pytest backend/tests/test_context_followup.py backend/tests/test_duty_scope.py backend/tests/test_context_curriculum.py -q
+      - name: Run additional source check
+        run: python -m backend.ml.evaluate_context_heads --output .review-tests/context-ci/context-final-results.json
+      - name: Upload experimental weights and reports
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: source-context-experiment
+          include-hidden-files: true
+          path: |
+            .models/context-head-source-v4/
+            .models/context-head-source-balanced-v4/
+            .models/context-head-sentences-v1/
+            .models/context-head-calibrated-v2/
+            .review-tests/context-ci/context-*.json
+          retention-days: 14

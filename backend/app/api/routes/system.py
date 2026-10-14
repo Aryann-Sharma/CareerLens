@@ -8,6 +8,8 @@ from sqlalchemy.orm import Session
 from backend.app.db.session import get_db
 from backend.app.models.analysis import AnalysisRecord
 from backend.app.models.user import User
+from backend.app.models.resume import SavedResume
+from backend.app.models.roadmap import SavedRoadmap
 
 router = APIRouter(tags=["system"])
 
@@ -25,6 +27,8 @@ def readiness_check(
     try:
         session.execute(select(User).limit(0))
         session.execute(select(AnalysisRecord).limit(0))
+        session.execute(select(SavedResume).limit(0))
+        session.execute(select(SavedRoadmap).limit(0))
     except SQLAlchemyError as error:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,

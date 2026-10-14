@@ -1,0 +1,3976 @@
+{
+  "base_model": "distilbert/distilbert-base-uncased",
+  "base_revision": "12040accade4e8a0f71eabdb258fecc2e7e948be",
+  "dataset": {
+    "repository": "https://github.com/kris927b/SkillSpan",
+    "revision": "2ccf3de5b5af7a5409b8dd814fb1315dd6e0ae1b",
+    "sha256": {
+      "train.json": "5e884c3426087d14fc437d328eb72132082edbfe1e776292ae0e6e9b36c1e1f6",
+      "dev.json": "3732937c6869fe191c749b4efe7ffd597ce84eea1192f09b7fe3bd1eb459e2b4",
+      "test.json": "8438eda34939a5877b984ea5daf9e6ff39b2d5c7e3d73cca0499d3de3784d24a",
+      "LICENSE": "c7843d7998182d06cfe6d0cf4b215d487595527dfcd3ddce6584a9fdb8f61416"
+    }
+  },
+  "split_audit": {
+    "train": {
+      "original": 4800,
+      "retained": 3943,
+      "duplicates_removed": 857
+    },
+    "dev": {
+      "original": 3174,
+      "retained": 2438,
+      "duplicates_removed": 736
+    },
+    "test": {
+      "original": 3569,
+      "retained": 2404,
+      "duplicates_removed": 1165
+    }
+  },
+  "encoding": "wordpieces-overlap-v1",
+  "training_chunks": 3964,
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "versions": {
+    "torch": "2.7.1+cu126",
+    "transformers": "4.52.4",
+    "tokenizers": "0.21.4",
+    "onnxruntime": "1.30.0"
+  },
+  "config": {
+    "epochs": 5,
+    "seed": 42,
+    "learning_rate": 3e-05,
+    "batch_size": 16,
+    "max_length": 256,
+    "stride": 32,
+    "weight_decay": 0.01,
+    "warmup_steps": 124
+  },
+  "selection": "highest development combined exact-span F1",
+  "epochs": [
+    {
+      "epoch": 1,
+      "loss": 0.29587911643208037,
+      "seconds": 31.006,
+      "development": {
+        "heads": {
+          "skill": {
+            "overall": {
+              "precision": 0.278926,
+              "recall": 0.255198,
+              "f1": 0.266535,
+              "tp": 270,
+              "fp": 698,
+              "fn": 788,
+              "support": 1058
+            },
+            "by_source": {
+              "house": {
+                "precision": 0.258206,
+                "recall": 0.224762,
+                "f1": 0.240326,
+                "tp": 118,
+                "fp": 339,
+                "fn": 407,
+                "support": 525
+              },
+              "tech": {
+                "precision": 0.297456,
+                "recall": 0.285178,
+                "f1": 0.291188,
+                "tp": 152,
+                "fp": 359,
+                "fn": 381,
+                "support": 533
+              }
+            },
+            "error_examples": [
+              {
+                "row": 4,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    8,
+                    10
+                  ],
+                  [
+                    11,
+                    12
+                  ],
+                  [
+                    12,
+                    13
+                  ]
+                ],
+                "predicted_spans": []
+              },
+              {
+                "row": 5,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    13,
+                    16
+                  ],
+                  [
+                    16,
+                    19
+                  ],
+                  [
+                    20,
+                    22
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    13,
+                    16
+                  ],
+                  [
+                    17,
+                    19
+                  ],
+                  [
+                    20,
+                    22
+                  ]
+                ]
+              },
+              {
+                "row": 7,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    8,
+                    14
+                  ]
+                ],
+                "predicted_spans": []
+              },
+              {
+                "row": 10,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    0,
+                    6
+                  ]
+                ],
+                "predicted_spans": []
+              },
+              {
+                "row": 11,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    18,
+                    23
+                  ],
+                  [
+                    26,
+                    30
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    0,
+                    3
+                  ],
+                  [
+                    18,
+                    23
+                  ],
+                  [
+                    26,
+                    30
+                  ]
+                ]
+              },
+              {
+                "row": 12,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    0,
+                    2
+                  ],
+                  [
+                    9,
+                    13
+                  ],
+                  [
+                    13,
+                    19
+                  ],
+                  [
+                    24,
+                    32
+                  ],
+                  [
+                    38,
+                    41
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    7,
+                    13
+                  ],
+                  [
+                    13,
+                    17
+                  ],
+                  [
+                    29,
+                    32
+                  ],
+                  [
+                    38,
+                    41
+                  ]
+                ]
+              },
+              {
+                "row": 13,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    0,
+                    6
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    0,
+                    2
+                  ],
+                  [
+                    2,
+                    6
+                  ]
+                ]
+              },
+              {
+                "row": 21,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    0,
+                    1
+                  ]
+                ],
+                "predicted_spans": []
+              },
+              {
+                "row": 23,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    1,
+                    2
+                  ],
+                  [
+                    4,
+                    6
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    1,
+                    6
+                  ]
+                ]
+              },
+              {
+                "row": 25,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    1,
+                    2
+                  ],
+                  [
+                    3,
+                    5
+                  ],
+                  [
+                    6,
+                    8
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    1,
+                    2
+                  ],
+                  [
+                    3,
+                    5
+                  ]
+                ]
+              }
+            ]
+          },
+          "knowledge": {
+            "overall": {
+              "precision": 0.453577,
+              "recall": 0.552876,
+              "f1": 0.498328,
+              "tp": 596,
+              "fp": 718,
+              "fn": 482,
+              "support": 1078
+            },
+            "by_source": {
+              "house": {
+                "precision": 0.360248,
+                "recall": 0.405594,
+                "f1": 0.381579,
+                "tp": 116,
+                "fp": 206,
+                "fn": 170,
+                "support": 286
+              },
+              "tech": {
+                "precision": 0.483871,
+                "recall": 0.606061,
+                "f1": 0.538117,
+                "tp": 480,
+                "fp": 512,
+                "fn": 312,
+                "support": 792
+              }
+            },
+            "error_examples": [
+              {
+                "row": 2,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    3
+                  ],
+                  [
+                    3,
+                    5
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    2,
+                    3
+                  ]
+                ]
+              },
+              {
+                "row": 3,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    2
+                  ],
+                  [
+                    2,
+                    3
+                  ],
+                  [
+                    3,
+                    4
+                  ],
+                  [
+                    4,
+                    5
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    2
+                  ],
+                  [
+                    2,
+                    3
+                  ],
+                  [
+                    3,
+                    5
+                  ]
+                ]
+              },
+              {
+                "row": 7,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    19,
+                    20
+                  ]
+                ],
+                "predicted_spans": []
+              },
+              {
+                "row": 8,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    5,
+                    9
+                  ],
+                  [
+                    13,
+                    22
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    5,
+                    7
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    13,
+                    15
+                  ],
+                  [
+                    16,
+                    17
+                  ],
+                  [
+                    18,
+                    20
+                  ]
+                ]
+              },
+              {
+                "row": 10,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    6,
+                    7
+                  ],
+                  [
+                    7,
+                    8
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    9,
+                    10
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    6,
+                    7
+                  ],
+                  [
+                    7,
+                    9
+                  ],
+                  [
+                    9,
+                    10
+                  ]
+                ]
+              },
+              {
+                "row": 11,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    5,
+                    9
+                  ],
+                  [
+                    11,
+                    16
+                  ],
+                  [
+                    34,
+                    35
+                  ],
+                  [
+                    35,
+                    36
+                  ],
+                  [
+                    37,
+                    38
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    5,
+                    7
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    11,
+                    12
+                  ],
+                  [
+                    13,
+                    15
+                  ],
+                  [
+                    19,
+                    21
+                  ],
+                  [
+                    27,
+                    28
+                  ],
+                  [
+                    34,
+                    35
+                  ],
+                  [
+                    37,
+                    38
+                  ]
+                ]
+              },
+              {
+                "row": 14,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    3,
+                    7
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    3,
+                    5
+                  ],
+                  [
+                    6,
+                    7
+                  ]
+                ]
+              },
+              {
+                "row": 16,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    3,
+                    5
+                  ],
+                  [
+                    6,
+                    7
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    11,
+                    15
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    3,
+                    5
+                  ],
+                  [
+                    6,
+                    7
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    11,
+                    14
+                  ]
+                ]
+              },
+              {
+                "row": 17,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    3,
+                    4
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    9,
+                    11
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    3,
+                    4
+                  ],
+                  [
+                    7,
+                    8
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    9,
+                    10
+                  ]
+                ]
+              },
+              {
+                "row": 18,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    2,
+                    3
+                  ],
+                  [
+                    3,
+                    4
+                  ],
+                  [
+                    4,
+                    5
+                  ],
+                  [
+                    6,
+                    9
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    2,
+                    3
+                  ],
+                  [
+                    3,
+                    5
+                  ],
+                  [
+                    6,
+                    7
+                  ]
+                ]
+              }
+            ]
+          }
+        },
+        "combined": {
+          "precision": 0.379492,
+          "recall": 0.405431,
+          "f1": 0.392033,
+          "tp": 866,
+          "fp": 1416,
+          "fn": 1270,
+          "support": 2136
+        }
+      }
+    },
+    {
+      "epoch": 2,
+      "loss": 0.11044337305300418,
+      "seconds": 30.391,
+      "development": {
+        "heads": {
+          "skill": {
+            "overall": {
+              "precision": 0.380117,
+              "recall": 0.430057,
+              "f1": 0.403548,
+              "tp": 455,
+              "fp": 742,
+              "fn": 603,
+              "support": 1058
+            },
+            "by_source": {
+              "house": {
+                "precision": 0.387792,
+                "recall": 0.411429,
+                "f1": 0.399261,
+                "tp": 216,
+                "fp": 341,
+                "fn": 309,
+                "support": 525
+              },
+              "tech": {
+                "precision": 0.373437,
+                "recall": 0.448405,
+                "f1": 0.407502,
+                "tp": 239,
+                "fp": 401,
+                "fn": 294,
+                "support": 533
+              }
+            },
+            "error_examples": [
+              {
+                "row": 4,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    8,
+                    10
+                  ],
+                  [
+                    11,
+                    12
+                  ],
+                  [
+                    12,
+                    13
+                  ]
+                ],
+                "predicted_spans": []
+              },
+              {
+                "row": 5,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    13,
+                    16
+                  ],
+                  [
+                    16,
+                    19
+                  ],
+                  [
+                    20,
+                    22
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    13,
+                    16
+                  ],
+                  [
+                    16,
+                    19
+                  ],
+                  [
+                    20,
+                    24
+                  ]
+                ]
+              },
+              {
+                "row": 6,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [],
+                "predicted_spans": [
+                  [
+                    11,
+                    13
+                  ],
+                  [
+                    14,
+                    20
+                  ]
+                ]
+              },
+              {
+                "row": 7,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    8,
+                    14
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    10,
+                    14
+                  ]
+                ]
+              },
+              {
+                "row": 10,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    0,
+                    6
+                  ]
+                ],
+                "predicted_spans": []
+              },
+              {
+                "row": 11,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    18,
+                    23
+                  ],
+                  [
+                    26,
+                    30
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    0,
+                    3
+                  ],
+                  [
+                    18,
+                    22
+                  ],
+                  [
+                    26,
+                    30
+                  ]
+                ]
+              },
+              {
+                "row": 12,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    0,
+                    2
+                  ],
+                  [
+                    9,
+                    13
+                  ],
+                  [
+                    13,
+                    19
+                  ],
+                  [
+                    24,
+                    32
+                  ],
+                  [
+                    38,
+                    41
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    7,
+                    13
+                  ],
+                  [
+                    13,
+                    19
+                  ],
+                  [
+                    28,
+                    32
+                  ],
+                  [
+                    38,
+                    44
+                  ]
+                ]
+              },
+              {
+                "row": 21,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    0,
+                    1
+                  ]
+                ],
+                "predicted_spans": []
+              },
+              {
+                "row": 23,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    1,
+                    2
+                  ],
+                  [
+                    4,
+                    6
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    1,
+                    6
+                  ]
+                ]
+              },
+              {
+                "row": 25,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    1,
+                    2
+                  ],
+                  [
+                    3,
+                    5
+                  ],
+                  [
+                    6,
+                    8
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    1,
+                    2
+                  ],
+                  [
+                    3,
+                    8
+                  ]
+                ]
+              }
+            ]
+          },
+          "knowledge": {
+            "overall": {
+              "precision": 0.494891,
+              "recall": 0.628942,
+              "f1": 0.553922,
+              "tp": 678,
+              "fp": 692,
+              "fn": 400,
+              "support": 1078
+            },
+            "by_source": {
+              "house": {
+                "precision": 0.389163,
+                "recall": 0.552448,
+                "f1": 0.456647,
+                "tp": 158,
+                "fp": 248,
+                "fn": 128,
+                "support": 286
+              },
+              "tech": {
+                "precision": 0.539419,
+                "recall": 0.656566,
+                "f1": 0.592255,
+                "tp": 520,
+                "fp": 444,
+                "fn": 272,
+                "support": 792
+              }
+            },
+            "error_examples": [
+              {
+                "row": 2,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    3
+                  ],
+                  [
+                    3,
+                    5
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    1,
+                    3
+                  ],
+                  [
+                    3,
+                    5
+                  ]
+                ]
+              },
+              {
+                "row": 7,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    19,
+                    20
+                  ]
+                ],
+                "predicted_spans": []
+              },
+              {
+                "row": 8,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    5,
+                    9
+                  ],
+                  [
+                    13,
+                    22
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    5,
+                    7
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    13,
+                    15
+                  ],
+                  [
+                    16,
+                    17
+                  ],
+                  [
+                    18,
+                    20
+                  ]
+                ]
+              },
+              {
+                "row": 9,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    7,
+                    9
+                  ],
+                  [
+                    9,
+                    11
+                  ],
+                  [
+                    12,
+                    13
+                  ],
+                  [
+                    13,
+                    14
+                  ],
+                  [
+                    15,
+                    16
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    7,
+                    9
+                  ],
+                  [
+                    9,
+                    11
+                  ],
+                  [
+                    12,
+                    13
+                  ],
+                  [
+                    13,
+                    15
+                  ],
+                  [
+                    15,
+                    16
+                  ]
+                ]
+              },
+              {
+                "row": 10,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    6,
+                    7
+                  ],
+                  [
+                    7,
+                    8
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    9,
+                    10
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    6,
+                    7
+                  ],
+                  [
+                    7,
+                    9
+                  ],
+                  [
+                    9,
+                    10
+                  ]
+                ]
+              },
+              {
+                "row": 11,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    5,
+                    9
+                  ],
+                  [
+                    11,
+                    16
+                  ],
+                  [
+                    34,
+                    35
+                  ],
+                  [
+                    35,
+                    36
+                  ],
+                  [
+                    37,
+                    38
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    5,
+                    7
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    11,
+                    12
+                  ],
+                  [
+                    13,
+                    15
+                  ]
+                ]
+              },
+              {
+                "row": 14,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    3,
+                    7
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    3,
+                    5
+                  ],
+                  [
+                    6,
+                    7
+                  ]
+                ]
+              },
+              {
+                "row": 16,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    3,
+                    5
+                  ],
+                  [
+                    6,
+                    7
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    11,
+                    15
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    3,
+                    5
+                  ],
+                  [
+                    6,
+                    7
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    11,
+                    14
+                  ]
+                ]
+              },
+              {
+                "row": 17,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    3,
+                    4
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    9,
+                    11
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    3,
+                    4
+                  ],
+                  [
+                    7,
+                    8
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    9,
+                    10
+                  ]
+                ]
+              },
+              {
+                "row": 18,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    2,
+                    3
+                  ],
+                  [
+                    3,
+                    4
+                  ],
+                  [
+                    4,
+                    5
+                  ],
+                  [
+                    6,
+                    9
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    2,
+                    3
+                  ],
+                  [
+                    3,
+                    5
+                  ],
+                  [
+                    6,
+                    7
+                  ]
+                ]
+              }
+            ]
+          }
+        },
+        "combined": {
+          "precision": 0.441371,
+          "recall": 0.530431,
+          "f1": 0.48182,
+          "tp": 1133,
+          "fp": 1434,
+          "fn": 1003,
+          "support": 2136
+        }
+      }
+    },
+    {
+      "epoch": 3,
+      "loss": 0.07157359358426484,
+      "seconds": 29.747,
+      "development": {
+        "heads": {
+          "skill": {
+            "overall": {
+              "precision": 0.408932,
+              "recall": 0.441399,
+              "f1": 0.424545,
+              "tp": 467,
+              "fp": 675,
+              "fn": 591,
+              "support": 1058
+            },
+            "by_source": {
+              "house": {
+                "precision": 0.415129,
+                "recall": 0.428571,
+                "f1": 0.421743,
+                "tp": 225,
+                "fp": 317,
+                "fn": 300,
+                "support": 525
+              },
+              "tech": {
+                "precision": 0.403333,
+                "recall": 0.454034,
+                "f1": 0.427184,
+                "tp": 242,
+                "fp": 358,
+                "fn": 291,
+                "support": 533
+              }
+            },
+            "error_examples": [
+              {
+                "row": 4,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    8,
+                    10
+                  ],
+                  [
+                    11,
+                    12
+                  ],
+                  [
+                    12,
+                    13
+                  ]
+                ],
+                "predicted_spans": []
+              },
+              {
+                "row": 5,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    13,
+                    16
+                  ],
+                  [
+                    16,
+                    19
+                  ],
+                  [
+                    20,
+                    22
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    13,
+                    19
+                  ],
+                  [
+                    20,
+                    24
+                  ]
+                ]
+              },
+              {
+                "row": 6,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [],
+                "predicted_spans": [
+                  [
+                    11,
+                    13
+                  ],
+                  [
+                    14,
+                    20
+                  ]
+                ]
+              },
+              {
+                "row": 10,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    0,
+                    6
+                  ]
+                ],
+                "predicted_spans": []
+              },
+              {
+                "row": 11,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    18,
+                    23
+                  ],
+                  [
+                    26,
+                    30
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    18,
+                    22
+                  ],
+                  [
+                    26,
+                    30
+                  ]
+                ]
+              },
+              {
+                "row": 12,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    0,
+                    2
+                  ],
+                  [
+                    9,
+                    13
+                  ],
+                  [
+                    13,
+                    19
+                  ],
+                  [
+                    24,
+                    32
+                  ],
+                  [
+                    38,
+                    41
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    7,
+                    13
+                  ],
+                  [
+                    13,
+                    19
+                  ],
+                  [
+                    28,
+                    32
+                  ],
+                  [
+                    39,
+                    44
+                  ]
+                ]
+              },
+              {
+                "row": 21,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    0,
+                    1
+                  ]
+                ],
+                "predicted_spans": []
+              },
+              {
+                "row": 23,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    1,
+                    2
+                  ],
+                  [
+                    4,
+                    6
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    1,
+                    6
+                  ]
+                ]
+              },
+              {
+                "row": 24,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    2,
+                    5
+                  ],
+                  [
+                    6,
+                    8
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    2,
+                    5
+                  ],
+                  [
+                    7,
+                    8
+                  ]
+                ]
+              },
+              {
+                "row": 25,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    1,
+                    2
+                  ],
+                  [
+                    3,
+                    5
+                  ],
+                  [
+                    6,
+                    8
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    1,
+                    2
+                  ],
+                  [
+                    3,
+                    8
+                  ]
+                ]
+              }
+            ]
+          },
+          "knowledge": {
+            "overall": {
+              "precision": 0.510903,
+              "recall": 0.608534,
+              "f1": 0.555461,
+              "tp": 656,
+              "fp": 628,
+              "fn": 422,
+              "support": 1078
+            },
+            "by_source": {
+              "house": {
+                "precision": 0.39548,
+                "recall": 0.48951,
+                "f1": 0.4375,
+                "tp": 140,
+                "fp": 214,
+                "fn": 146,
+                "support": 286
+              },
+              "tech": {
+                "precision": 0.554839,
+                "recall": 0.651515,
+                "f1": 0.599303,
+                "tp": 516,
+                "fp": 414,
+                "fn": 276,
+                "support": 792
+              }
+            },
+            "error_examples": [
+              {
+                "row": 2,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    3
+                  ],
+                  [
+                    3,
+                    5
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    2,
+                    3
+                  ],
+                  [
+                    3,
+                    5
+                  ]
+                ]
+              },
+              {
+                "row": 7,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    19,
+                    20
+                  ]
+                ],
+                "predicted_spans": []
+              },
+              {
+                "row": 8,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    5,
+                    9
+                  ],
+                  [
+                    13,
+                    22
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    5,
+                    7
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    13,
+                    15
+                  ],
+                  [
+                    16,
+                    17
+                  ],
+                  [
+                    18,
+                    20
+                  ]
+                ]
+              },
+              {
+                "row": 10,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    6,
+                    7
+                  ],
+                  [
+                    7,
+                    8
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    9,
+                    10
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    1,
+                    2
+                  ],
+                  [
+                    6,
+                    7
+                  ],
+                  [
+                    7,
+                    9
+                  ],
+                  [
+                    9,
+                    10
+                  ]
+                ]
+              },
+              {
+                "row": 11,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    5,
+                    9
+                  ],
+                  [
+                    11,
+                    16
+                  ],
+                  [
+                    34,
+                    35
+                  ],
+                  [
+                    35,
+                    36
+                  ],
+                  [
+                    37,
+                    38
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    5,
+                    7
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    11,
+                    12
+                  ],
+                  [
+                    13,
+                    15
+                  ],
+                  [
+                    34,
+                    35
+                  ]
+                ]
+              },
+              {
+                "row": 14,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    3,
+                    7
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    3,
+                    5
+                  ],
+                  [
+                    6,
+                    7
+                  ]
+                ]
+              },
+              {
+                "row": 15,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    2,
+                    3
+                  ],
+                  [
+                    13,
+                    14
+                  ],
+                  [
+                    14,
+                    15
+                  ],
+                  [
+                    15,
+                    16
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    13,
+                    14
+                  ],
+                  [
+                    14,
+                    15
+                  ],
+                  [
+                    15,
+                    16
+                  ]
+                ]
+              },
+              {
+                "row": 16,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    3,
+                    5
+                  ],
+                  [
+                    6,
+                    7
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    11,
+                    15
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    3,
+                    5
+                  ],
+                  [
+                    6,
+                    7
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    11,
+                    14
+                  ]
+                ]
+              },
+              {
+                "row": 17,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    3,
+                    4
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    9,
+                    11
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    3,
+                    4
+                  ],
+                  [
+                    7,
+                    8
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    9,
+                    10
+                  ]
+                ]
+              },
+              {
+                "row": 18,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    2,
+                    3
+                  ],
+                  [
+                    3,
+                    4
+                  ],
+                  [
+                    4,
+                    5
+                  ],
+                  [
+                    6,
+                    9
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    2,
+                    3
+                  ],
+                  [
+                    3,
+                    5
+                  ],
+                  [
+                    6,
+                    7
+                  ]
+                ]
+              }
+            ]
+          }
+        },
+        "combined": {
+          "precision": 0.462902,
+          "recall": 0.525749,
+          "f1": 0.492328,
+          "tp": 1123,
+          "fp": 1303,
+          "fn": 1013,
+          "support": 2136
+        }
+      }
+    },
+    {
+      "epoch": 4,
+      "loss": 0.04716721863951534,
+      "seconds": 30.112,
+      "development": {
+        "heads": {
+          "skill": {
+            "overall": {
+              "precision": 0.410078,
+              "recall": 0.446125,
+              "f1": 0.427343,
+              "tp": 472,
+              "fp": 679,
+              "fn": 586,
+              "support": 1058
+            },
+            "by_source": {
+              "house": {
+                "precision": 0.426497,
+                "recall": 0.447619,
+                "f1": 0.436803,
+                "tp": 235,
+                "fp": 316,
+                "fn": 290,
+                "support": 525
+              },
+              "tech": {
+                "precision": 0.395,
+                "recall": 0.444653,
+                "f1": 0.418358,
+                "tp": 237,
+                "fp": 363,
+                "fn": 296,
+                "support": 533
+              }
+            },
+            "error_examples": [
+              {
+                "row": 4,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    8,
+                    10
+                  ],
+                  [
+                    11,
+                    12
+                  ],
+                  [
+                    12,
+                    13
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    12,
+                    13
+                  ]
+                ]
+              },
+              {
+                "row": 5,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    13,
+                    16
+                  ],
+                  [
+                    16,
+                    19
+                  ],
+                  [
+                    20,
+                    22
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    13,
+                    19
+                  ],
+                  [
+                    20,
+                    24
+                  ]
+                ]
+              },
+              {
+                "row": 6,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [],
+                "predicted_spans": [
+                  [
+                    12,
+                    13
+                  ],
+                  [
+                    14,
+                    20
+                  ]
+                ]
+              },
+              {
+                "row": 10,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    0,
+                    6
+                  ]
+                ],
+                "predicted_spans": []
+              },
+              {
+                "row": 11,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    18,
+                    23
+                  ],
+                  [
+                    26,
+                    30
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    18,
+                    22
+                  ],
+                  [
+                    26,
+                    30
+                  ]
+                ]
+              },
+              {
+                "row": 12,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    0,
+                    2
+                  ],
+                  [
+                    9,
+                    13
+                  ],
+                  [
+                    13,
+                    19
+                  ],
+                  [
+                    24,
+                    32
+                  ],
+                  [
+                    38,
+                    41
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    7,
+                    13
+                  ],
+                  [
+                    13,
+                    19
+                  ],
+                  [
+                    28,
+                    32
+                  ],
+                  [
+                    38,
+                    44
+                  ]
+                ]
+              },
+              {
+                "row": 13,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    0,
+                    6
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    2,
+                    6
+                  ]
+                ]
+              },
+              {
+                "row": 21,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    0,
+                    1
+                  ]
+                ],
+                "predicted_spans": []
+              },
+              {
+                "row": 23,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    1,
+                    2
+                  ],
+                  [
+                    4,
+                    6
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    1,
+                    6
+                  ]
+                ]
+              },
+              {
+                "row": 24,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    2,
+                    5
+                  ],
+                  [
+                    6,
+                    8
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    2,
+                    5
+                  ],
+                  [
+                    7,
+                    8
+                  ]
+                ]
+              }
+            ]
+          },
+          "knowledge": {
+            "overall": {
+              "precision": 0.512598,
+              "recall": 0.603896,
+              "f1": 0.554514,
+              "tp": 651,
+              "fp": 619,
+              "fn": 427,
+              "support": 1078
+            },
+            "by_source": {
+              "house": {
+                "precision": 0.402235,
+                "recall": 0.503497,
+                "f1": 0.447205,
+                "tp": 144,
+                "fp": 214,
+                "fn": 142,
+                "support": 286
+              },
+              "tech": {
+                "precision": 0.555921,
+                "recall": 0.640152,
+                "f1": 0.59507,
+                "tp": 507,
+                "fp": 405,
+                "fn": 285,
+                "support": 792
+              }
+            },
+            "error_examples": [
+              {
+                "row": 2,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    3
+                  ],
+                  [
+                    3,
+                    5
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    1,
+                    3
+                  ],
+                  [
+                    3,
+                    5
+                  ]
+                ]
+              },
+              {
+                "row": 7,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    19,
+                    20
+                  ]
+                ],
+                "predicted_spans": []
+              },
+              {
+                "row": 8,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    5,
+                    9
+                  ],
+                  [
+                    13,
+                    22
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    5,
+                    7
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    13,
+                    15
+                  ],
+                  [
+                    16,
+                    17
+                  ],
+                  [
+                    18,
+                    20
+                  ]
+                ]
+              },
+              {
+                "row": 10,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    6,
+                    7
+                  ],
+                  [
+                    7,
+                    8
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    9,
+                    10
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    1,
+                    2
+                  ],
+                  [
+                    6,
+                    7
+                  ],
+                  [
+                    7,
+                    9
+                  ],
+                  [
+                    9,
+                    10
+                  ]
+                ]
+              },
+              {
+                "row": 11,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    5,
+                    9
+                  ],
+                  [
+                    11,
+                    16
+                  ],
+                  [
+                    34,
+                    35
+                  ],
+                  [
+                    35,
+                    36
+                  ],
+                  [
+                    37,
+                    38
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    5,
+                    7
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    11,
+                    12
+                  ],
+                  [
+                    13,
+                    15
+                  ],
+                  [
+                    34,
+                    35
+                  ]
+                ]
+              },
+              {
+                "row": 14,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    3,
+                    7
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    3,
+                    6
+                  ],
+                  [
+                    6,
+                    7
+                  ]
+                ]
+              },
+              {
+                "row": 16,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    3,
+                    5
+                  ],
+                  [
+                    6,
+                    7
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    11,
+                    15
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    3,
+                    5
+                  ],
+                  [
+                    6,
+                    7
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    11,
+                    14
+                  ]
+                ]
+              },
+              {
+                "row": 17,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    3,
+                    4
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    9,
+                    11
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    3,
+                    4
+                  ],
+                  [
+                    7,
+                    8
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    9,
+                    10
+                  ]
+                ]
+              },
+              {
+                "row": 18,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    2,
+                    3
+                  ],
+                  [
+                    3,
+                    4
+                  ],
+                  [
+                    4,
+                    5
+                  ],
+                  [
+                    6,
+                    9
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    2,
+                    3
+                  ],
+                  [
+                    3,
+                    5
+                  ],
+                  [
+                    6,
+                    7
+                  ]
+                ]
+              },
+              {
+                "row": 20,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    2,
+                    3
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    2,
+                    3
+                  ]
+                ]
+              }
+            ]
+          }
+        },
+        "combined": {
+          "precision": 0.463858,
+          "recall": 0.525749,
+          "f1": 0.492868,
+          "tp": 1123,
+          "fp": 1298,
+          "fn": 1013,
+          "support": 2136
+        }
+      }
+    },
+    {
+      "epoch": 5,
+      "loss": 0.036047027264195945,
+      "seconds": 31.981,
+      "development": {
+        "heads": {
+          "skill": {
+            "overall": {
+              "precision": 0.413445,
+              "recall": 0.465028,
+              "f1": 0.437722,
+              "tp": 492,
+              "fp": 698,
+              "fn": 566,
+              "support": 1058
+            },
+            "by_source": {
+              "house": {
+                "precision": 0.434859,
+                "recall": 0.470476,
+                "f1": 0.451967,
+                "tp": 247,
+                "fp": 321,
+                "fn": 278,
+                "support": 525
+              },
+              "tech": {
+                "precision": 0.393891,
+                "recall": 0.459662,
+                "f1": 0.424242,
+                "tp": 245,
+                "fp": 377,
+                "fn": 288,
+                "support": 533
+              }
+            },
+            "error_examples": [
+              {
+                "row": 4,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    8,
+                    10
+                  ],
+                  [
+                    11,
+                    12
+                  ],
+                  [
+                    12,
+                    13
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    12,
+                    13
+                  ]
+                ]
+              },
+              {
+                "row": 5,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    13,
+                    16
+                  ],
+                  [
+                    16,
+                    19
+                  ],
+                  [
+                    20,
+                    22
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    13,
+                    19
+                  ],
+                  [
+                    20,
+                    24
+                  ]
+                ]
+              },
+              {
+                "row": 6,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [],
+                "predicted_spans": [
+                  [
+                    11,
+                    13
+                  ],
+                  [
+                    14,
+                    20
+                  ]
+                ]
+              },
+              {
+                "row": 10,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    0,
+                    6
+                  ]
+                ],
+                "predicted_spans": []
+              },
+              {
+                "row": 11,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    18,
+                    23
+                  ],
+                  [
+                    26,
+                    30
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    18,
+                    22
+                  ],
+                  [
+                    26,
+                    30
+                  ]
+                ]
+              },
+              {
+                "row": 12,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    0,
+                    2
+                  ],
+                  [
+                    9,
+                    13
+                  ],
+                  [
+                    13,
+                    19
+                  ],
+                  [
+                    24,
+                    32
+                  ],
+                  [
+                    38,
+                    41
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    7,
+                    13
+                  ],
+                  [
+                    13,
+                    19
+                  ],
+                  [
+                    28,
+                    32
+                  ],
+                  [
+                    38,
+                    44
+                  ]
+                ]
+              },
+              {
+                "row": 21,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    0,
+                    1
+                  ]
+                ],
+                "predicted_spans": []
+              },
+              {
+                "row": 23,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    1,
+                    2
+                  ],
+                  [
+                    4,
+                    6
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    1,
+                    6
+                  ]
+                ]
+              },
+              {
+                "row": 24,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    2,
+                    5
+                  ],
+                  [
+                    6,
+                    8
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    2,
+                    5
+                  ],
+                  [
+                    7,
+                    8
+                  ]
+                ]
+              },
+              {
+                "row": 25,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    1,
+                    2
+                  ],
+                  [
+                    3,
+                    5
+                  ],
+                  [
+                    6,
+                    8
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    1,
+                    2
+                  ],
+                  [
+                    3,
+                    7
+                  ]
+                ]
+              }
+            ]
+          },
+          "knowledge": {
+            "overall": {
+              "precision": 0.516562,
+              "recall": 0.607607,
+              "f1": 0.558397,
+              "tp": 655,
+              "fp": 613,
+              "fn": 423,
+              "support": 1078
+            },
+            "by_source": {
+              "house": {
+                "precision": 0.405714,
+                "recall": 0.496503,
+                "f1": 0.446541,
+                "tp": 142,
+                "fp": 208,
+                "fn": 144,
+                "support": 286
+              },
+              "tech": {
+                "precision": 0.558824,
+                "recall": 0.647727,
+                "f1": 0.6,
+                "tp": 513,
+                "fp": 405,
+                "fn": 279,
+                "support": 792
+              }
+            },
+            "error_examples": [
+              {
+                "row": 2,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    1,
+                    3
+                  ],
+                  [
+                    3,
+                    5
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    1,
+                    3
+                  ],
+                  [
+                    3,
+                    5
+                  ]
+                ]
+              },
+              {
+                "row": 7,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    19,
+                    20
+                  ]
+                ],
+                "predicted_spans": []
+              },
+              {
+                "row": 8,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    5,
+                    9
+                  ],
+                  [
+                    13,
+                    22
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    5,
+                    7
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    13,
+                    15
+                  ],
+                  [
+                    16,
+                    17
+                  ],
+                  [
+                    18,
+                    20
+                  ]
+                ]
+              },
+              {
+                "row": 10,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    6,
+                    7
+                  ],
+                  [
+                    7,
+                    8
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    9,
+                    10
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    1,
+                    2
+                  ],
+                  [
+                    6,
+                    7
+                  ],
+                  [
+                    7,
+                    9
+                  ],
+                  [
+                    9,
+                    10
+                  ]
+                ]
+              },
+              {
+                "row": 11,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    5,
+                    9
+                  ],
+                  [
+                    11,
+                    16
+                  ],
+                  [
+                    34,
+                    35
+                  ],
+                  [
+                    35,
+                    36
+                  ],
+                  [
+                    37,
+                    38
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    5,
+                    7
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    11,
+                    12
+                  ],
+                  [
+                    13,
+                    15
+                  ],
+                  [
+                    34,
+                    35
+                  ]
+                ]
+              },
+              {
+                "row": 16,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    3,
+                    5
+                  ],
+                  [
+                    6,
+                    7
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    11,
+                    15
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    3,
+                    5
+                  ],
+                  [
+                    6,
+                    7
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    11,
+                    14
+                  ]
+                ]
+              },
+              {
+                "row": 17,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    3,
+                    4
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    9,
+                    11
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    3,
+                    4
+                  ],
+                  [
+                    7,
+                    8
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    9,
+                    10
+                  ]
+                ]
+              },
+              {
+                "row": 18,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    2,
+                    3
+                  ],
+                  [
+                    3,
+                    4
+                  ],
+                  [
+                    4,
+                    5
+                  ],
+                  [
+                    6,
+                    9
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    2,
+                    3
+                  ],
+                  [
+                    3,
+                    5
+                  ],
+                  [
+                    6,
+                    7
+                  ]
+                ]
+              },
+              {
+                "row": 20,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    2,
+                    3
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    0,
+                    1
+                  ],
+                  [
+                    2,
+                    3
+                  ]
+                ]
+              },
+              {
+                "row": 21,
+                "posting": 1,
+                "source": "tech",
+                "expected_spans": [
+                  [
+                    5,
+                    7
+                  ]
+                ],
+                "predicted_spans": [
+                  [
+                    4,
+                    7
+                  ],
+                  [
+                    8,
+                    10
+                  ]
+                ]
+              }
+            ]
+          }
+        },
+        "combined": {
+          "precision": 0.46664,
+          "recall": 0.536985,
+          "f1": 0.499347,
+          "tp": 1147,
+          "fp": 1311,
+          "fn": 989,
+          "support": 2136
+        }
+      }
+    }
+  ],
+  "selected_epoch": 5,
+  "test": {
+    "heads": {
+      "skill": {
+        "overall": {
+          "precision": 0.404891,
+          "recall": 0.429395,
+          "f1": 0.416783,
+          "tp": 447,
+          "fp": 657,
+          "fn": 594,
+          "support": 1041
+        },
+        "by_source": {
+          "house": {
+            "precision": 0.431008,
+            "recall": 0.430341,
+            "f1": 0.430674,
+            "tp": 278,
+            "fp": 367,
+            "fn": 368,
+            "support": 646
+          },
+          "tech": {
+            "precision": 0.368192,
+            "recall": 0.427848,
+            "f1": 0.395785,
+            "tp": 169,
+            "fp": 290,
+            "fn": 226,
+            "support": 395
+          }
+        },
+        "error_examples": [
+          {
+            "row": 11,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [
+              [
+                5,
+                6
+              ],
+              [
+                20,
+                26
+              ]
+            ],
+            "predicted_spans": [
+              [
+                5,
+                6
+              ]
+            ]
+          },
+          {
+            "row": 14,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [],
+            "predicted_spans": [
+              [
+                18,
+                24
+              ],
+              [
+                28,
+                32
+              ]
+            ]
+          },
+          {
+            "row": 18,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [
+              [
+                5,
+                7
+              ]
+            ],
+            "predicted_spans": []
+          },
+          {
+            "row": 20,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [
+              [
+                4,
+                9
+              ],
+              [
+                10,
+                13
+              ],
+              [
+                16,
+                20
+              ]
+            ],
+            "predicted_spans": [
+              [
+                4,
+                9
+              ],
+              [
+                12,
+                13
+              ],
+              [
+                16,
+                20
+              ]
+            ]
+          },
+          {
+            "row": 37,
+            "posting": 3,
+            "source": "tech",
+            "expected_spans": [],
+            "predicted_spans": [
+              [
+                13,
+                18
+              ]
+            ]
+          },
+          {
+            "row": 38,
+            "posting": 3,
+            "source": "tech",
+            "expected_spans": [
+              [
+                0,
+                4
+              ]
+            ],
+            "predicted_spans": [
+              [
+                0,
+                4
+              ],
+              [
+                40,
+                42
+              ]
+            ]
+          },
+          {
+            "row": 39,
+            "posting": 3,
+            "source": "tech",
+            "expected_spans": [
+              [
+                0,
+                10
+              ]
+            ],
+            "predicted_spans": [
+              [
+                0,
+                8
+              ],
+              [
+                9,
+                10
+              ]
+            ]
+          },
+          {
+            "row": 42,
+            "posting": 3,
+            "source": "tech",
+            "expected_spans": [
+              [
+                0,
+                2
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                6,
+                13
+              ],
+              [
+                13,
+                17
+              ],
+              [
+                18,
+                23
+              ]
+            ],
+            "predicted_spans": [
+              [
+                0,
+                5
+              ],
+              [
+                6,
+                12
+              ],
+              [
+                13,
+                20
+              ]
+            ]
+          },
+          {
+            "row": 43,
+            "posting": 3,
+            "source": "tech",
+            "expected_spans": [
+              [
+                3,
+                15
+              ]
+            ],
+            "predicted_spans": [
+              [
+                3,
+                11
+              ]
+            ]
+          },
+          {
+            "row": 67,
+            "posting": 4,
+            "source": "tech",
+            "expected_spans": [
+              [
+                22,
+                25
+              ]
+            ],
+            "predicted_spans": [
+              [
+                22,
+                30
+              ]
+            ]
+          }
+        ]
+      },
+      "knowledge": {
+        "overall": {
+          "precision": 0.518647,
+          "recall": 0.60161,
+          "f1": 0.557056,
+          "tp": 598,
+          "fp": 555,
+          "fn": 396,
+          "support": 994
+        },
+        "by_source": {
+          "house": {
+            "precision": 0.448347,
+            "recall": 0.596154,
+            "f1": 0.511792,
+            "tp": 217,
+            "fp": 267,
+            "fn": 147,
+            "support": 364
+          },
+          "tech": {
+            "precision": 0.569507,
+            "recall": 0.604762,
+            "f1": 0.586605,
+            "tp": 381,
+            "fp": 288,
+            "fn": 249,
+            "support": 630
+          }
+        },
+        "error_examples": [
+          {
+            "row": 14,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [],
+            "predicted_spans": [
+              [
+                11,
+                14
+              ],
+              [
+                15,
+                17
+              ]
+            ]
+          },
+          {
+            "row": 16,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [
+              [
+                5,
+                11
+              ]
+            ],
+            "predicted_spans": [
+              [
+                5,
+                7
+              ],
+              [
+                8,
+                10
+              ]
+            ]
+          },
+          {
+            "row": 17,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [
+              [
+                4,
+                5
+              ],
+              [
+                6,
+                7
+              ]
+            ],
+            "predicted_spans": [
+              [
+                4,
+                6
+              ],
+              [
+                6,
+                7
+              ]
+            ]
+          },
+          {
+            "row": 18,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [],
+            "predicted_spans": [
+              [
+                5,
+                7
+              ]
+            ]
+          },
+          {
+            "row": 21,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [
+              [
+                11,
+                12
+              ],
+              [
+                13,
+                14
+              ]
+            ],
+            "predicted_spans": [
+              [
+                7,
+                10
+              ],
+              [
+                11,
+                12
+              ],
+              [
+                13,
+                14
+              ]
+            ]
+          },
+          {
+            "row": 25,
+            "posting": 1,
+            "source": "tech",
+            "expected_spans": [
+              [
+                2,
+                11
+              ],
+              [
+                12,
+                13
+              ]
+            ],
+            "predicted_spans": [
+              [
+                2,
+                4
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                12,
+                13
+              ]
+            ]
+          },
+          {
+            "row": 28,
+            "posting": 2,
+            "source": "tech",
+            "expected_spans": [
+              [
+                1,
+                2
+              ],
+              [
+                2,
+                4
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                5,
+                6
+              ],
+              [
+                6,
+                7
+              ],
+              [
+                7,
+                8
+              ]
+            ],
+            "predicted_spans": [
+              [
+                1,
+                2
+              ],
+              [
+                2,
+                4
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                5,
+                8
+              ]
+            ]
+          },
+          {
+            "row": 33,
+            "posting": 3,
+            "source": "tech",
+            "expected_spans": [
+              [
+                1,
+                3
+              ],
+              [
+                3,
+                4
+              ],
+              [
+                4,
+                5
+              ]
+            ],
+            "predicted_spans": [
+              [
+                1,
+                3
+              ]
+            ]
+          },
+          {
+            "row": 34,
+            "posting": 3,
+            "source": "tech",
+            "expected_spans": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                3
+              ],
+              [
+                3,
+                4
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                5,
+                6
+              ]
+            ],
+            "predicted_spans": [
+              [
+                0,
+                3
+              ],
+              [
+                3,
+                4
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                5,
+                6
+              ]
+            ]
+          },
+          {
+            "row": 38,
+            "posting": 3,
+            "source": "tech",
+            "expected_spans": [
+              [
+                7,
+                8
+              ],
+              [
+                12,
+                14
+              ],
+              [
+                14,
+                15
+              ],
+              [
+                15,
+                17
+              ],
+              [
+                17,
+                18
+              ],
+              [
+                19,
+                21
+              ]
+            ],
+            "predicted_spans": [
+              [
+                7,
+                8
+              ],
+              [
+                12,
+                13
+              ],
+              [
+                13,
+                14
+              ],
+              [
+                14,
+                15
+              ],
+              [
+                15,
+                17
+              ],
+              [
+                17,
+                18
+              ],
+              [
+                19,
+                21
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "combined": {
+      "precision": 0.463004,
+      "recall": 0.513514,
+      "f1": 0.486952,
+      "tp": 1045,
+      "fp": 1212,
+      "fn": 990,
+      "support": 2035
+    }
+  },
+  "test_cpu_seconds": 74.307,
+  "export_max_absolute_error": 9.298324584960938e-06,
+  "model": {
+    "format_version": 2,
+    "model": "skillspan-distilbert-v1",
+    "encoding": "wordpieces-overlap-v1",
+    "base_model": "distilbert/distilbert-base-uncased",
+    "base_revision": "12040accade4e8a0f71eabdb258fecc2e7e948be",
+    "dataset_revision": "2ccf3de5b5af7a5409b8dd814fb1315dd6e0ae1b",
+    "heads": [
+      "skill",
+      "knowledge"
+    ],
+    "labels": [
+      "O",
+      "B",
+      "I"
+    ],
+    "selected_epoch": 5,
+    "max_length": 256,
+    "stride": 32,
+    "sha256": {
+      "model.onnx": "d38141103d622c2f03ab549daf4f76a313cbc0fbb49f9c8394e30e8ef3d7f48d",
+      "tokenizer.json": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66"
+    }
+  }
+}

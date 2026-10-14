@@ -44,6 +44,8 @@ class AnalysisRecord(Base):
     matched_skills: Mapped[list[str]] = mapped_column(skill_list_type, nullable=False)
     missing_skills: Mapped[list[str]] = mapped_column(skill_list_type, nullable=False)
     match_score: Mapped[int] = mapped_column(SmallInteger, nullable=False)
+    matching_details: Mapped[dict | None] = mapped_column(skill_list_type, nullable=True)
+    extraction_details: Mapped[dict | None] = mapped_column(skill_list_type, nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=False,

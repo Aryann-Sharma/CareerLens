@@ -5,6 +5,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from backend.app.db.session import get_db
 from backend.app.main import app
+from backend.app.models import SavedRoadmap
 
 
 def test_liveness_check_does_not_require_database(client: TestClient) -> None:
@@ -39,3 +40,10 @@ def test_readiness_check_reports_database_failure(client: TestClient) -> None:
 
     assert response.status_code == 503
     assert response.json() == {"detail": "Database unavailable or schema not ready"}
+
+
+def test_readiness_requires_the_saved_roadmap_migration(client, db_session):
+    SavedRoadmap.__table__.drop(db_session.get_bind())
+    assert client.get("/health/ready").status_code == 503
+    SavedRoadmap.__table__.create(db_session.get_bind())
+    assert client.get("/health/ready").status_code == 200

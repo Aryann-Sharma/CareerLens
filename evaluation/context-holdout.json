@@ -1,0 +1,27 @@
+{
+  "description": "Project-authored evaluation cases written after fixing the initial retrieval thresholds. Labels are intended interpretations, not independent expert annotations. Do not use these cases to claim general language understanding.",
+  "cases": [
+    {"id":"release-humour","text":"Release engineer. Stop Friday releases from becoming weekend archaeology. Roll out updates safely and recover the service after failed deployments.","expected":["Deployment"],"acceptable":["Software testing","Debugging"]},
+    {"id":"numbers-humour","text":"Business analyst. Our spreadsheet tells a different story every Monday. Find patterns in revenue figures and explain the changes to management.","expected":["Data analysis"],"acceptable":["Presentation","Research"]},
+    {"id":"design-humour","text":"Product designer. Rescue visitors from our maze of menus. Rework navigation and screen layouts after observing where users get stuck.","expected":["Interface design"],"acceptable":["Research","Problem solving"]},
+    {"id":"writing-humour","text":"Technical writer. Translate the engineers' alphabet soup into instructions a first-time user can follow. Make the written steps clear and consistent.","expected":["Written communication"],"acceptable":["Teaching","Attention to detail"]},
+    {"id":"sales-humour","text":"Account executive. Customers have champagne expectations and a lemonade budget. Agree realistic prices and delivery terms with them.","expected":["Negotiation"],"acceptable":["Customer support"]},
+    {"id":"team-humour","text":"Delivery coordinator. Finance and engineering sometimes speak different languages. Help them agree how to share the workload and resolve disagreements.","expected":["Conflict resolution"],"acceptable":["Teamwork","Negotiation","Planning"]},
+    {"id":"support-indirect","text":"Service desk. A caller is upset because an update changed their settings. Hear them out and walk them through restoring the options they need.","expected":["Customer support"],"acceptable":["Empathy","Active listening","Teaching"]},
+    {"id":"training-indirect","text":"Warehouse trainer. Demonstrate how new employees should use the scanner and let them practise until they can complete the process independently.","expected":["Teaching"],"acceptable":[]},
+    {"id":"testing-indirect","text":"Quality engineer. Try unusual inputs and repeat yesterday's failure to confirm the patch solves it without breaking existing behaviour.","expected":["Software testing"],"acceptable":["Debugging","Problem solving"]},
+    {"id":"research-indirect","text":"Policy assistant. Compare evidence from several credible publications and produce a summary of where the findings agree or conflict.","expected":["Research"],"acceptable":["Written communication","Data analysis"]},
+    {"id":"details-indirect","text":"Payroll administrator. Verify employee records against the original forms and catch discrepancies before payments are approved.","expected":["Attention to detail"],"acceptable":[]},
+    {"id":"schedule-indirect","text":"Events assistant. Handle urgent requests while maintaining the delivery schedule. Decide which tasks need attention first when deadlines overlap.","expected":["Time management"],"acceptable":["Planning","Adaptability"]},
+    {"id":"social-indirect","text":"Community coordinator. Write updates for our Instagram account and respond to followers' comments in the brand's voice.","expected":["Social media communication"],"acceptable":["Written communication","Marketing communication","Customer support"]},
+    {"id":"programming-typos","text":"Sofware developer. Write application code to support new features and improve the structure of existing modules.","expected":["Programming"],"acceptable":[]},
+    {"id":"service-typos","text":"Customer suport specialist. Help customers resolve product difficulties and explain the necessary steps in a friendly way.","expected":["Customer support"],"acceptable":["Written communication","Teaching","Empathy"]},
+    {"id":"negated-responsibility","text":"This role does not involve writing code or fixing software bugs. You will not be expected to present to clients.","expected":[],"acceptable":[]},
+    {"id":"benefit-unrelated","text":"Perks:\nJoin our writing club and learn presentation skills during optional lunchtime sessions.\nHow to apply:\nSend a polite email explaining why you like our company.","expected":[],"acceptable":[]},
+    {"id":"generic-praise","text":"We are a fun and exciting business looking for a rockstar who is amazing at everything.","expected":[],"acceptable":[]},
+    {"id":"sarcastic-without-duty","text":"Professional chair warmer wanted. Must master the art of looking busy while the kettle boils.","expected":[],"acceptable":[]},
+    {"id":"reversed-expectation","text":"We definitely do not need another genius who deletes the database. No programming or database skills are required.","expected":[],"acceptable":[]},
+    {"id":"appearance","text":"We want someone who looks good in photographs and always wears a smart jacket.","expected":[],"acceptable":[]},
+    {"id":"weather","text":"The rain stopped just before lunch and we saw a rainbow over the car park.","expected":[],"acceptable":[]}
+  ]
+}

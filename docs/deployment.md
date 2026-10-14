@@ -4,6 +4,18 @@ CareerLens is packaged as one web application container. A production deployment
 should run that container behind an HTTPS proxy and connect it to a managed
 PostgreSQL database.
 
+This is setup guidance, not a record of a completed public deployment. Local
+SQLite and PostgreSQL workflows have been tested. Docker runtime checks have
+not been performed on the development machine because Docker is not installed;
+the repository includes a container-build check in its CI configuration.
+
+The image downloads a pinned MiniLM model during the build and stores it under
+`/app/.models/minilm`. This adds roughly 90 MB of weights and requires outbound
+access to the public model repository at build time. Analysis requests run on
+the container's CPU without external inference calls. Catalog extraction with
+exact matching works without model files. The contextual extractor needs a
+separately installed artifact, as described below.
+
 ```text
 Browser → HTTPS proxy → CareerLens container → PostgreSQL
 ```
@@ -52,6 +64,8 @@ not commit production values to Git.
 | `DATABASE_URL` | PostgreSQL connection URL using the `postgresql+psycopg://` driver. |
 | `AUTH_SECRET_KEY` | Random secret of at least 32 characters used to sign sessions. |
 | `AUTH_TOKEN_EXPIRE_MINUTES` | Session lifetime in minutes. Defaults to `60`. |
+| `SEMANTIC_MODEL_PATH` | Optional local model directory. Defaults to `.models/minilm` relative to the working directory. |
+| `EXTRACTION_MODEL_PATH` | Local trained extractor directory. Defaults to `.models/skillspan-distilbert`; mount its verified files separately. |
 
 Production startup is rejected when the development signing secret or a
 database URL without the `postgresql+psycopg://` driver is used. `ENVIRONMENT`
@@ -83,15 +97,58 @@ adding unrelated process-management tools to the image.
 - `/health/ready` queries the user and analysis table columns without fetching
   rows. It returns `503` if the database is unavailable or the required schema
   is missing. It does not replace the migration consistency check.
+  This endpoint checks database readiness; it does not load the semantic model.
 - `/health` remains available as the original liveness endpoint.
 
+## Trained extraction model
+
+The standard image includes extraction runtimes but not custom trained weights.
+Follow the [contextual training guide](contextual-model.md), then mount the model
+directory read-only and set `EXTRACTION_MODEL_PATH` to its container path. Include
+`model.onnx`, `tokenizer.json`, `manifest.json`, `SKILLSPAN-LICENSE`, and
+`BASE-MODEL-LICENSE`. Keep the report with the artifact. PyTorch and training data
+are not needed for inference. The CRF baseline remains supported with its own
+manifest and two `.crfsuite` files.
+
+Restart the application when replacing weights because model bytes are cached.
+The loader verifies the manifest and weight checksums. An absent or invalid model
+returns `503` for trained extraction requests. Select **Find listed technical skills**
+to analyze or import a PDF without the weights. Database readiness does not verify
+models. The UI defaults to trained extraction, so install its artifact before
+expecting that default flow to work. Check extraction, source evidence, correction,
+PDF import, and deletion locally after changing model files.
+
+PDF parsing accepts up to 5 MB and 10 pages, runs in a separate process with a
+12-second timeout, and limits decompression. Scanned résumé PDFs remain unsupported. Importing alone does not store the upload. Signed-in users can explicitly save
+one PDF and its extracted text in the `saved_resumes` table (migration `0006`).
+Replacement and deletion remove the previous copy from the active database;
+backups may retain it until their retention period ends. Treat database backups
+as private documents too, restrict database access, and use encrypted storage
+on a public host. The app does not provide separate encryption for PDF columns.
+Downloads and reuse require the owner's session. Test save, reload, reuse,
+replacement, and deletion after applying the migration. A future
+public host also needs request rate limits and an appropriate process/container
+memory limit. Public deployment has not been performed for this iteration.
+
 ## Post-deployment checks
+
+Saved roadmaps use migration `0007`. Apply `alembic upgrade head` before starting
+the updated server. Readiness checks now include the `saved_roadmaps` table.
+Each record contains private learning steps, a name, and progress, so include it
+in database backups and the same access controls as analysis history. Deleting
+a roadmap removes the active record; backups follow their own retention policy.
+Check save, refresh, reopen, rename, progress updates, deletion, and isolation
+between two test accounts after upgrading. Concurrent-tab conflicts should
+return `409` without overwriting progress.
 
 After each deployment:
 
 1. Confirm `/health/live` and `/health/ready` return `200`.
-2. Register a temporary account through the browser.
-3. Run one job-description analysis and confirm it appears in history.
+2. Analyze a role without an account, then select **Save analysis** and register a
+   temporary account. Confirm that the displayed result is saved once.
+3. Use semantic matching with SQL in the description and “writing relational
+   database queries” in the profile. Confirm the suggestion and exact baseline
+   appear, then reopen the saved record to verify its explanation.
 4. Log out and back in to confirm secure session cookies work through HTTPS.
 5. Check that application logs contain no startup, migration, or database errors.
 6. Delete the temporary account through an administrator process when account
@@ -120,3 +177,40 @@ expiry. These are limitations to address before a wider public launch.
 
 See the [testing guide](testing.md) for automated checks and disposable
 PostgreSQL test configuration.
+
+## Image reading
+
+`POST /api/job-image` accepts PNG, JPEG, and WebP bodies. No account is required,
+and images are never saved to disk or the database. The browser shows editable
+text and a warning before the user adds it to the job description.
+
+`POST /api/job-pdf` accepts a raw PDF body with selectable text, up to 5 MB,
+10 pages, and 50,000 extracted characters. It uses the same isolated parser as
+résumé uploads, with a 12-second timeout and two concurrent job-PDF readers per
+app process. It requires no trained skill weights, account, or external service.
+Encrypted and image-only PDFs are rejected; screenshots of scanned job pages
+can use the image route. Job PDFs are not stored, including for signed-in users.
+
+Both routes return suggested role sections alongside the full extracted text.
+Section selection uses English heading rules and keeps the full text when role
+sections are unclear. Confirm the original-text preview and the selection warning
+are visible during review, and that users can edit either version before adding it.
+
+Install the main requirements to include RapidOCR and its bundled pretrained
+ONNX models. No separate OCR model download or system Tesseract installation is
+needed. The pinned OpenCV package requires `libgl1` and `libglib2.0-0` on the
+Debian-based container; the Dockerfile installs them. Windows local inference has
+been tested, but the changed container image still needs a Docker build and
+runtime smoke test before deployment.
+
+Limits are 5 MB, 12 megapixels, 8,000 pixels per side, and 50,000 output characters.
+Decoding and recognition run in a disposable subprocess with a 30-second timeout.
+A semaphore permits two readers per application process; extra requests return
+503 for retry. Multiple server workers each have their own limit. This is not a
+replacement for public request-rate limits or container memory limits.
+
+Test a clear screenshot, an unreadable image, and a retry after a failed request.
+Confirm that adding reviewed text preserves the existing description. Recognition
+is offline and uses CPU inference; uploaded images are not sent to third-party
+services. The API does not promise text accuracy or infer that a blank result
+means the image has no requirements.

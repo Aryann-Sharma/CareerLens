@@ -1,0 +1,2897 @@
+{
+  "description": "Small project-labelled development corpus. Not independently annotated or representative of all jobs. Original sentences and families stay in one split; source paraphrases and user examples are test-only.",
+  "label_policy": "Expected labels describe supported duties within the 24-capability vocabulary. Acceptable labels are defensible alternatives. Empty expected lists permit abstention. Titles and workplace complaints do not establish unstated skills. Out-of-vocabulary tasks are not exhaustively labelled.",
+  "sources": [
+    {
+      "id": "idexx",
+      "url": "https://nz.linkedin.com/jobs/view/senior-software-engineer-at-idexx-4393200908",
+      "accessed": "2026-10-13",
+      "kind": "LinkedIn listing, expired but readable",
+      "usage": "Short project-authored paraphrase; skill labels are project judgements, not employer annotations."
+    },
+    {
+      "id": "sms",
+      "url": "https://id.linkedin.com/jobs/view/chief-meme-officer-at-securemyscholarship-3642837198",
+      "accessed": "2026-10-13",
+      "kind": "LinkedIn listing, expired but readable",
+      "usage": "Short project-authored paraphrase; skill labels are project judgements, not employer annotations."
+    },
+    {
+      "id": "bud-light",
+      "url": "https://www.linkedin.com/business/talent/blog/talent-acquisition/bud-light-launches-hilarious-job-ad-for-chief-meme-officer",
+      "accessed": "2026-10-13",
+      "kind": "LinkedIn editorial describing a historical campaign",
+      "usage": "Short project-authored paraphrase; skill labels are project judgements, not employer annotations."
+    },
+    {
+      "id": "comanche",
+      "url": "https://www.indeed.com/q-i-can-wear-hats-jobs.html",
+      "accessed": "2026-10-13",
+      "kind": "Indeed search listing excerpt; detail page unavailable",
+      "usage": "Short project-authored paraphrase; skill labels are project judgements, not employer annotations."
+    },
+    {
+      "id": "glassdoor",
+      "url": "https://www.glassdoor.com/Community/jobs-in-marketing/marketing-job-red-flags-so-youre-deep-in-your-job-search-you-find-a-marketing-role-that-seems-perfect-but-thenbam-here-are",
+      "accessed": "2026-10-13",
+      "kind": "Glassdoor community commentary; not a job listing",
+      "usage": "Short project-authored paraphrase; skill labels are project judgements, not employer annotations."
+    }
+  ],
+  "excluded_sources": [
+    {
+      "url": "https://knownhost.applytojob.com/apply/17iHNvj361/Technical-Support-Operator-Remote",
+      "reason": "Direct page returned 410; not included as a verified listing."
+    },
+    {
+      "url": "https://www.linkedin.com/jobs/view/customer-support-specialist-bookkeeping-at-rockstar-4439404689",
+      "reason": "Redirected to unrelated search page; excluded."
+    }
+  ],
+  "cases": [
+    {
+      "id": "programming-1",
+      "family": "Programming-1",
+      "split": "train",
+      "text": "Build the checkout feature by implementing its application logic.",
+      "expected": [
+        "Programming"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "programming-2",
+      "family": "Programming-2",
+      "split": "train",
+      "text": "Turn product specifications into working software modules.",
+      "expected": [
+        "Programming"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "programming-3",
+      "family": "Programming-3",
+      "split": "train",
+      "text": "Refactor the old codebase so new features can be added safely.",
+      "expected": [
+        "Programming"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "programming-4",
+      "family": "Programming-4",
+      "split": "train",
+      "text": "Write backend functions that connect our services together.",
+      "expected": [
+        "Programming"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "programming-5",
+      "family": "Programming-5",
+      "split": "train",
+      "text": "Your magic wand is source code; build the inventory application.",
+      "expected": [
+        "Programming"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "programming-6",
+      "family": "Programming-6",
+      "split": "dev",
+      "text": "Implement the rules that make our booking system work.",
+      "expected": [
+        "Programming"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "programming-7",
+      "family": "Programming-7",
+      "split": "dev",
+      "text": "Give the legacy application a new engine by rewriting its modules.",
+      "expected": [
+        "Programming"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "programming-8",
+      "family": "Programming-8",
+      "split": "test",
+      "text": "Translate an approved feature design into executable application code.",
+      "expected": [
+        "Programming"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "debugging-1",
+      "family": "Debugging-1",
+      "split": "train",
+      "text": "Trace the crash to the faulty line and repair the application.",
+      "expected": [
+        "Debugging"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "debugging-2",
+      "family": "Debugging-2",
+      "split": "train",
+      "text": "Reproduce a reported software failure and investigate its root cause.",
+      "expected": [
+        "Debugging"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "debugging-3",
+      "family": "Debugging-3",
+      "split": "train",
+      "text": "Inspect stack traces to work out why the service returns errors.",
+      "expected": [
+        "Debugging"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "debugging-4",
+      "family": "Debugging-4",
+      "split": "train",
+      "text": "Track down the bug hiding behind an intermittent login failure.",
+      "expected": [
+        "Debugging"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "debugging-5",
+      "family": "Debugging-5",
+      "split": "train",
+      "text": "Play detective when the application crashes and fix the culprit.",
+      "expected": [
+        "Debugging"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "debugging-6",
+      "family": "Debugging-6",
+      "split": "dev",
+      "text": "Use diagnostic logs to locate the broken software component.",
+      "expected": [
+        "Debugging"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "debugging-7",
+      "family": "Debugging-7",
+      "split": "dev",
+      "text": "Follow the exception trail until the mysterious crash makes sense.",
+      "expected": [
+        "Debugging"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "debugging-8",
+      "family": "Debugging-8",
+      "split": "test",
+      "text": "Find and repair the defect that makes invoice calculations fail.",
+      "expected": [
+        "Debugging"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "software-testing-1",
+      "family": "Software testing-1",
+      "split": "train",
+      "text": "Create regression checks for new application releases.",
+      "expected": [
+        "Software testing"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "software-testing-2",
+      "family": "Software testing-2",
+      "split": "train",
+      "text": "Design test cases that exercise boundary conditions in the software.",
+      "expected": [
+        "Software testing"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "software-testing-3",
+      "family": "Software testing-3",
+      "split": "train",
+      "text": "Verify that a bug fix works and has not broken another feature.",
+      "expected": [
+        "Software testing"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "software-testing-4",
+      "family": "Software testing-4",
+      "split": "train",
+      "text": "Automate checks for the expected behaviour of the payment service.",
+      "expected": [
+        "Software testing"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "software-testing-5",
+      "family": "Software testing-5",
+      "split": "train",
+      "text": "Try to break the application before our customers do.",
+      "expected": [
+        "Software testing"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "software-testing-6",
+      "family": "Software testing-6",
+      "split": "dev",
+      "text": "Exercise invalid inputs and record whether the software handles them correctly.",
+      "expected": [
+        "Software testing"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "software-testing-7",
+      "family": "Software testing-7",
+      "split": "dev",
+      "text": "Be the last line of defence by checking release candidates for regressions.",
+      "expected": [
+        "Software testing"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "software-testing-8",
+      "family": "Software testing-8",
+      "split": "test",
+      "text": "Develop repeatable acceptance checks for every order-processing change.",
+      "expected": [
+        "Software testing"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "interface-design-1",
+      "family": "Interface design-1",
+      "split": "train",
+      "text": "Arrange navigation and controls so the booking screen is easy to use.",
+      "expected": [
+        "Interface design"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "interface-design-2",
+      "family": "Interface design-2",
+      "split": "train",
+      "text": "Improve visual hierarchy and spacing on our product pages.",
+      "expected": [
+        "Interface design"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "interface-design-3",
+      "family": "Interface design-3",
+      "split": "train",
+      "text": "Prototype a clearer checkout layout for mobile screens.",
+      "expected": [
+        "Interface design"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "interface-design-4",
+      "family": "Interface design-4",
+      "split": "train",
+      "text": "Choose readable typography and consistent button placement.",
+      "expected": [
+        "Interface design"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "interface-design-5",
+      "family": "Interface design-5",
+      "split": "train",
+      "text": "Stop users playing hide and seek with the submit button by redesigning the form.",
+      "expected": [
+        "Interface design"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "interface-design-6",
+      "family": "Interface design-6",
+      "split": "dev",
+      "text": "Sketch accessible layouts for the account dashboard.",
+      "expected": [
+        "Interface design"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "interface-design-7",
+      "family": "Interface design-7",
+      "split": "dev",
+      "text": "Give our cluttered settings page a clear and usable visual structure.",
+      "expected": [
+        "Interface design"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "interface-design-8",
+      "family": "Interface design-8",
+      "split": "test",
+      "text": "Improve the placement of form labels and controls on small screens.",
+      "expected": [
+        "Interface design"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "deployment-1",
+      "family": "Deployment-1",
+      "split": "train",
+      "text": "Automate the release of application versions to production.",
+      "expected": [
+        "Deployment"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "deployment-2",
+      "family": "Deployment-2",
+      "split": "train",
+      "text": "Maintain the pipeline that deploys services to our cloud environment.",
+      "expected": [
+        "Deployment"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "deployment-3",
+      "family": "Deployment-3",
+      "split": "train",
+      "text": "Restore availability when a production release causes an outage.",
+      "expected": [
+        "Deployment"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "deployment-4",
+      "family": "Deployment-4",
+      "split": "train",
+      "text": "Monitor running services and roll back unhealthy deployments.",
+      "expected": [
+        "Deployment"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "deployment-5",
+      "family": "Deployment-5",
+      "split": "train",
+      "text": "Keep the production lights on when the latest release trips the fuse.",
+      "expected": [
+        "Deployment"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "deployment-6",
+      "family": "Deployment-6",
+      "split": "dev",
+      "text": "Package and release updates using repeatable infrastructure automation.",
+      "expected": [
+        "Deployment"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "deployment-7",
+      "family": "Deployment-7",
+      "split": "dev",
+      "text": "Guide each release safely from staging into live service.",
+      "expected": [
+        "Deployment"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "deployment-8",
+      "family": "Deployment-8",
+      "split": "test",
+      "text": "Operate the release pipeline and recover services after failed rollouts.",
+      "expected": [
+        "Deployment"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "data-analysis-1",
+      "family": "Data analysis-1",
+      "split": "train",
+      "text": "Compare monthly sales figures and explain the change in demand.",
+      "expected": [
+        "Data analysis"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "data-analysis-2",
+      "family": "Data analysis-2",
+      "split": "train",
+      "text": "Investigate patterns in customer activity using measured data.",
+      "expected": [
+        "Data analysis"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "data-analysis-3",
+      "family": "Data analysis-3",
+      "split": "train",
+      "text": "Summarise experiment results and interpret the observed differences.",
+      "expected": [
+        "Data analysis"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "data-analysis-4",
+      "family": "Data analysis-4",
+      "split": "train",
+      "text": "Identify trends and anomalies in the performance dashboard.",
+      "expected": [
+        "Data analysis"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "data-analysis-5",
+      "family": "Data analysis-5",
+      "split": "train",
+      "text": "Make the spreadsheet tell us why revenue went on holiday.",
+      "expected": [
+        "Data analysis"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "data-analysis-6",
+      "family": "Data analysis-6",
+      "split": "dev",
+      "text": "Examine survey responses to identify recurring patterns.",
+      "expected": [
+        "Data analysis"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "data-analysis-7",
+      "family": "Data analysis-7",
+      "split": "dev",
+      "text": "Separate meaningful changes in conversion numbers from random noise.",
+      "expected": [
+        "Data analysis"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "data-analysis-8",
+      "family": "Data analysis-8",
+      "split": "test",
+      "text": "Investigate which customer segments account for the fall in renewals.",
+      "expected": [
+        "Data analysis"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "marketing-communication-1",
+      "family": "Marketing communication-1",
+      "split": "train",
+      "text": "Write campaign messages explaining why customers should choose the product.",
+      "expected": [
+        "Marketing communication"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "marketing-communication-2",
+      "family": "Marketing communication-2",
+      "split": "train",
+      "text": "Describe product benefits in persuasive language for potential buyers.",
+      "expected": [
+        "Marketing communication"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "marketing-communication-3",
+      "family": "Marketing communication-3",
+      "split": "train",
+      "text": "Develop promotional copy suited to the brand and intended audience.",
+      "expected": [
+        "Marketing communication"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "marketing-communication-4",
+      "family": "Marketing communication-4",
+      "split": "train",
+      "text": "Explain our product's value in a clear launch campaign.",
+      "expected": [
+        "Marketing communication"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "marketing-communication-5",
+      "family": "Marketing communication-5",
+      "split": "train",
+      "text": "Make our perfectly ordinary kettle sound useful without promising immortality.",
+      "expected": [
+        "Marketing communication"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "marketing-communication-6",
+      "family": "Marketing communication-6",
+      "split": "dev",
+      "text": "Shape the messaging for a new service launch.",
+      "expected": [
+        "Marketing communication"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "marketing-communication-7",
+      "family": "Marketing communication-7",
+      "split": "dev",
+      "text": "Turn a list of features into a convincing reason to buy.",
+      "expected": [
+        "Marketing communication"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "marketing-communication-8",
+      "family": "Marketing communication-8",
+      "split": "test",
+      "text": "Write customer-facing campaign copy that communicates the product's advantages.",
+      "expected": [
+        "Marketing communication"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "social-media-communication-1",
+      "family": "Social media communication-1",
+      "split": "train",
+      "text": "Publish updates on social channels and engage with followers.",
+      "expected": [
+        "Social media communication"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "social-media-communication-2",
+      "family": "Social media communication-2",
+      "split": "train",
+      "text": "Plan a calendar of posts for the brand's online community.",
+      "expected": [
+        "Social media communication"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "social-media-communication-3",
+      "family": "Social media communication-3",
+      "split": "train",
+      "text": "Create short platform-specific content for our social accounts.",
+      "expected": [
+        "Social media communication"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "social-media-communication-4",
+      "family": "Social media communication-4",
+      "split": "train",
+      "text": "Respond to comments and maintain conversations with our online audience.",
+      "expected": [
+        "Social media communication"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "social-media-communication-5",
+      "family": "Social media communication-5",
+      "split": "train",
+      "text": "Feed the social media beast with useful posts rather than random cat pictures.",
+      "expected": [
+        "Social media communication"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "social-media-communication-6",
+      "family": "Social media communication-6",
+      "split": "dev",
+      "text": "Adapt campaign content for Instagram and LinkedIn audiences.",
+      "expected": [
+        "Social media communication"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "social-media-communication-7",
+      "family": "Social media communication-7",
+      "split": "dev",
+      "text": "Keep our followers interested through regular posts and thoughtful replies.",
+      "expected": [
+        "Social media communication"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "social-media-communication-8",
+      "family": "Social media communication-8",
+      "split": "test",
+      "text": "Run the company's social channels and schedule audience-focused updates.",
+      "expected": [
+        "Social media communication"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "presentation-1",
+      "family": "Presentation-1",
+      "split": "train",
+      "text": "Prepare slides and explain project results to a client audience.",
+      "expected": [
+        "Presentation"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "presentation-2",
+      "family": "Presentation-2",
+      "split": "train",
+      "text": "Deliver a clear spoken summary of the quarterly plan.",
+      "expected": [
+        "Presentation"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "presentation-3",
+      "family": "Presentation-3",
+      "split": "train",
+      "text": "Present findings to stakeholders and answer their questions.",
+      "expected": [
+        "Presentation"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "presentation-4",
+      "family": "Presentation-4",
+      "split": "train",
+      "text": "Build a slide deck that makes a complicated proposal easy to follow.",
+      "expected": [
+        "Presentation"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "presentation-5",
+      "family": "Presentation-5",
+      "split": "train",
+      "text": "Turn forty slides of spaghetti into a talk people can follow.",
+      "expected": [
+        "Presentation"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "presentation-6",
+      "family": "Presentation-6",
+      "split": "dev",
+      "text": "Give a short demonstration explaining the new service to clients.",
+      "expected": [
+        "Presentation"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "presentation-7",
+      "family": "Presentation-7",
+      "split": "dev",
+      "text": "Tell the story behind the quarterly results in a clear briefing.",
+      "expected": [
+        "Presentation"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "presentation-8",
+      "family": "Presentation-8",
+      "split": "test",
+      "text": "Explain the proposed strategy during a structured stakeholder presentation.",
+      "expected": [
+        "Presentation"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "customer-support-1",
+      "family": "Customer support-1",
+      "split": "train",
+      "text": "Help customers resolve problems with their purchases.",
+      "expected": [
+        "Customer support"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "customer-support-2",
+      "family": "Customer support-2",
+      "split": "train",
+      "text": "Answer product questions and guide customers through the available options.",
+      "expected": [
+        "Customer support"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "customer-support-3",
+      "family": "Customer support-3",
+      "split": "train",
+      "text": "Handle service requests until the customer's issue is resolved.",
+      "expected": [
+        "Customer support"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "customer-support-4",
+      "family": "Customer support-4",
+      "split": "train",
+      "text": "Walk users through the steps needed to restore access to their account.",
+      "expected": [
+        "Customer support"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "customer-support-5",
+      "family": "Customer support-5",
+      "split": "train",
+      "text": "Rescue customers from the password-reset maze with patient practical help.",
+      "expected": [
+        "Customer support"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "customer-support-6",
+      "family": "Customer support-6",
+      "split": "dev",
+      "text": "Investigate customer complaints and arrange an appropriate resolution.",
+      "expected": [
+        "Customer support"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "customer-support-7",
+      "family": "Customer support-7",
+      "split": "dev",
+      "text": "Help confused subscribers get their accounts working again.",
+      "expected": [
+        "Customer support"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "customer-support-8",
+      "family": "Customer support-8",
+      "split": "test",
+      "text": "Respond to service tickets and guide users through product troubleshooting.",
+      "expected": [
+        "Customer support"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "written-communication-1",
+      "family": "Written communication-1",
+      "split": "train",
+      "text": "Draft clear emails explaining policy changes to employees.",
+      "expected": [
+        "Written communication"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "written-communication-2",
+      "family": "Written communication-2",
+      "split": "train",
+      "text": "Rewrite technical notes into understandable instructions for readers.",
+      "expected": [
+        "Written communication"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "written-communication-3",
+      "family": "Written communication-3",
+      "split": "train",
+      "text": "Prepare concise written updates for project stakeholders.",
+      "expected": [
+        "Written communication"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "written-communication-4",
+      "family": "Written communication-4",
+      "split": "train",
+      "text": "Edit correspondence so its tone is professional and its meaning clear.",
+      "expected": [
+        "Written communication"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "written-communication-5",
+      "family": "Written communication-5",
+      "split": "train",
+      "text": "Translate a wall of jargon into an email a human can read.",
+      "expected": [
+        "Written communication"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "written-communication-6",
+      "family": "Written communication-6",
+      "split": "dev",
+      "text": "Document a procedure using clear steps and consistent terminology.",
+      "expected": [
+        "Written communication"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "written-communication-7",
+      "family": "Written communication-7",
+      "split": "dev",
+      "text": "Turn scattered meeting notes into a coherent written summary.",
+      "expected": [
+        "Written communication"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "written-communication-8",
+      "family": "Written communication-8",
+      "split": "test",
+      "text": "Compose clear handover notes so the next shift understands outstanding work.",
+      "expected": [
+        "Written communication"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "empathy-1",
+      "family": "Empathy-1",
+      "split": "train",
+      "text": "Acknowledge a customer's frustration before discussing possible remedies.",
+      "expected": [
+        "Empathy"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "empathy-2",
+      "family": "Empathy-2",
+      "split": "train",
+      "text": "Recognise how a difficult situation affects the person asking for help.",
+      "expected": [
+        "Empathy"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "empathy-3",
+      "family": "Empathy-3",
+      "split": "train",
+      "text": "Respond sensitively to people who are upset or anxious.",
+      "expected": [
+        "Empathy"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "empathy-4",
+      "family": "Empathy-4",
+      "split": "train",
+      "text": "Consider the emotional needs of clients during difficult conversations.",
+      "expected": [
+        "Empathy"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "empathy-5",
+      "family": "Empathy-5",
+      "split": "train",
+      "text": "Be the calm human voice when a caller's day has fallen apart.",
+      "expected": [
+        "Empathy"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "empathy-6",
+      "family": "Empathy-6",
+      "split": "dev",
+      "text": "Show understanding when someone explains a distressing experience.",
+      "expected": [
+        "Empathy"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "empathy-7",
+      "family": "Empathy-7",
+      "split": "dev",
+      "text": "Help an upset person feel heard without dismissing their feelings.",
+      "expected": [
+        "Empathy"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "empathy-8",
+      "family": "Empathy-8",
+      "split": "test",
+      "text": "Respond with care to clients distressed by an unexpected service interruption.",
+      "expected": [
+        "Empathy"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "conflict-resolution-1",
+      "family": "Conflict resolution-1",
+      "split": "train",
+      "text": "Help two departments resolve a disagreement about responsibilities.",
+      "expected": [
+        "Conflict resolution"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "conflict-resolution-2",
+      "family": "Conflict resolution-2",
+      "split": "train",
+      "text": "Mediate a dispute so colleagues can agree on a workable solution.",
+      "expected": [
+        "Conflict resolution"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "conflict-resolution-3",
+      "family": "Conflict resolution-3",
+      "split": "train",
+      "text": "Address tension within the team and restore constructive discussion.",
+      "expected": [
+        "Conflict resolution"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "conflict-resolution-4",
+      "family": "Conflict resolution-4",
+      "split": "train",
+      "text": "Find common ground when stakeholders disagree about a decision.",
+      "expected": [
+        "Conflict resolution"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "conflict-resolution-5",
+      "family": "Conflict resolution-5",
+      "split": "train",
+      "text": "Broker a ceasefire when two teams blame each other for a delay.",
+      "expected": [
+        "Conflict resolution"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "conflict-resolution-6",
+      "family": "Conflict resolution-6",
+      "split": "dev",
+      "text": "Facilitate a conversation between colleagues whose priorities conflict.",
+      "expected": [
+        "Conflict resolution"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "conflict-resolution-7",
+      "family": "Conflict resolution-7",
+      "split": "dev",
+      "text": "Turn a departmental shouting match into an agreed way forward.",
+      "expected": [
+        "Conflict resolution"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "conflict-resolution-8",
+      "family": "Conflict resolution-8",
+      "split": "test",
+      "text": "Resolve disagreements between team members about how work should be shared.",
+      "expected": [
+        "Conflict resolution"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "teamwork-1",
+      "family": "Teamwork-1",
+      "split": "train",
+      "text": "Work alongside colleagues to deliver a shared project outcome.",
+      "expected": [
+        "Teamwork"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "teamwork-2",
+      "family": "Teamwork-2",
+      "split": "train",
+      "text": "Coordinate closely with other departments on joint tasks.",
+      "expected": [
+        "Teamwork"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "teamwork-3",
+      "family": "Teamwork-3",
+      "split": "train",
+      "text": "Exchange information with teammates and contribute to collective work.",
+      "expected": [
+        "Teamwork"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "teamwork-4",
+      "family": "Teamwork-4",
+      "split": "train",
+      "text": "Share responsibilities with peers to complete the assignment together.",
+      "expected": [
+        "Teamwork"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "teamwork-5",
+      "family": "Teamwork-5",
+      "split": "train",
+      "text": "Keep the relay baton moving between teams rather than dropping it at handover.",
+      "expected": [
+        "Teamwork"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "teamwork-6",
+      "family": "Teamwork-6",
+      "split": "dev",
+      "text": "Collaborate with designers and engineers on the same product feature.",
+      "expected": [
+        "Teamwork"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "teamwork-7",
+      "family": "Teamwork-7",
+      "split": "dev",
+      "text": "Connect the people doing different parts of the job so they work together.",
+      "expected": [
+        "Teamwork"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "teamwork-8",
+      "family": "Teamwork-8",
+      "split": "test",
+      "text": "Cooperate with colleagues from several departments to complete shared deliverables.",
+      "expected": [
+        "Teamwork"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "active-listening-1",
+      "family": "Active listening-1",
+      "split": "train",
+      "text": "Ask clarifying questions and check that you understood the caller's concern.",
+      "expected": [
+        "Active listening"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "active-listening-2",
+      "family": "Active listening-2",
+      "split": "train",
+      "text": "Listen to the client's requirements before proposing next steps.",
+      "expected": [
+        "Active listening"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "active-listening-3",
+      "family": "Active listening-3",
+      "split": "train",
+      "text": "Summarise what a colleague said to confirm your understanding.",
+      "expected": [
+        "Active listening"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "active-listening-4",
+      "family": "Active listening-4",
+      "split": "train",
+      "text": "Give people time to explain their needs and clarify unclear points.",
+      "expected": [
+        "Active listening"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "active-listening-5",
+      "family": "Active listening-5",
+      "split": "train",
+      "text": "Use both ears before offering the answer you rehearsed in your head.",
+      "expected": [
+        "Active listening"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "active-listening-6",
+      "family": "Active listening-6",
+      "split": "dev",
+      "text": "Pay attention to concerns raised in interviews and confirm their meaning.",
+      "expected": [
+        "Active listening"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "active-listening-7",
+      "family": "Active listening-7",
+      "split": "dev",
+      "text": "Hear the whole request before deciding what the speaker meant.",
+      "expected": [
+        "Active listening"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "active-listening-8",
+      "family": "Active listening-8",
+      "split": "test",
+      "text": "Listen carefully and restate the customer's question to check you understood it.",
+      "expected": [
+        "Active listening"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "time-management-1",
+      "family": "Time management-1",
+      "split": "train",
+      "text": "Decide which urgent tasks need attention first and meet their deadlines.",
+      "expected": [
+        "Time management"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "time-management-2",
+      "family": "Time management-2",
+      "split": "train",
+      "text": "Allocate time across competing assignments throughout the day.",
+      "expected": [
+        "Time management"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "time-management-3",
+      "family": "Time management-3",
+      "split": "train",
+      "text": "Keep several work streams on schedule by setting priorities.",
+      "expected": [
+        "Time management"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "time-management-4",
+      "family": "Time management-4",
+      "split": "train",
+      "text": "Organise your workload so important deadlines are met.",
+      "expected": [
+        "Time management"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "time-management-5",
+      "family": "Time management-5",
+      "split": "train",
+      "text": "Juggle competing deadlines without letting the urgent tasks hit the floor.",
+      "expected": [
+        "Time management"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "time-management-6",
+      "family": "Time management-6",
+      "split": "dev",
+      "text": "Sequence daily tasks according to urgency and available time.",
+      "expected": [
+        "Time management"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "time-management-7",
+      "family": "Time management-7",
+      "split": "dev",
+      "text": "Keep the deadline circus moving by choosing what needs doing first.",
+      "expected": [
+        "Time management"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "time-management-8",
+      "family": "Time management-8",
+      "split": "test",
+      "text": "Prioritise incoming requests while protecting time for scheduled commitments.",
+      "expected": [
+        "Time management"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "attention-to-detail-1",
+      "family": "Attention to detail-1",
+      "split": "train",
+      "text": "Check invoice entries against receipts and catch small discrepancies.",
+      "expected": [
+        "Attention to detail"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "attention-to-detail-2",
+      "family": "Attention to detail-2",
+      "split": "train",
+      "text": "Verify that records are complete and accurate before submitting them.",
+      "expected": [
+        "Attention to detail"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "attention-to-detail-3",
+      "family": "Attention to detail-3",
+      "split": "train",
+      "text": "Proofread numerical reports for inconsistent figures.",
+      "expected": [
+        "Attention to detail"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "attention-to-detail-4",
+      "family": "Attention to detail-4",
+      "split": "train",
+      "text": "Inspect finished documents for missing fields and incorrect dates.",
+      "expected": [
+        "Attention to detail"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "attention-to-detail-5",
+      "family": "Attention to detail-5",
+      "split": "train",
+      "text": "Find the decimal point that wandered off before payroll is sent.",
+      "expected": [
+        "Attention to detail"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "attention-to-detail-6",
+      "family": "Attention to detail-6",
+      "split": "dev",
+      "text": "Check order details carefully against the customer's original request.",
+      "expected": [
+        "Attention to detail"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "attention-to-detail-7",
+      "family": "Attention to detail-7",
+      "split": "dev",
+      "text": "Catch tiny inconsistencies that could turn into expensive mistakes.",
+      "expected": [
+        "Attention to detail"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "attention-to-detail-8",
+      "family": "Attention to detail-8",
+      "split": "test",
+      "text": "Compare contract details against approved terms and flag mismatched values.",
+      "expected": [
+        "Attention to detail"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "problem-solving-1",
+      "family": "Problem solving-1",
+      "split": "train",
+      "text": "Identify the cause of an operational bottleneck and compare possible remedies.",
+      "expected": [
+        "Problem solving"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "problem-solving-2",
+      "family": "Problem solving-2",
+      "split": "train",
+      "text": "Break a difficult practical problem into manageable parts.",
+      "expected": [
+        "Problem solving"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "problem-solving-3",
+      "family": "Problem solving-3",
+      "split": "train",
+      "text": "Weigh alternative solutions and choose a workable approach.",
+      "expected": [
+        "Problem solving"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "problem-solving-4",
+      "family": "Problem solving-4",
+      "split": "train",
+      "text": "Investigate why a process is failing and try ways to improve it.",
+      "expected": [
+        "Problem solving"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "problem-solving-5",
+      "family": "Problem solving-5",
+      "split": "train",
+      "text": "Untangle the process knot rather than pulling harder on the same string.",
+      "expected": [
+        "Problem solving"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "problem-solving-6",
+      "family": "Problem solving-6",
+      "split": "dev",
+      "text": "Work through unfamiliar obstacles using a structured approach.",
+      "expected": [
+        "Problem solving"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "problem-solving-7",
+      "family": "Problem solving-7",
+      "split": "dev",
+      "text": "Figure out what is blocking progress and test practical ways around it.",
+      "expected": [
+        "Problem solving"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "problem-solving-8",
+      "family": "Problem solving-8",
+      "split": "test",
+      "text": "Analyse a recurring workflow problem and evaluate options for resolving it.",
+      "expected": [
+        "Problem solving"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "teaching-1",
+      "family": "Teaching-1",
+      "split": "train",
+      "text": "Show new colleagues how to complete the warehouse intake process.",
+      "expected": [
+        "Teaching"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "teaching-2",
+      "family": "Teaching-2",
+      "split": "train",
+      "text": "Explain a difficult concept using examples suited to the learner.",
+      "expected": [
+        "Teaching"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "teaching-3",
+      "family": "Teaching-3",
+      "split": "train",
+      "text": "Demonstrate a procedure and supervise learners as they practise.",
+      "expected": [
+        "Teaching"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "teaching-4",
+      "family": "Teaching-4",
+      "split": "train",
+      "text": "Train new starters to use the scheduling system.",
+      "expected": [
+        "Teaching"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "teaching-5",
+      "family": "Teaching-5",
+      "split": "train",
+      "text": "Turn the mysterious manual into a lesson apprentices can follow.",
+      "expected": [
+        "Teaching"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "teaching-6",
+      "family": "Teaching-6",
+      "split": "dev",
+      "text": "Help learners practise a new technique and give useful feedback.",
+      "expected": [
+        "Teaching"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "teaching-7",
+      "family": "Teaching-7",
+      "split": "dev",
+      "text": "Walk beginners through a process until they can do it independently.",
+      "expected": [
+        "Teaching"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "teaching-8",
+      "family": "Teaching-8",
+      "split": "test",
+      "text": "Run practical sessions that teach staff how to use the updated equipment.",
+      "expected": [
+        "Teaching"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "negotiation-1",
+      "family": "Negotiation-1",
+      "split": "train",
+      "text": "Agree purchase prices and delivery conditions with suppliers.",
+      "expected": [
+        "Negotiation"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "negotiation-2",
+      "family": "Negotiation-2",
+      "split": "train",
+      "text": "Discuss contract terms until both parties reach a workable agreement.",
+      "expected": [
+        "Negotiation"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "negotiation-3",
+      "family": "Negotiation-3",
+      "split": "train",
+      "text": "Resolve differences over commercial terms with a prospective client.",
+      "expected": [
+        "Negotiation"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "negotiation-4",
+      "family": "Negotiation-4",
+      "split": "train",
+      "text": "Find a mutually acceptable deal on service costs and deadlines.",
+      "expected": [
+        "Negotiation"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "negotiation-5",
+      "family": "Negotiation-5",
+      "split": "train",
+      "text": "Keep the supplier at the table until the price and terms work for both sides.",
+      "expected": [
+        "Negotiation"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "negotiation-6",
+      "family": "Negotiation-6",
+      "split": "dev",
+      "text": "Negotiate revised payment terms with a business partner.",
+      "expected": [
+        "Negotiation"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "negotiation-7",
+      "family": "Negotiation-7",
+      "split": "dev",
+      "text": "Bridge the gap between a buyer's offer and a seller's expectations.",
+      "expected": [
+        "Negotiation"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "negotiation-8",
+      "family": "Negotiation-8",
+      "split": "test",
+      "text": "Reach agreement with vendors on rates and service commitments.",
+      "expected": [
+        "Negotiation"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "planning-1",
+      "family": "Planning-1",
+      "split": "train",
+      "text": "Break a project into tasks and assign the required resources.",
+      "expected": [
+        "Planning"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "planning-2",
+      "family": "Planning-2",
+      "split": "train",
+      "text": "Set milestones and monitor progress towards project completion.",
+      "expected": [
+        "Planning"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "planning-3",
+      "family": "Planning-3",
+      "split": "train",
+      "text": "Create a delivery schedule linking activities and dependencies.",
+      "expected": [
+        "Planning"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "planning-4",
+      "family": "Planning-4",
+      "split": "train",
+      "text": "Estimate the people and materials needed for each stage of the project.",
+      "expected": [
+        "Planning"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "planning-5",
+      "family": "Planning-5",
+      "split": "train",
+      "text": "Build a route map so the project caravan arrives before the deadline.",
+      "expected": [
+        "Planning"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "planning-6",
+      "family": "Planning-6",
+      "split": "dev",
+      "text": "Organise the sequence of work and track milestone completion.",
+      "expected": [
+        "Planning"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "planning-7",
+      "family": "Planning-7",
+      "split": "dev",
+      "text": "Turn a large objective into an achievable schedule with named owners.",
+      "expected": [
+        "Planning"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "planning-8",
+      "family": "Planning-8",
+      "split": "test",
+      "text": "Prepare a project plan covering dependencies and resource availability.",
+      "expected": [
+        "Planning"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "research-1",
+      "family": "Research-1",
+      "split": "train",
+      "text": "Compare credible sources before drawing a conclusion about the issue.",
+      "expected": [
+        "Research"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "research-2",
+      "family": "Research-2",
+      "split": "train",
+      "text": "Investigate a question by gathering and reviewing relevant evidence.",
+      "expected": [
+        "Research"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "research-3",
+      "family": "Research-3",
+      "split": "train",
+      "text": "Find reliable publications and summarise where their findings agree.",
+      "expected": [
+        "Research"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "research-4",
+      "family": "Research-4",
+      "split": "train",
+      "text": "Check claims against original source material.",
+      "expected": [
+        "Research"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "research-5",
+      "family": "Research-5",
+      "split": "train",
+      "text": "Follow the evidence trail instead of treating the first search result as gospel.",
+      "expected": [
+        "Research"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "research-6",
+      "family": "Research-6",
+      "split": "dev",
+      "text": "Review published studies to answer a defined question.",
+      "expected": [
+        "Research"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "research-7",
+      "family": "Research-7",
+      "split": "dev",
+      "text": "Separate supported claims from rumours by consulting trustworthy sources.",
+      "expected": [
+        "Research"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "research-8",
+      "family": "Research-8",
+      "split": "test",
+      "text": "Gather relevant evidence from independent references and assess its reliability.",
+      "expected": [
+        "Research"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "adaptability-1",
+      "family": "Adaptability-1",
+      "split": "train",
+      "text": "Adjust your approach when the client's priorities change.",
+      "expected": [
+        "Adaptability"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "adaptability-2",
+      "family": "Adaptability-2",
+      "split": "train",
+      "text": "Learn an unfamiliar process when the team changes its tools.",
+      "expected": [
+        "Adaptability"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "adaptability-3",
+      "family": "Adaptability-3",
+      "split": "train",
+      "text": "Respond constructively to new requirements during a project.",
+      "expected": [
+        "Adaptability"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "adaptability-4",
+      "family": "Adaptability-4",
+      "split": "train",
+      "text": "Switch between different responsibilities as the day's needs change.",
+      "expected": [
+        "Adaptability"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "adaptability-5",
+      "family": "Adaptability-5",
+      "split": "train",
+      "text": "Change course when the brief moves the goalposts again.",
+      "expected": [
+        "Adaptability"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "adaptability-6",
+      "family": "Adaptability-6",
+      "split": "dev",
+      "text": "Adapt to a revised workflow without losing sight of the objective.",
+      "expected": [
+        "Adaptability"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "adaptability-7",
+      "family": "Adaptability-7",
+      "split": "dev",
+      "text": "Wear several hats as assignments shift from one kind of task to another.",
+      "expected": [
+        "Adaptability"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "adaptability-8",
+      "family": "Adaptability-8",
+      "split": "test",
+      "text": "Learn a replacement system and adjust your working methods to suit it.",
+      "expected": [
+        "Adaptability"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "persistence-1",
+      "family": "Persistence-1",
+      "split": "train",
+      "text": "Continue working through difficult tasks despite initial setbacks.",
+      "expected": [
+        "Persistence"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "persistence-2",
+      "family": "Persistence-2",
+      "split": "train",
+      "text": "Follow through on a demanding assignment until it is complete.",
+      "expected": [
+        "Persistence"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "persistence-3",
+      "family": "Persistence-3",
+      "split": "train",
+      "text": "Keep trying alternative approaches after an unsuccessful attempt.",
+      "expected": [
+        "Persistence"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "persistence-4",
+      "family": "Persistence-4",
+      "split": "train",
+      "text": "Sustain effort when progress is slower than expected.",
+      "expected": [
+        "Persistence"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "persistence-5",
+      "family": "Persistence-5",
+      "split": "train",
+      "text": "Keep climbing when the first attempt leaves you at the bottom of the hill.",
+      "expected": [
+        "Persistence"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "persistence-6",
+      "family": "Persistence-6",
+      "split": "dev",
+      "text": "Remain committed to a challenging task after an early failure.",
+      "expected": [
+        "Persistence"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "persistence-7",
+      "family": "Persistence-7",
+      "split": "dev",
+      "text": "Stick with a difficult assignment instead of abandoning it at the first obstacle.",
+      "expected": [
+        "Persistence"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "persistence-8",
+      "family": "Persistence-8",
+      "split": "test",
+      "text": "Maintain steady effort through repeated setbacks on a long-running task.",
+      "expected": [
+        "Persistence"
+      ],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "duties"
+    },
+    {
+      "id": "negative-1",
+      "family": "negative-1",
+      "split": "train",
+      "text": "Competitive salary and a generous pension contribution.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "negative"
+    },
+    {
+      "id": "negative-2",
+      "family": "negative-2",
+      "split": "train",
+      "text": "We are a fast-paced organisation with a dynamic atmosphere.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "negative"
+    },
+    {
+      "id": "negative-3",
+      "family": "negative-3",
+      "split": "train",
+      "text": "Job title: Chief Biscuit Dunker.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "negative"
+    },
+    {
+      "id": "negative-4",
+      "family": "negative-4",
+      "split": "train",
+      "text": "Our office has a large kitchen and a quiet reading room.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "negative"
+    },
+    {
+      "id": "negative-5",
+      "family": "negative-5",
+      "split": "train",
+      "text": "The company offers optional coding classes as a benefit.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "negative"
+    },
+    {
+      "id": "negative-6",
+      "family": "negative-6",
+      "split": "train",
+      "text": "Benefits:\nAttend our public speaking club after work.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "negative"
+    },
+    {
+      "id": "negative-7",
+      "family": "negative-7",
+      "split": "train",
+      "text": "No customer support work is required in this position.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "negative"
+    },
+    {
+      "id": "negative-8",
+      "family": "negative-8",
+      "split": "train",
+      "text": "This vacancy does not involve software development.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "negative"
+    },
+    {
+      "id": "negative-9",
+      "family": "negative-9",
+      "split": "train",
+      "text": "An eager rockstar wanted for an exciting journey.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "negative"
+    },
+    {
+      "id": "negative-10",
+      "family": "negative-10",
+      "split": "train",
+      "text": "We are a family of visionaries changing the world.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "negative"
+    },
+    {
+      "id": "negative-11",
+      "family": "negative-11",
+      "split": "train",
+      "text": "The interviewer joked about having a black belt in spreadsheets.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "negative"
+    },
+    {
+      "id": "negative-12",
+      "family": "negative-12",
+      "split": "train",
+      "text": "Candidates may apply through the recruitment portal.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "negative"
+    },
+    {
+      "id": "negative-13",
+      "family": "negative-13",
+      "split": "dev",
+      "text": "Job title: Supreme Overlord of Office Snacks.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "negative"
+    },
+    {
+      "id": "negative-14",
+      "family": "negative-14",
+      "split": "dev",
+      "text": "Free parking and discounted gym membership are included.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "negative"
+    },
+    {
+      "id": "negative-15",
+      "family": "negative-15",
+      "split": "dev",
+      "text": "We are not asking you to write application code.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "negative"
+    },
+    {
+      "id": "negative-16",
+      "family": "negative-16",
+      "split": "dev",
+      "text": "Our founder enjoys giving presentations at conferences.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "negative"
+    },
+    {
+      "id": "negative-17",
+      "family": "negative-17",
+      "split": "dev",
+      "text": "The advertised salary is subject to experience.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "negative"
+    },
+    {
+      "id": "negative-18",
+      "family": "negative-18",
+      "split": "dev",
+      "text": "Looking for a superstar with a can-do attitude.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "negative"
+    },
+    {
+      "id": "negative-19",
+      "family": "negative-19",
+      "split": "test",
+      "text": "Job title: Galactic Commander of Good Vibes.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "negative"
+    },
+    {
+      "id": "negative-20",
+      "family": "negative-20",
+      "split": "test",
+      "text": "Our employees can join optional art classes at lunchtime.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "negative"
+    },
+    {
+      "id": "negative-21",
+      "family": "negative-21",
+      "split": "test",
+      "text": "You will not be expected to teach or train anyone.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "negative"
+    },
+    {
+      "id": "negative-22",
+      "family": "negative-22",
+      "split": "test",
+      "text": "The manager said last year felt like a circus.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "negative"
+    },
+    {
+      "id": "negative-23",
+      "family": "negative-23",
+      "split": "test",
+      "text": "Candidates should submit an application by Friday.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "negative"
+    },
+    {
+      "id": "negative-24",
+      "family": "negative-24",
+      "split": "test",
+      "text": "Our office biscuits have won absolutely no awards.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project-authored",
+      "group": "negative"
+    },
+    {
+      "id": "user-1",
+      "family": "user-1",
+      "split": "test",
+      "text": "Chief Meme Officer: Elevates internet memes to a C-suite strategy.",
+      "expected": [],
+      "acceptable": [
+        "Marketing communication",
+        "Social media communication"
+      ],
+      "origin": "user-supplied; public-post claim unverified",
+      "group": "user-examples"
+    },
+    {
+      "id": "user-title-1",
+      "family": "user-1",
+      "split": "test",
+      "text": "Chief Meme Officer",
+      "expected": [],
+      "acceptable": [],
+      "origin": "user-supplied title only",
+      "group": "title-only"
+    },
+    {
+      "id": "user-2",
+      "family": "user-2",
+      "split": "test",
+      "text": "Digital Prophet: Half marketer, half mystic delivering cryptic tech messages.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "user-supplied; public-post claim unverified",
+      "group": "user-examples"
+    },
+    {
+      "id": "user-title-2",
+      "family": "user-2",
+      "split": "test",
+      "text": "Digital Prophet",
+      "expected": [],
+      "acceptable": [],
+      "origin": "user-supplied title only",
+      "group": "title-only"
+    },
+    {
+      "id": "user-3",
+      "family": "user-3",
+      "split": "test",
+      "text": "Growth Hacker Ninja: Stealth user-base growth while aggressively optimizing funnels.",
+      "expected": [
+        "Marketing communication"
+      ],
+      "acceptable": [
+        "Data analysis"
+      ],
+      "origin": "user-supplied; public-post claim unverified",
+      "group": "user-examples"
+    },
+    {
+      "id": "user-title-3",
+      "family": "user-3",
+      "split": "test",
+      "text": "Growth Hacker Ninja",
+      "expected": [],
+      "acceptable": [],
+      "origin": "user-supplied title only",
+      "group": "title-only"
+    },
+    {
+      "id": "user-4",
+      "family": "user-4",
+      "split": "test",
+      "text": "Wizard of Light Bulb Moments: A much fancier creative director.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "user-supplied; public-post claim unverified",
+      "group": "user-examples"
+    },
+    {
+      "id": "user-title-4",
+      "family": "user-4",
+      "split": "test",
+      "text": "Wizard of Light Bulb Moments",
+      "expected": [],
+      "acceptable": [],
+      "origin": "user-supplied title only",
+      "group": "title-only"
+    },
+    {
+      "id": "user-5",
+      "family": "user-5",
+      "split": "test",
+      "text": "Director of Making People Happy and Content: A corporate happiness mandate where nobody is actually happy.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "user-supplied; public-post claim unverified",
+      "group": "user-examples"
+    },
+    {
+      "id": "user-title-5",
+      "family": "user-5",
+      "split": "test",
+      "text": "Director of Making People Happy and Content",
+      "expected": [],
+      "acceptable": [],
+      "origin": "user-supplied title only",
+      "group": "title-only"
+    },
+    {
+      "id": "user-6",
+      "family": "user-6",
+      "split": "test",
+      "text": "Chief Biscuit Dunker: High-stakes tea-time leadership.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "user-supplied; public-post claim unverified",
+      "group": "user-examples"
+    },
+    {
+      "id": "user-title-6",
+      "family": "user-6",
+      "split": "test",
+      "text": "Chief Biscuit Dunker",
+      "expected": [],
+      "acceptable": [],
+      "origin": "user-supplied title only",
+      "group": "title-only"
+    },
+    {
+      "id": "user-7",
+      "family": "user-7",
+      "split": "test",
+      "text": "Vibe Manager / Director of Smiles: Assigned to monitor office morale while ignoring actual burnout.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "user-supplied; public-post claim unverified",
+      "group": "user-examples"
+    },
+    {
+      "id": "user-title-7",
+      "family": "user-7",
+      "split": "test",
+      "text": "Vibe Manager / Director of Smiles",
+      "expected": [],
+      "acceptable": [],
+      "origin": "user-supplied title only",
+      "group": "title-only"
+    },
+    {
+      "id": "user-8",
+      "family": "user-8",
+      "split": "test",
+      "text": "Fast-paced, dynamic environment. Everything is on fire, leadership changes direction every 12 hours, and processes do not exist.",
+      "expected": [],
+      "acceptable": [
+        "Adaptability"
+      ],
+      "origin": "user-supplied; public-post claim unverified",
+      "group": "user-examples"
+    },
+    {
+      "id": "user-9",
+      "family": "user-9",
+      "split": "test",
+      "text": "Wear many hats / Multi-tasking. We fired three people, didn't rehire them, and now you are doing four different jobs for the price of one.",
+      "expected": [],
+      "acceptable": [
+        "Adaptability",
+        "Time management"
+      ],
+      "origin": "user-supplied; public-post claim unverified",
+      "group": "user-examples"
+    },
+    {
+      "id": "user-10",
+      "family": "user-10",
+      "split": "test",
+      "text": "Self-starter / Independent worker. Nobody will train you, answer your questions, or give you a budget, and then they will blame you when it fails.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "user-supplied; public-post claim unverified",
+      "group": "user-examples"
+    },
+    {
+      "id": "user-11",
+      "family": "user-11",
+      "split": "test",
+      "text": "Deadline-driven / Results-oriented. Expect constant 24/7 pings, missed weekends, and crunch time disguised as passion.",
+      "expected": [],
+      "acceptable": [
+        "Time management"
+      ],
+      "origin": "user-supplied; public-post claim unverified",
+      "group": "user-examples"
+    },
+    {
+      "id": "user-12",
+      "family": "user-12",
+      "split": "test",
+      "text": "Matrixed organization / Cross-functional team. You report to five different managers who all disagree with each other, meaning nothing ever gets approved.",
+      "expected": [],
+      "acceptable": [
+        "Teamwork"
+      ],
+      "origin": "user-supplied; public-post claim unverified",
+      "group": "user-examples"
+    },
+    {
+      "id": "user-13",
+      "family": "user-13",
+      "split": "test",
+      "text": "Competitive salary. We will pay you as little as legally possible and call it a market rate.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "user-supplied; public-post claim unverified",
+      "group": "user-examples"
+    },
+    {
+      "id": "user-14",
+      "family": "user-14",
+      "split": "test",
+      "text": "Seeking an eager candidate. We want someone young and naive enough to accept zero work-life balance without complaining.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "user-supplied; public-post claim unverified",
+      "group": "user-examples"
+    },
+    {
+      "id": "source-idexx",
+      "family": "source-idexx",
+      "split": "test",
+      "text": "Senior backend engineer. Bring unruly data streams together by implementing backend services. Work with other teams and help colleagues develop their engineering practice.",
+      "expected": [
+        "Programming",
+        "Teamwork"
+      ],
+      "acceptable": [
+        "Teaching",
+        "Deployment"
+      ],
+      "origin": "project paraphrase of public source",
+      "source_id": "idexx",
+      "group": "public-source"
+    },
+    {
+      "id": "source-sms",
+      "family": "source-sms",
+      "split": "test",
+      "text": "Chief Meme Officer. Produce entertaining visual posts and short videos for social audiences. Coordinate ideas with colleagues and occasionally prepare promotional event graphics.",
+      "expected": [
+        "Social media communication",
+        "Teamwork"
+      ],
+      "acceptable": [
+        "Marketing communication"
+      ],
+      "origin": "project paraphrase of public source",
+      "source_id": "sms",
+      "group": "public-source"
+    },
+    {
+      "id": "source-bud-light",
+      "family": "source-bud-light",
+      "split": "test",
+      "text": "Chief Meme Officer. Improve a drinks brand's weak online humour by making entertaining product-related memes for social audiences.",
+      "expected": [
+        "Social media communication"
+      ],
+      "acceptable": [
+        "Marketing communication"
+      ],
+      "origin": "project paraphrase of public source",
+      "source_id": "bud-light",
+      "group": "public-source"
+    },
+    {
+      "id": "source-comanche",
+      "family": "source-comanche",
+      "split": "test",
+      "text": "Project coordinator. Act as a bridge between site operations and the supply and personnel teams while working beside the project manager.",
+      "expected": [
+        "Teamwork"
+      ],
+      "acceptable": [
+        "Planning"
+      ],
+      "origin": "project paraphrase of public source",
+      "source_id": "comanche",
+      "group": "public-source"
+    },
+    {
+      "id": "source-glassdoor",
+      "family": "source-glassdoor",
+      "split": "test",
+      "text": "Commentary on job adverts: a contributor jokes that a family culture means unpaid overtime and that several hats mean several jobs on one wage.",
+      "expected": [],
+      "acceptable": [],
+      "origin": "project paraphrase of public source",
+      "source_id": "glassdoor",
+      "group": "public-source"
+    }
+  ]
+}

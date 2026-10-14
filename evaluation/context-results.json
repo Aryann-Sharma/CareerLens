@@ -1,0 +1,300 @@
+{
+  "scope": "Project-authored regression examples with expected and acceptable capability labels. These are not independently annotated job data or model-training examples. Screenshot cases are development regressions; the other cases exercise different wording and domains.",
+  "cases": 32,
+  "suggestion_precision": 0.9444,
+  "expected_coverage": 0.9375,
+  "results": [
+    {
+      "id": "software-humour",
+      "group": "reported",
+      "predicted": [
+        "Conflict resolution",
+        "Interface design",
+        "Programming"
+      ],
+      "missing": [
+        "Debugging"
+      ],
+      "unsupported": []
+    },
+    {
+      "id": "marketing-humour",
+      "group": "reported",
+      "predicted": [
+        "Data analysis",
+        "Marketing communication",
+        "Presentation"
+      ],
+      "missing": [
+        "Social media communication"
+      ],
+      "unsupported": []
+    },
+    {
+      "id": "support-humour",
+      "group": "reported",
+      "predicted": [
+        "Customer support",
+        "Empathy",
+        "Written communication"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "backend-metaphor",
+      "group": "additional",
+      "predicted": [
+        "Deployment",
+        "Time management"
+      ],
+      "missing": [],
+      "unsupported": [
+        "Time management"
+      ]
+    },
+    {
+      "id": "operations-metaphor",
+      "group": "additional",
+      "predicted": [
+        "Debugging",
+        "Deployment"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "developer-plain",
+      "group": "additional",
+      "predicted": [
+        "Debugging",
+        "Programming"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "testing-plain",
+      "group": "additional",
+      "predicted": [
+        "Software testing"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "design-plain",
+      "group": "additional",
+      "predicted": [
+        "Interface design"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "data-plain",
+      "group": "additional",
+      "predicted": [
+        "Data analysis"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "marketing-plain",
+      "group": "additional",
+      "predicted": [
+        "Marketing communication"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "social-plain",
+      "group": "additional",
+      "predicted": [
+        "Social media communication"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "presentation-plain",
+      "group": "additional",
+      "predicted": [
+        "Presentation"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "support-plain",
+      "group": "additional",
+      "predicted": [
+        "Customer support"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "writing-plain",
+      "group": "additional",
+      "predicted": [
+        "Written communication"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "empathy-plain",
+      "group": "additional",
+      "predicted": [
+        "Active listening",
+        "Empathy"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "conflict-plain",
+      "group": "additional",
+      "predicted": [
+        "Conflict resolution"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "schedule-humour",
+      "group": "additional",
+      "predicted": [
+        "Time management"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "detail-humour",
+      "group": "additional",
+      "predicted": [
+        "Attention to detail"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "teaching-humour",
+      "group": "additional",
+      "predicted": [
+        "Teaching"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "negotiation-plain",
+      "group": "additional",
+      "predicted": [
+        "Negotiation"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "planning-plain",
+      "group": "additional",
+      "predicted": [
+        "Negotiation",
+        "Planning",
+        "Time management"
+      ],
+      "missing": [],
+      "unsupported": [
+        "Negotiation"
+      ]
+    },
+    {
+      "id": "research-plain",
+      "group": "additional",
+      "predicted": [
+        "Research"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "adaptability-plain",
+      "group": "additional",
+      "predicted": [
+        "Adaptability"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "persistence-plain",
+      "group": "additional",
+      "predicted": [
+        "Persistence"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "benefits",
+      "group": "negative",
+      "predicted": [],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "denial",
+      "group": "negative",
+      "predicted": [],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "title-only",
+      "group": "negative",
+      "predicted": [],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "vague",
+      "group": "negative",
+      "predicted": [],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "food-jokes",
+      "group": "negative",
+      "predicted": [],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "fantasy",
+      "group": "negative",
+      "predicted": [],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "personal-story",
+      "group": "negative",
+      "predicted": [],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "unrelated-section",
+      "group": "negative",
+      "predicted": [],
+      "missing": [],
+      "unsupported": []
+    }
+  ]
+}

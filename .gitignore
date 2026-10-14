@@ -49,6 +49,7 @@ coverage.xml
 *.py.cover
 .hypothesis/
 .pytest_cache/
+.review-tests/
 cover/
 test-results/
 
@@ -152,6 +153,9 @@ activemq-data/
 .env
 .env.docker
 .venv/
+.venv-training/
+.models/
+.data/
 .envrc
 .venv
 *.db

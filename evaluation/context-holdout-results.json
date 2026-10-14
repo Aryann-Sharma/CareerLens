@@ -1,0 +1,194 @@
+{
+  "scope": "Project-authored evaluation cases written after fixing the initial retrieval thresholds. Labels are intended interpretations, not independent expert annotations. Do not use these cases to claim general language understanding.",
+  "cases": 22,
+  "suggestion_precision": 1.0,
+  "expected_coverage": 0.6667,
+  "results": [
+    {
+      "id": "release-humour",
+      "group": "holdout",
+      "predicted": [
+        "Deployment"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "numbers-humour",
+      "group": "holdout",
+      "predicted": [],
+      "missing": [
+        "Data analysis"
+      ],
+      "unsupported": []
+    },
+    {
+      "id": "design-humour",
+      "group": "holdout",
+      "predicted": [
+        "Interface design"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "writing-humour",
+      "group": "holdout",
+      "predicted": [
+        "Attention to detail"
+      ],
+      "missing": [
+        "Written communication"
+      ],
+      "unsupported": []
+    },
+    {
+      "id": "sales-humour",
+      "group": "holdout",
+      "predicted": [
+        "Negotiation"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "team-humour",
+      "group": "holdout",
+      "predicted": [
+        "Conflict resolution"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "support-indirect",
+      "group": "holdout",
+      "predicted": [],
+      "missing": [
+        "Customer support"
+      ],
+      "unsupported": []
+    },
+    {
+      "id": "training-indirect",
+      "group": "holdout",
+      "predicted": [],
+      "missing": [
+        "Teaching"
+      ],
+      "unsupported": []
+    },
+    {
+      "id": "testing-indirect",
+      "group": "holdout",
+      "predicted": [],
+      "missing": [
+        "Software testing"
+      ],
+      "unsupported": []
+    },
+    {
+      "id": "research-indirect",
+      "group": "holdout",
+      "predicted": [
+        "Research"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "details-indirect",
+      "group": "holdout",
+      "predicted": [
+        "Attention to detail"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "schedule-indirect",
+      "group": "holdout",
+      "predicted": [
+        "Time management"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "social-indirect",
+      "group": "holdout",
+      "predicted": [
+        "Social media communication"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "programming-typos",
+      "group": "holdout",
+      "predicted": [
+        "Programming"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "service-typos",
+      "group": "holdout",
+      "predicted": [
+        "Customer support"
+      ],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "negated-responsibility",
+      "group": "holdout",
+      "predicted": [],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "benefit-unrelated",
+      "group": "holdout",
+      "predicted": [],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "generic-praise",
+      "group": "holdout",
+      "predicted": [],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "sarcastic-without-duty",
+      "group": "holdout",
+      "predicted": [],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "reversed-expectation",
+      "group": "holdout",
+      "predicted": [],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "appearance",
+      "group": "holdout",
+      "predicted": [],
+      "missing": [],
+      "unsupported": []
+    },
+    {
+      "id": "weather",
+      "group": "holdout",
+      "predicted": [],
+      "missing": [],
+      "unsupported": []
+    }
+  ]
+}
