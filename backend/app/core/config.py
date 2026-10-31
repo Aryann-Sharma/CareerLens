@@ -12,7 +12,7 @@ DEVELOPMENT_AUTH_SECRET = "development-only-secret-change-before-production"
 
 class Settings(BaseSettings):
     app_name: str = "CareerLens"
-    app_version: str = "0.1.0"
+    app_version: str = "0.2.0"
     environment: Literal["development", "testing", "production"] = "development"
     database_url: str = "sqlite:///./careerlens.db"
     auth_secret_key: str = Field(

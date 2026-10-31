@@ -14,6 +14,10 @@ You can try an analysis without an account. Signing in lets you save your result
 
 The app runs locally. It has not been publicly deployed.
 
+Release **0.2.0** is the first tagged release. See the [changelog](CHANGELOG.md)
+for additions and the [release notes](docs/releases/v0.2.0.md) for model setup,
+upgrade steps, and known limits.
+
 ## How it works
 
 The HTML/CSS/JavaScript frontend calls a FastAPI backend. SQLAlchemy handles storage, with SQLite for a simple local setup or PostgreSQL with Alembic migrations. Accounts use Argon2 password hashing and JWT session cookies.
