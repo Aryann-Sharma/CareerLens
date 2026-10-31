@@ -6,6 +6,12 @@ Run commands from the repository root with the virtual environment activated.
 
 | Date | Check | Result |
 | --- | --- | --- |
+| 2026-10-31 | Release 0.2.0 complete backend and Chromium suites, with installed extraction/matching models and every context/export stress flag enabled | 2,222 passed; one PostgreSQL-only test skipped and checked separately |
+| 2026-10-31 | Disposable PostgreSQL 18 database: migrations, schema consistency, integration test, and complete Chromium suite | 130 passed across two runs: 110 general cases plus all 20 model-dependent browser cases; no remaining skipped cases |
+| 2026-10-31 | Additional API stress check using seed 20261031: 200 new skill combinations in catalog and trained modes, plus eight long/unusual inputs | 408 requests passed; named-skill coverage, deduplication, score arithmetic, original offsets, and guest database isolation checked |
+| 2026-10-31 | Installed dependencies, Python compilation, all frontend JavaScript files, local documentation links, version default, wording, and whitespace | Passed |
+| 2026-10-14 | Full backend and Chromium suites after the context curriculum addition | 2,221 passed; one PostgreSQL-only test skipped locally; PR CI passed including PostgreSQL |
+| 2026-10-14 | Separate curriculum export, corpus, and passage checks | 8 passed; counts overlap the full run |
 | 2026-10-13 | Complete backend and Chromium suites after duty-scope fixes, with local extraction/matching models, all context stress sets and the new exported classifier enabled | 1,995 passed; one PostgreSQL-only test skipped |
 | 2026-10-13 | Final follow-up corpus/calibration checks and all three new model exports | 8 passed; 186 API variants already covered in the full run; counts overlap |
 | 2026-10-13 | Complete backend and Chromium suites after the source-data follow-up, with existing local models and both context stress sets enabled | 1,696 passed; PostgreSQL and the separately checked source-head artifact test skipped |
@@ -76,6 +82,24 @@ python -m playwright install chromium
 On Linux CI runners, use `python -m playwright install --with-deps chromium` to install browser system dependencies as well.
 
 ## Local checks
+
+For the complete local model checks used for release 0.2.0, install the existing
+model artifacts described in the model guides and enable these flags in
+PowerShell before running the suites below:
+
+```powershell
+foreach ($releaseFlag in @(
+  'RUN_CONTEXTUAL_TESTS', 'RUN_EXTRACTOR_TESTS', 'RUN_MODEL_TESTS',
+  'RUN_ROLE_TESTS', 'RUN_CONTEXT_STRESS_TESTS', 'RUN_CONTEXT_HEAD_TESTS',
+  'RUN_SOURCE_HEAD_TESTS', 'RUN_DUTY_HEAD_TESTS',
+  'RUN_FOLLOWUP_HEAD_TESTS', 'RUN_CURRICULUM_HEAD_TESTS'
+)) { Set-Item "Env:$releaseFlag" '1' }
+```
+
+These flags include offline candidate-export checks; they do not install those
+candidates in the application. Close the test shell afterwards to clear them.
+The separate PostgreSQL procedure is below. The additional 408-request release
+stress run is a supplemental check, not an independent model-accuracy benchmark.
 
 ```text
 python -m pip check
